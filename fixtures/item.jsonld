@@ -1,0 +1,272 @@
+{
+  "docs": [
+    {
+      "_id": "bpl--oai:digitalcommonwealth.org:commonwealth:6682xj30d",
+      "dataProvider": "Boston Public Library",
+      "sourceResource": {
+        "isPartOf": [
+          "Leslie Jones Collection",
+          "Leslie Jones Collection. Animals: Dogs & Cats"
+        ],
+        "description": [
+          "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+          "Date supplied by cataloger."
+        ],
+        "creator": "Jones, Leslie, 1886-1967",
+        "rights": "Copyright (c) Leslie Jones. This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+        "collection": [
+          {
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556",
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection"
+          }
+        ],
+        "date": {
+          "begin": "1917",
+          "end": "1934",
+          "displayDate": "1917-1934"
+        },
+        "extent": "1 negative : glass, black & white ; 4 x 5 in.",
+        "stateLocatedIn": [
+          {
+            "name": "Massachusetts"
+          }
+        ],
+        "title": "Kittens",
+        "identifier": [
+          "Local accession: 08_06_000884"
+        ],
+        "type": "image",
+        "subject": [
+          {
+            "name": "Cats"
+          },
+          {
+            "name": "Baby animals"
+          }
+        ]
+      },
+      "object": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d/thumbnail",
+      "ingestDate": "2014-02-15T15:10:38.797024",
+      "originalRecord": {
+        "header": {
+          "datestamp": "2013-09-20T14:14:36Z",
+          "identifier": "oai:digitalcommonwealth.org:commonwealth:6682xj30d",
+          "setSpec": "commonwealth:2j62s484w"
+        },
+        "metadata": {
+          "mods:mods": {
+            "mods:subject": [
+              {
+                "mods:topic": "Cats",
+                "authority": "lctgm"
+              },
+              {
+                "mods:topic": "Baby animals",
+                "authority": "lctgm"
+              }
+            ],
+            "mods:genre": [
+              {
+                "displayLabel": "general",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "#text": "Photographs",
+                "authority": "gmgpc",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm007721"
+              },
+              {
+                "displayLabel": "specific",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "#text": "Glass negatives",
+                "authority": "gmgpc",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm004561"
+              }
+            ],
+            "xmlns:mods": "http://www.loc.gov/mods/v3",
+            "mods:typeOfResource": "still image",
+            "mods:recordInfo": {
+              "mods:languageOfCataloging": {
+                "mods:languageTerm": {
+                  "authorityURI": "http://id.loc.gov/vocabulary/iso639-2",
+                  "#text": "English",
+                  "type": "text",
+                  "authority": "iso639-2b",
+                  "valueURI": "http://id.loc.gov/vocabulary/iso639-2/eng"
+                }
+              },
+              "mods:descriptionStandard": {
+                "#text": "gihc",
+                "authority": "marcdescription"
+              },
+              "mods:recordOrigin": "human prepared",
+              "mods:recordContentSource": "Boston Public Library"
+            },
+            "mods:titleInfo": {
+              "usage": "primary",
+              "mods:title": "Kittens"
+            },
+            "mods:physicalDescription": {
+              "mods:extent": "1 negative : glass, black & white ; 4 x 5 in.",
+              "mods:digitalOrigin": "reformatted digital",
+              "mods:internetMediaType": [
+                "image/tiff",
+                "image/jpeg"
+              ]
+            },
+            "mods:identifier": [
+              {
+                "#text": "08_06_000884",
+                "type": "local-accession"
+              },
+              {
+                "#text": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d",
+                "type": "uri"
+              }
+            ],
+            "version": "3.4",
+            "mods:note": [
+              "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+              "Date supplied by cataloger."
+            ],
+            "mods:name": {
+              "mods:namePart": [
+                "Jones, Leslie",
+                {
+                  "#text": "1886-1967",
+                  "type": "date"
+                }
+              ],
+              "mods:role": {
+                "mods:roleTerm": {
+                  "authorityURI": "http://id.loc.gov/vocabulary/relators",
+                  "#text": "Photographer",
+                  "type": "text",
+                  "authority": "marcrelator",
+                  "valueURI": "http://id.loc.gov/vocabulary/relators/pht"
+                }
+              },
+              "type": "personal",
+              "authority": "local"
+            },
+            "mods:location": [
+              {
+                "mods:physicalLocation": "Boston Public Library",
+                "mods:holdingSimple": {
+                  "mods:copyInformation": {
+                    "mods:subLocation": "Print Department"
+                  }
+                }
+              },
+              {
+                "mods:url": [
+                  {
+                    "access": "preview",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d/thumbnail"
+                  },
+                  {
+                    "usage": "primary",
+                    "access": "object in context",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d"
+                  }
+                ]
+              }
+            ],
+            "mods:accessCondition": [
+              {
+                "#text": "Copyright (c) Leslie Jones.",
+                "type": "use and reproduction"
+              },
+              {
+                "#text": "This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+                "type": "use and reproduction"
+              }
+            ],
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "mods:originInfo": {
+              "mods:dateCreated": [
+                {
+                  "encoding": "w3cdtf",
+                  "#text": "1917",
+                  "qualifier": "approximate",
+                  "keyDate": "yes",
+                  "point": "start"
+                },
+                {
+                  "encoding": "w3cdtf",
+                  "#text": "1934",
+                  "qualifier": "approximate",
+                  "point": "end"
+                }
+              ]
+            },
+            "mods:relatedItem": [
+              {
+                "type": "host",
+                "mods:titleInfo": {
+                  "mods:title": "Leslie Jones Collection"
+                }
+              },
+              {
+                "type": "series",
+                "mods:titleInfo": {
+                  "mods:title": "Animals: Dogs & Cats"
+                }
+              }
+            ]
+          }
+        },
+        "id": "oai:digitalcommonwealth.org:commonwealth:6682xj30d",
+        "collection": [
+          {
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556",
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection"
+          }
+        ],
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digital-commonwealth",
+          "name": "Digital Commonwealth"
+        }
+      },
+      "ingestionSequence": 5,
+      "isShownAt": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digital-commonwealth",
+        "name": "Digital Commonwealth"
+      },
+      "@context": {
+        "begin": {
+          "@id": "dpla:dateRangeStart",
+          "@type": "xsd:date"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "hasView": "edm:hasView",
+        "name": "xsd:string",
+        "object": "edm:object",
+        "dpla": "http://dp.la/terms/",
+        "collection": "dpla:aggregation",
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "end": {
+          "@id": "dpla:end",
+          "@type": "xsd:date"
+        },
+        "state": "dpla:state",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "coordinates": "dpla:coordinates",
+        "isShownAt": "edm:isShownAt",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "sourceResource": "edm:sourceResource",
+        "dataProvider": "edm:dataProvider",
+        "originalRecord": "dpla:originalRecord",
+        "provider": "edm:provider",
+        "LCSH": "http://id.loc.gov/authorities/subjects"
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/9f695d8c16a4978061a25076a43aa11f",
+      "id": "9f695d8c16a4978061a25076a43aa11f"
+    }
+  ],
+  "count": 1
+}

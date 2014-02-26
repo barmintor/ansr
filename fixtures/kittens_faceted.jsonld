@@ -1,0 +1,2693 @@
+{
+  "count": 144,
+  "start": 0,
+  "limit": 10,
+  "docs": [
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d",
+      "dataProvider": "Boston Public Library",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digital-commonwealth",
+        "name": "Digital Commonwealth"
+      },
+      "object": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d/thumbnail",
+      "ingestionSequence": 5,
+      "id": "9f695d8c16a4978061a25076a43aa11f",
+      "_rev": "6-86502e9930f1e2dab9870be20061b77d",
+      "ingestDate": "2014-02-15T15:10:38.797024",
+      "_id": "bpl--oai:digitalcommonwealth.org:commonwealth:6682xj30d",
+      "admin": {
+        "sourceResource": {
+          "title": "Kittens"
+        }
+      },
+      "sourceResource": {
+        "title": "Kittens",
+        "extent": "1 negative : glass, black & white ; 4 x 5 in.",
+        "description": [
+          "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+          "Date supplied by cataloger."
+        ],
+        "subject": [
+          {
+            "name": "Cats"
+          },
+          {
+            "name": "Baby animals"
+          }
+        ],
+        "rights": "Copyright (c) Leslie Jones. This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+        "isPartOf": [
+          "Leslie Jones Collection",
+          "Leslie Jones Collection. Animals: Dogs & Cats"
+        ],
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "Massachusetts"
+          }
+        ],
+        "date": {
+          "displayDate": "1917-1934",
+          "end": "1934",
+          "begin": "1917"
+        },
+        "type": "image",
+        "identifier": [
+          "Local accession: 08_06_000884"
+        ],
+        "creator": "Jones, Leslie, 1886-1967"
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/9f695d8c16a4978061a25076a43aa11f",
+      "originalRecord": {
+        "id": "oai:digitalcommonwealth.org:commonwealth:6682xj30d",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digital-commonwealth",
+          "name": "Digital Commonwealth"
+        },
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "header": {
+          "identifier": "oai:digitalcommonwealth.org:commonwealth:6682xj30d",
+          "setSpec": "commonwealth:2j62s484w",
+          "datestamp": "2013-09-20T14:14:36Z"
+        },
+        "metadata": {
+          "mods:mods": {
+            "mods:name": {
+              "type": "personal",
+              "authority": "local",
+              "mods:role": {
+                "mods:roleTerm": {
+                  "authority": "marcrelator",
+                  "#text": "Photographer",
+                  "authorityURI": "http://id.loc.gov/vocabulary/relators",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/relators/pht"
+                }
+              },
+              "mods:namePart": [
+                "Jones, Leslie",
+                {
+                  "#text": "1886-1967",
+                  "type": "date"
+                }
+              ]
+            },
+            "mods:titleInfo": {
+              "usage": "primary",
+              "mods:title": "Kittens"
+            },
+            "mods:genre": [
+              {
+                "authority": "gmgpc",
+                "displayLabel": "general",
+                "#text": "Photographs",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm007721"
+              },
+              {
+                "authority": "gmgpc",
+                "displayLabel": "specific",
+                "#text": "Glass negatives",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm004561"
+              }
+            ],
+            "mods:originInfo": {
+              "mods:dateCreated": [
+                {
+                  "point": "start",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1917",
+                  "keyDate": "yes"
+                },
+                {
+                  "point": "end",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1934"
+                }
+              ]
+            },
+            "mods:recordInfo": {
+              "mods:recordContentSource": "Boston Public Library",
+              "mods:languageOfCataloging": {
+                "mods:languageTerm": {
+                  "authority": "iso639-2b",
+                  "#text": "English",
+                  "authorityURI": "http://id.loc.gov/vocabulary/iso639-2",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/iso639-2/eng"
+                }
+              },
+              "mods:descriptionStandard": {
+                "#text": "gihc",
+                "authority": "marcdescription"
+              },
+              "mods:recordOrigin": "human prepared"
+            },
+            "mods:identifier": [
+              {
+                "#text": "08_06_000884",
+                "type": "local-accession"
+              },
+              {
+                "#text": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d",
+                "type": "uri"
+              }
+            ],
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "mods:location": [
+              {
+                "mods:holdingSimple": {
+                  "mods:copyInformation": {
+                    "mods:subLocation": "Print Department"
+                  }
+                },
+                "mods:physicalLocation": "Boston Public Library"
+              },
+              {
+                "mods:url": [
+                  {
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d/thumbnail",
+                    "access": "preview"
+                  },
+                  {
+                    "usage": "primary",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/6682xj30d",
+                    "access": "object in context"
+                  }
+                ]
+              }
+            ],
+            "mods:note": [
+              "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+              "Date supplied by cataloger."
+            ],
+            "version": "3.4",
+            "mods:subject": [
+              {
+                "authority": "lctgm",
+                "mods:topic": "Cats"
+              },
+              {
+                "authority": "lctgm",
+                "mods:topic": "Baby animals"
+              }
+            ],
+            "mods:typeOfResource": "still image",
+            "mods:physicalDescription": {
+              "mods:internetMediaType": [
+                "image/tiff",
+                "image/jpeg"
+              ],
+              "mods:extent": "1 negative : glass, black & white ; 4 x 5 in.",
+              "mods:digitalOrigin": "reformatted digital"
+            },
+            "mods:accessCondition": [
+              {
+                "#text": "Copyright (c) Leslie Jones.",
+                "type": "use and reproduction"
+              },
+              {
+                "#text": "This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+                "type": "use and reproduction"
+              }
+            ],
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "mods:relatedItem": [
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Leslie Jones Collection"
+                },
+                "type": "host"
+              },
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Animals: Dogs & Cats"
+                },
+                "type": "series"
+              }
+            ],
+            "xmlns:mods": "http://www.loc.gov/mods/v3"
+          }
+        }
+      },
+      "score": 12.1138735
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp068",
+      "dataProvider": "Boston Public Library",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digital-commonwealth",
+        "name": "Digital Commonwealth"
+      },
+      "object": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp068/thumbnail",
+      "ingestionSequence": 5,
+      "id": "b7d00cfb62f7aec52d63c97381f31b7b",
+      "_rev": "6-2451b7a9b164cdb87d136b0a3125ef63",
+      "ingestDate": "2014-02-15T16:59:34.092686",
+      "_id": "bpl--oai:digitalcommonwealth.org:commonwealth:5h73tp068",
+      "admin": {
+        "sourceResource": {
+          "title": "Playful kittens"
+        }
+      },
+      "sourceResource": {
+        "title": "Playful kittens",
+        "extent": "1 negative : film, black & white ; 3 1/8 x 4 1/4 in.",
+        "description": [
+          "Title and date from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve."
+        ],
+        "subject": [
+          {
+            "name": "Cats"
+          },
+          {
+            "name": "Baby animals"
+          }
+        ],
+        "rights": "Copyright (c) Leslie Jones. This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+        "isPartOf": [
+          "Leslie Jones Collection",
+          "Leslie Jones Collection. Animals: Dogs & Cats"
+        ],
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "Massachusetts"
+          }
+        ],
+        "date": {
+          "displayDate": "1942",
+          "end": "1942",
+          "begin": "1942"
+        },
+        "type": "image",
+        "identifier": [
+          "Local accession: 08_06_018981"
+        ],
+        "creator": "Jones, Leslie, 1886-1967"
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/b7d00cfb62f7aec52d63c97381f31b7b",
+      "originalRecord": {
+        "id": "oai:digitalcommonwealth.org:commonwealth:5h73tp068",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digital-commonwealth",
+          "name": "Digital Commonwealth"
+        },
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "header": {
+          "identifier": "oai:digitalcommonwealth.org:commonwealth:5h73tp068",
+          "setSpec": "commonwealth:2j62s484w",
+          "datestamp": "2013-09-20T14:13:43Z"
+        },
+        "metadata": {
+          "mods:mods": {
+            "mods:name": {
+              "type": "personal",
+              "authority": "local",
+              "mods:role": {
+                "mods:roleTerm": {
+                  "authority": "marcrelator",
+                  "#text": "Photographer",
+                  "authorityURI": "http://id.loc.gov/vocabulary/relators",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/relators/pht"
+                }
+              },
+              "mods:namePart": [
+                "Jones, Leslie",
+                {
+                  "#text": "1886-1967",
+                  "type": "date"
+                }
+              ]
+            },
+            "mods:titleInfo": {
+              "usage": "primary",
+              "mods:title": "Playful kittens"
+            },
+            "mods:genre": [
+              {
+                "authority": "gmgpc",
+                "displayLabel": "general",
+                "#text": "Photographs",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm007721"
+              },
+              {
+                "authority": "gmgpc",
+                "displayLabel": "specific",
+                "#text": "Film negatives",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm003973"
+              }
+            ],
+            "mods:originInfo": {
+              "mods:dateCreated": {
+                "keyDate": "yes",
+                "encoding": "w3cdtf",
+                "#text": "1942"
+              }
+            },
+            "mods:recordInfo": {
+              "mods:recordContentSource": "Boston Public Library",
+              "mods:languageOfCataloging": {
+                "mods:languageTerm": {
+                  "authority": "iso639-2b",
+                  "#text": "English",
+                  "authorityURI": "http://id.loc.gov/vocabulary/iso639-2",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/iso639-2/eng"
+                }
+              },
+              "mods:descriptionStandard": {
+                "#text": "gihc",
+                "authority": "marcdescription"
+              },
+              "mods:recordOrigin": "human prepared"
+            },
+            "mods:identifier": [
+              {
+                "#text": "08_06_018981",
+                "type": "local-accession"
+              },
+              {
+                "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp068",
+                "type": "uri"
+              }
+            ],
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "mods:location": [
+              {
+                "mods:holdingSimple": {
+                  "mods:copyInformation": {
+                    "mods:subLocation": "Print Department"
+                  }
+                },
+                "mods:physicalLocation": "Boston Public Library"
+              },
+              {
+                "mods:url": [
+                  {
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp068/thumbnail",
+                    "access": "preview"
+                  },
+                  {
+                    "usage": "primary",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp068",
+                    "access": "object in context"
+                  }
+                ]
+              }
+            ],
+            "mods:note": "Title and date from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+            "version": "3.4",
+            "mods:subject": [
+              {
+                "authority": "lctgm",
+                "mods:topic": "Cats"
+              },
+              {
+                "authority": "lctgm",
+                "mods:topic": "Baby animals"
+              }
+            ],
+            "mods:typeOfResource": "still image",
+            "mods:physicalDescription": {
+              "mods:internetMediaType": [
+                "image/tiff",
+                "image/jpeg"
+              ],
+              "mods:extent": "1 negative : film, black & white ; 3 1/8 x 4 1/4 in.",
+              "mods:digitalOrigin": "reformatted digital"
+            },
+            "mods:accessCondition": [
+              {
+                "#text": "Copyright (c) Leslie Jones.",
+                "type": "use and reproduction"
+              },
+              {
+                "#text": "This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+                "type": "use and reproduction"
+              }
+            ],
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "mods:relatedItem": [
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Leslie Jones Collection"
+                },
+                "type": "host"
+              },
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Animals: Dogs & Cats"
+                },
+                "type": "series"
+              }
+            ],
+            "xmlns:mods": "http://www.loc.gov/mods/v3"
+          }
+        }
+      },
+      "score": 7.8760967
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://dc.lib.unc.edu/u?/morton_highlights,4143",
+      "dataProvider": "University of North Carolina at Chapel Hill",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digitalnc",
+        "name": "North Carolina Digital Heritage Center"
+      },
+      "object": "http://dc.lib.unc.edu/utils/getthumbnail/collection/morton_highlights/id/4143",
+      "ingestionSequence": 6,
+      "id": "a193ffef72f27b9a2c9312cbb9680656",
+      "_rev": "5-5e378baad55371b1595999c15837d51f",
+      "ingestDate": "2014-02-18T13:45:32.379700",
+      "_id": "digitalnc--urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4143",
+      "admin": {
+        "sourceResource": {
+          "title": "Cougar kittens"
+        }
+      },
+      "sourceResource": {
+        "title": [
+          "Cougar kittens"
+        ],
+        "description": "Cougar kittens in wildlife habitat at Grandfather Mountain, NC.",
+        "subject": [
+          {
+            "name": "1970-1979"
+          },
+          {
+            "name": "1980-1989"
+          },
+          {
+            "name": "Pumas"
+          },
+          {
+            "name": "Baby animals"
+          },
+          {
+            "name": "Autumn"
+          },
+          {
+            "name": "Zoo animals"
+          },
+          {
+            "name": "Grandfather Mountain (N.C.)"
+          },
+          {
+            "name": "Linville (N.C.)"
+          },
+          {
+            "name": "Avery County (N.C.)"
+          }
+        ],
+        "rights": "Copyright North Carolina Collection, University of North Carolina at Chapel Hill Library. The images in this collection are made available for use in research, private study, and teaching. Prior permission from the North Carolina Collection is required for any commercial use.",
+        "format": [
+          "Photographs",
+          "Color roll film negative",
+          "120 (80.8 x 80.8mm / 2 x 2 in.)"
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "North Carolina"
+          }
+        ],
+        "type": "image",
+        "date": {
+          "displayDate": "1970s-1980s",
+          "end": "1970",
+          "begin": "1970"
+        },
+        "identifier": [
+          "P081",
+          "http://dc.lib.unc.edu/u?/morton_highlights,4143"
+        ],
+        "publisher": [
+          "University of North Carolina at Chapel Hill, Wilson Library, North Carolina Collection Photographic Archives"
+        ],
+        "creator": [
+          "Morton, Hugh M."
+        ]
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/a193ffef72f27b9a2c9312cbb9680656",
+      "originalRecord": {
+        "about": {
+          "oaiProvenance:provenance": {
+            "xsi:schemaLocation": "http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd",
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:oaiProvenance": "http://www.openarchives.org/OAI/2.0/provenance",
+            "oaiProvenance:originDescription": {
+              "oaiProvenance:datestamp": "2014-02-10",
+              "oaiProvenance:metadataNamespace": "http://www.openarchives.org/OAI/2.0/",
+              "altered": "true",
+              "oaiProvenance:baseURL": "http://dc.lib.unc.edu/cgi-bin/oai.exe",
+              "harvestDate": "2014-02-10",
+              "oaiProvenance:identifier": "oai:dc.lib.unc.edu:morton_highlights/4143"
+            }
+          }
+        },
+        "id": "urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4143",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digitalnc",
+          "name": "North Carolina Digital Heritage Center"
+        },
+        "collection": {
+          "id": "0626c4321ccd570f59dc67ca715bed86",
+          "description": "",
+          "title": "Hugh Morton Collection of Photographs and Films",
+          "@id": "http://dp.la/api/collections/0626c4321ccd570f59dc67ca715bed86"
+        },
+        "header": {
+          "identifier": "urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4143",
+          "setSpec": "unc_morton_highlights",
+          "datestamp": "2014-02-10"
+        },
+        "metadata": {
+          "mods": {
+            "genre": "Image",
+            "location": [
+              {
+                "url": {
+                  "usage": "primary display",
+                  "#text": "http://dc.lib.unc.edu/u?/morton_highlights,4143",
+                  "access": "object in context"
+                }
+              },
+              {
+                "url": {
+                  "#text": "http://dc.lib.unc.edu/utils/getthumbnail/collection/morton_highlights/id/4143",
+                  "access": "preview"
+                }
+              }
+            ],
+            "subject": [
+              {
+                "topic": "1970-1979"
+              },
+              {
+                "topic": "1980-1989"
+              },
+              {
+                "topic": "Pumas"
+              },
+              {
+                "topic": "Baby animals"
+              },
+              {
+                "topic": "Autumn"
+              },
+              {
+                "topic": "Zoo animals"
+              },
+              {
+                "topic": "Grandfather Mountain (N.C.)"
+              },
+              {
+                "topic": "Linville (N.C.)"
+              },
+              {
+                "topic": "Avery County (N.C.)"
+              }
+            ],
+            "originInfo": {
+              "dateCreated": {
+                "keyDate": "yes",
+                "#text": "1970s-1980s"
+              },
+              "publisher": "University of North Carolina at Chapel Hill, Wilson Library, North Carolina Collection Photographic Archives"
+            },
+            "physicalDescription": {
+              "form": [
+                "Photographs",
+                "Color roll film negative",
+                "120 (80.8 x 80.8mm / 2 x 2 in.)"
+              ]
+            },
+            "xmlns": "http://www.loc.gov/mods/v3",
+            "titleInfo": {
+              "title": "Cougar kittens"
+            },
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+            "version": "3.4",
+            "accessCondition": "Copyright North Carolina Collection, University of North Carolina at Chapel Hill Library. The images in this collection are made available for use in research, private study, and teaching. Prior permission from the North Carolina Collection is required for any commercial use.",
+            "xmlns:oai_dc": "http://www.openarchives.org/OAI/2.0/oai_dc/",
+            "name": {
+              "namePart": "Morton, Hugh M.",
+              "role": {
+                "roleTerm": "creator"
+              }
+            },
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "identifier": [
+              "P081",
+              "http://dc.lib.unc.edu/u?/morton_highlights,4143"
+            ],
+            "note": [
+              {
+                "#text": "Cougar kittens in wildlife habitat at Grandfather Mountain, NC.",
+                "type": "content"
+              },
+              {
+                "#text": "University of North Carolina at Chapel Hill",
+                "type": "ownership"
+              }
+            ]
+          }
+        }
+      },
+      "score": 7.8760967
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://dc.lib.unc.edu/u?/morton_highlights,4163",
+      "dataProvider": "University of North Carolina at Chapel Hill",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digitalnc",
+        "name": "North Carolina Digital Heritage Center"
+      },
+      "object": "http://dc.lib.unc.edu/utils/getthumbnail/collection/morton_highlights/id/4163",
+      "ingestionSequence": 6,
+      "id": "014a5630dc4ee56ed485f57ea72b17c9",
+      "_rev": "5-eff59d36ef2abeb04afc1e602164b5ca",
+      "ingestDate": "2014-02-18T13:45:34.666983",
+      "_id": "digitalnc--urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4163",
+      "admin": {
+        "sourceResource": {
+          "title": "Cougar and kittens"
+        }
+      },
+      "sourceResource": {
+        "title": [
+          "Cougar and kittens"
+        ],
+        "description": "Cougar and cougar kittens in enclosure at Grandfather Mountain, NC.",
+        "subject": [
+          {
+            "name": "1970-1979"
+          },
+          {
+            "name": "1980-1989"
+          },
+          {
+            "name": "Pumas"
+          },
+          {
+            "name": "Zoo animals"
+          },
+          {
+            "name": "Baby animals"
+          },
+          {
+            "name": "Grandfather Mountain (N.C.)"
+          },
+          {
+            "name": "Linville (N.C.)"
+          },
+          {
+            "name": "Avery County (N.C.)"
+          }
+        ],
+        "rights": "Copyright North Carolina Collection, University of North Carolina at Chapel Hill Library. The images in this collection are made available for use in research, private study, and teaching. Prior permission from the North Carolina Collection is required for any commercial use.",
+        "format": [
+          "Photographs",
+          "Color roll film negative",
+          "120 (80.8 x 80.8mm / 2 x 2 in.)"
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "North Carolina"
+          }
+        ],
+        "type": "image",
+        "date": {
+          "displayDate": "1970s-1980s",
+          "end": "1970",
+          "begin": "1970"
+        },
+        "identifier": [
+          "P081",
+          "http://dc.lib.unc.edu/u?/morton_highlights,4163"
+        ],
+        "publisher": [
+          "University of North Carolina at Chapel Hill, Wilson Library, North Carolina Collection Photographic Archives"
+        ],
+        "creator": [
+          "Morton, Hugh M."
+        ]
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/014a5630dc4ee56ed485f57ea72b17c9",
+      "originalRecord": {
+        "about": {
+          "oaiProvenance:provenance": {
+            "xsi:schemaLocation": "http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd",
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:oaiProvenance": "http://www.openarchives.org/OAI/2.0/provenance",
+            "oaiProvenance:originDescription": {
+              "oaiProvenance:datestamp": "2014-02-10",
+              "oaiProvenance:metadataNamespace": "http://www.openarchives.org/OAI/2.0/",
+              "altered": "true",
+              "oaiProvenance:baseURL": "http://dc.lib.unc.edu/cgi-bin/oai.exe",
+              "harvestDate": "2014-02-10",
+              "oaiProvenance:identifier": "oai:dc.lib.unc.edu:morton_highlights/4163"
+            }
+          }
+        },
+        "id": "urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4163",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digitalnc",
+          "name": "North Carolina Digital Heritage Center"
+        },
+        "collection": {
+          "id": "0626c4321ccd570f59dc67ca715bed86",
+          "description": "",
+          "title": "Hugh Morton Collection of Photographs and Films",
+          "@id": "http://dp.la/api/collections/0626c4321ccd570f59dc67ca715bed86"
+        },
+        "header": {
+          "identifier": "urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4163",
+          "setSpec": "unc_morton_highlights",
+          "datestamp": "2014-02-10"
+        },
+        "metadata": {
+          "mods": {
+            "genre": "Image",
+            "location": [
+              {
+                "url": {
+                  "usage": "primary display",
+                  "#text": "http://dc.lib.unc.edu/u?/morton_highlights,4163",
+                  "access": "object in context"
+                }
+              },
+              {
+                "url": {
+                  "#text": "http://dc.lib.unc.edu/utils/getthumbnail/collection/morton_highlights/id/4163",
+                  "access": "preview"
+                }
+              }
+            ],
+            "subject": [
+              {
+                "topic": "1970-1979"
+              },
+              {
+                "topic": "1980-1989"
+              },
+              {
+                "topic": "Pumas"
+              },
+              {
+                "topic": "Zoo animals"
+              },
+              {
+                "topic": "Baby animals"
+              },
+              {
+                "topic": "Grandfather Mountain (N.C.)"
+              },
+              {
+                "topic": "Linville (N.C.)"
+              },
+              {
+                "topic": "Avery County (N.C.)"
+              }
+            ],
+            "originInfo": {
+              "dateCreated": {
+                "keyDate": "yes",
+                "#text": "1970s-1980s"
+              },
+              "publisher": "University of North Carolina at Chapel Hill, Wilson Library, North Carolina Collection Photographic Archives"
+            },
+            "physicalDescription": {
+              "form": [
+                "Photographs",
+                "Color roll film negative",
+                "120 (80.8 x 80.8mm / 2 x 2 in.)"
+              ]
+            },
+            "xmlns": "http://www.loc.gov/mods/v3",
+            "titleInfo": {
+              "title": "Cougar and kittens"
+            },
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+            "version": "3.4",
+            "accessCondition": "Copyright North Carolina Collection, University of North Carolina at Chapel Hill Library. The images in this collection are made available for use in research, private study, and teaching. Prior permission from the North Carolina Collection is required for any commercial use.",
+            "xmlns:oai_dc": "http://www.openarchives.org/OAI/2.0/oai_dc/",
+            "name": {
+              "namePart": "Morton, Hugh M.",
+              "role": {
+                "roleTerm": "creator"
+              }
+            },
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "identifier": [
+              "P081",
+              "http://dc.lib.unc.edu/u?/morton_highlights,4163"
+            ],
+            "note": [
+              {
+                "#text": "Cougar and cougar kittens in enclosure at Grandfather Mountain, NC.",
+                "type": "content"
+              },
+              {
+                "#text": "University of North Carolina at Chapel Hill",
+                "type": "ownership"
+              }
+            ]
+          }
+        }
+      },
+      "score": 7.8760967
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://dc.lib.unc.edu/u?/morton_highlights,4156",
+      "dataProvider": "University of North Carolina at Chapel Hill",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digitalnc",
+        "name": "North Carolina Digital Heritage Center"
+      },
+      "object": "http://dc.lib.unc.edu/utils/getthumbnail/collection/morton_highlights/id/4156",
+      "ingestionSequence": 6,
+      "id": "fbb7d3c8687ad9e5ea8faef6412a4a4d",
+      "_rev": "5-3207ac1e80922f72dae754ce6f16e15c",
+      "ingestDate": "2014-02-18T13:45:30.156924",
+      "_id": "digitalnc--urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4156",
+      "admin": {
+        "sourceResource": {
+          "title": "Cougar and kittens"
+        }
+      },
+      "sourceResource": {
+        "title": [
+          "Cougar and kittens"
+        ],
+        "description": "Cougar and cougar kittens, most likely in Grandfather Mountain, NC wildlife habitat.",
+        "subject": [
+          {
+            "name": "1970-1979"
+          },
+          {
+            "name": "1980-1989"
+          },
+          {
+            "name": "Pumas"
+          },
+          {
+            "name": "Baby animals"
+          },
+          {
+            "name": "Zoo animals"
+          },
+          {
+            "name": "Grandfather Mountain (N.C.)"
+          },
+          {
+            "name": "Linville (N.C.)"
+          },
+          {
+            "name": "Avery County (N.C.)"
+          }
+        ],
+        "rights": "Copyright North Carolina Collection, University of North Carolina at Chapel Hill Library. The images in this collection are made available for use in research, private study, and teaching. Prior permission from the North Carolina Collection is required for any commercial use.",
+        "format": [
+          "Photographs",
+          "Color roll film negative",
+          "120 (80.8 x 80.8mm / 2 x 2 in.)"
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "North Carolina"
+          }
+        ],
+        "type": "image",
+        "date": {
+          "displayDate": "1970s-1980s",
+          "end": "1970",
+          "begin": "1970"
+        },
+        "identifier": [
+          "P081",
+          "http://dc.lib.unc.edu/u?/morton_highlights,4156"
+        ],
+        "publisher": [
+          "University of North Carolina at Chapel Hill, Wilson Library, North Carolina Collection Photographic Archives"
+        ],
+        "creator": [
+          "Morton, Hugh M."
+        ]
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/fbb7d3c8687ad9e5ea8faef6412a4a4d",
+      "originalRecord": {
+        "about": {
+          "oaiProvenance:provenance": {
+            "xsi:schemaLocation": "http://www.openarchives.org/OAI/2.0/provenance http://www.openarchives.org/OAI/2.0/provenance.xsd",
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:oaiProvenance": "http://www.openarchives.org/OAI/2.0/provenance",
+            "oaiProvenance:originDescription": {
+              "oaiProvenance:datestamp": "2014-02-10",
+              "oaiProvenance:metadataNamespace": "http://www.openarchives.org/OAI/2.0/",
+              "altered": "true",
+              "oaiProvenance:baseURL": "http://dc.lib.unc.edu/cgi-bin/oai.exe",
+              "harvestDate": "2014-02-10",
+              "oaiProvenance:identifier": "oai:dc.lib.unc.edu:morton_highlights/4156"
+            }
+          }
+        },
+        "id": "urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4156",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digitalnc",
+          "name": "North Carolina Digital Heritage Center"
+        },
+        "collection": {
+          "id": "0626c4321ccd570f59dc67ca715bed86",
+          "description": "",
+          "title": "Hugh Morton Collection of Photographs and Films",
+          "@id": "http://dp.la/api/collections/0626c4321ccd570f59dc67ca715bed86"
+        },
+        "header": {
+          "identifier": "urn:brevard.lib.unc.eduunc_morton_highlights:oai:dc.lib.unc.edu:morton_highlights/4156",
+          "setSpec": "unc_morton_highlights",
+          "datestamp": "2014-02-10"
+        },
+        "metadata": {
+          "mods": {
+            "genre": "Image",
+            "location": [
+              {
+                "url": {
+                  "usage": "primary display",
+                  "#text": "http://dc.lib.unc.edu/u?/morton_highlights,4156",
+                  "access": "object in context"
+                }
+              },
+              {
+                "url": {
+                  "#text": "http://dc.lib.unc.edu/utils/getthumbnail/collection/morton_highlights/id/4156",
+                  "access": "preview"
+                }
+              }
+            ],
+            "subject": [
+              {
+                "topic": "1970-1979"
+              },
+              {
+                "topic": "1980-1989"
+              },
+              {
+                "topic": "Pumas"
+              },
+              {
+                "topic": "Baby animals"
+              },
+              {
+                "topic": "Zoo animals"
+              },
+              {
+                "topic": "Grandfather Mountain (N.C.)"
+              },
+              {
+                "topic": "Linville (N.C.)"
+              },
+              {
+                "topic": "Avery County (N.C.)"
+              }
+            ],
+            "originInfo": {
+              "dateCreated": {
+                "keyDate": "yes",
+                "#text": "1970s-1980s"
+              },
+              "publisher": "University of North Carolina at Chapel Hill, Wilson Library, North Carolina Collection Photographic Archives"
+            },
+            "physicalDescription": {
+              "form": [
+                "Photographs",
+                "Color roll film negative",
+                "120 (80.8 x 80.8mm / 2 x 2 in.)"
+              ]
+            },
+            "xmlns": "http://www.loc.gov/mods/v3",
+            "titleInfo": {
+              "title": "Cougar and kittens"
+            },
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "xmlns:dc": "http://purl.org/dc/elements/1.1/",
+            "version": "3.4",
+            "accessCondition": "Copyright North Carolina Collection, University of North Carolina at Chapel Hill Library. The images in this collection are made available for use in research, private study, and teaching. Prior permission from the North Carolina Collection is required for any commercial use.",
+            "xmlns:oai_dc": "http://www.openarchives.org/OAI/2.0/oai_dc/",
+            "name": {
+              "namePart": "Morton, Hugh M.",
+              "role": {
+                "roleTerm": "creator"
+              }
+            },
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "identifier": [
+              "P081",
+              "http://dc.lib.unc.edu/u?/morton_highlights,4156"
+            ],
+            "note": [
+              {
+                "#text": "Cougar and cougar kittens, most likely in Grandfather Mountain, NC wildlife habitat.",
+                "type": "content"
+              },
+              {
+                "#text": "University of North Carolina at Chapel Hill",
+                "type": "ownership"
+              }
+            ]
+          }
+        }
+      },
+      "score": 7.8760967
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeEnd"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://kdl.kyvl.org/catalog/xt744j09wc6d_1_404",
+      "dataProvider": "University of Kentucky",
+      "hasView": {
+        "@id": "http://nyx.uky.edu/dips/xt744j09wc6d/data/3/404_p/404/404.jpg"
+      },
+      "provider": {
+        "@id": "http://dp.la/api/contributor/kdl",
+        "name": "Kentucky Digital Library"
+      },
+      "object": "http://nyx.uky.edu/dips/xt744j09wc6d/data/3/404_p/404/404_tb.jpg",
+      "ingestionSequence": 8,
+      "id": "594cbd4e617152e179e38523a12b4a8b",
+      "_rev": "13-5cbd353ff0e81a11bb3424f858196331",
+      "ingestDate": "2014-02-15T18:42:05.150873",
+      "_id": "kentucky--http://kdl.kyvl.org/catalog/xt744j09wc6d_1_404",
+      "sourceResource": {
+        "rights": "This digital resource may be freely searched and displayed. Permission must be received for subsequent distribution in print or electronically. Physical rights are retained by the owning repository. Copyright is retained in accordance with U. S. copyright laws. Please go to http://kdl.kyvl.org for more information.",
+        "title": "3 Kittens",
+        "language": [
+          {
+            "iso639_3": "eng",
+            "name": "English"
+          }
+        ],
+        "format": "Images",
+        "type": "text",
+        "date": {
+          "displayDate": "1949",
+          "end": "1949",
+          "begin": "1949"
+        },
+        "creator": "Williams, Ben"
+      },
+      "admin": {
+        "object_status": 1,
+        "sourceResource": {
+          "title": "3 Kittens"
+        }
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/594cbd4e617152e179e38523a12b4a8b",
+      "originalRecord": {
+        "handle": "http://kdl.kyvl.org/catalog/xt744j09wc6d_1_404",
+        "status": [
+
+        ],
+        "rights": "This digital resource may be freely searched and displayed.  Permission must be received for subsequent distribution in print or electronically.  Physical rights are retained by the owning repository.  Copyright is retained in accordance with U. S. copyright laws.  Please go to http://kdl.kyvl.org for more information.",
+        "relation": "http://nyx.uky.edu/dips/xt744j09wc6d/data/3/404_p/404/404.jpg",
+        "label": "3 Kittens",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/kdl",
+          "name": "Kentucky Digital Library"
+        },
+        "format": "images",
+        "date": "1949",
+        "type": "text",
+        "publisher": "University of Kentucky",
+        "creator": "Williams, Ben.",
+        "id": "kdl.kyvl.org/xt744j09wc6d_1_404",
+        "title": "3 Kittens",
+        "source": "Ben Williams negatives,",
+        "datestamp": "2012-12-07T19:11:24Z",
+        "language": "english"
+      },
+      "score": 7.669697
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeEnd"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://catalog.hathitrust.org/Record/012193407",
+      "dataProvider": [
+        "University of North Carolina"
+      ],
+      "provider": {
+        "@id": "http://dp.la/api/contributor/hathitrust",
+        "name": "HathiTrust"
+      },
+      "ingestionSequence": 9,
+      "id": "7925fdd8490efbe7d61c743ca47660d9",
+      "_rev": "6-d179f3441c39720b05a33c04e40eccc4",
+      "ingestDate": "2014-02-09T18:16:28.304737",
+      "_id": "hathitrust--012193407",
+      "admin": {
+        "sourceResource": {
+          "title": "Cats and kittens"
+        }
+      },
+      "sourceResource": {
+        "title": [
+          "Cats and kittens"
+        ],
+        "extent": [
+          "271 p., [32] p. of plates : 20 cm."
+        ],
+        "subject": [
+          {
+            "name": "Cats"
+          },
+          {
+            "name": "Readers"
+          }
+        ],
+        "language": [
+          {
+            "iso639_3": "eng",
+            "name": "English"
+          }
+        ],
+        "format": [
+          "Electronic resource",
+          "Language material"
+        ],
+        "date": {
+          "displayDate": "c1906",
+          "end": "1906",
+          "begin": "1906"
+        },
+        "type": "text",
+        "identifier": [
+          "sdr-ia-unc.b4944350",
+          "(OCoLC)280211",
+          "LC call number: PN4199 .W5 no.35",
+          "Hathi: 012193407"
+        ],
+        "publisher": [
+          "New York : Edgar S. Werner & Company"
+        ],
+        "creator": [
+          "Werner, Edgar S., d. 1919, comp"
+        ],
+        "specType": "Book"
+      },
+      "@id": "http://dp.la/api/items/7925fdd8490efbe7d61c743ca47660d9",
+      "ingestType": "item",
+      "originalRecord": {
+        "provider": {
+          "@id": "http://dp.la/api/contributor/hathitrust",
+          "name": "HathiTrust Digital Library"
+        },
+        "_id": "012193407",
+        "controlfield": [
+          {
+            "tag": "001",
+            "#text": "012193407"
+          },
+          {
+            "tag": "003",
+            "#text": "MiAaHDL"
+          },
+          {
+            "tag": "005",
+            "#text": "20121219000000.0"
+          },
+          {
+            "tag": "006",
+            "#text": "m        d        "
+          },
+          {
+            "tag": "007",
+            "#text": "cr bn ---auaua"
+          },
+          {
+            "tag": "008",
+            "#text": "720411s1906    nyuacg j      000 m eng d"
+          }
+        ],
+        "datafield": [
+          {
+            "tag": "035",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": {
+              "#text": "sdr-ia-unc.b4944350",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "035",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": {
+              "#text": "(OCoLC)280211",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "040",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": [
+              {
+                "#text": "MSC",
+                "code": "a"
+              },
+              {
+                "#text": "MSC",
+                "code": "c"
+              },
+              {
+                "#text": "OCL",
+                "code": "d"
+              }
+            ]
+          },
+          {
+            "tag": "049",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": {
+              "#text": "NOC0",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "050",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": [
+              {
+                "#text": "PN4199",
+                "code": "a"
+              },
+              {
+                "#text": ".W5 no.35",
+                "code": "b"
+              }
+            ]
+          },
+          {
+            "tag": "100",
+            "ind2": " ",
+            "ind1": "1",
+            "subfield": [
+              {
+                "#text": "Werner, Edgar S.,",
+                "code": "a"
+              },
+              {
+                "#text": "d. 1919,",
+                "code": "d"
+              },
+              {
+                "#text": "comp.",
+                "code": "e"
+              }
+            ]
+          },
+          {
+            "tag": "245",
+            "ind2": "0",
+            "ind1": "1",
+            "subfield": {
+              "#text": "Cats and kittens.",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "260",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": [
+              {
+                "#text": "New York :",
+                "code": "a"
+              },
+              {
+                "#text": "Edgar S. Werner & Company,",
+                "code": "b"
+              },
+              {
+                "#text": "c1906.",
+                "code": "c"
+              }
+            ]
+          },
+          {
+            "tag": "300",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": [
+              {
+                "#text": "271 p., [32] p. of plates :",
+                "code": "a"
+              },
+              {
+                "#text": "ill., ports., music ;",
+                "code": "b"
+              },
+              {
+                "#text": "20 cm.",
+                "code": "c"
+              }
+            ]
+          },
+          {
+            "tag": "490",
+            "ind2": " ",
+            "ind1": "0",
+            "subfield": [
+              {
+                "#text": "Werner's readings and recitations ;",
+                "code": "a"
+              },
+              {
+                "#text": "no. 35",
+                "code": "v"
+              }
+            ]
+          },
+          {
+            "tag": "538",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": {
+              "#text": "Mode of access: Internet.",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "650",
+            "ind2": "0",
+            "ind1": " ",
+            "subfield": {
+              "#text": "Cats.",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "655",
+            "ind2": "7",
+            "ind1": " ",
+            "subfield": [
+              {
+                "#text": "Readers.",
+                "code": "a"
+              },
+              {
+                "#text": "lcgft",
+                "code": "2"
+              }
+            ]
+          },
+          {
+            "tag": "970",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": {
+              "#text": "BK",
+              "code": "a"
+            }
+          },
+          {
+            "tag": "974",
+            "ind2": " ",
+            "ind1": " ",
+            "subfield": [
+              {
+                "#text": "ia.catskittens35wern",
+                "code": "8"
+              },
+              {
+                "#text": "UNC",
+                "code": "b"
+              },
+              {
+                "#text": "IUNC",
+                "code": "c"
+              },
+              {
+                "#text": "20130810",
+                "code": "d"
+              },
+              {
+                "#text": "ia",
+                "code": "s"
+              },
+              {
+                "#text": "nc01.ark:/13960/t20c6589d",
+                "code": "u"
+              },
+              {
+                "#text": "35",
+                "code": "z"
+              },
+              {
+                "#text": "pd",
+                "code": "r"
+              }
+            ]
+          }
+        ],
+        "leader": "00745cam a2200241Ia 4500"
+      },
+      "score": 7.669697
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp00m",
+      "dataProvider": "Boston Public Library",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digital-commonwealth",
+        "name": "Digital Commonwealth"
+      },
+      "object": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp00m/thumbnail",
+      "ingestionSequence": 5,
+      "id": "4f39a46b91e1a11edf9054b2af541da2",
+      "_rev": "6-4c205ea62d5ed2e7ceb611abe2d32e06",
+      "ingestDate": "2014-02-15T15:07:19.011147",
+      "_id": "bpl--oai:digitalcommonwealth.org:commonwealth:5h73tp00m",
+      "admin": {
+        "sourceResource": {
+          "title": "Cat with kittens"
+        }
+      },
+      "sourceResource": {
+        "title": "Cat with kittens",
+        "extent": "1 negative : film, black & white ; 4 x 5 in.",
+        "description": [
+          "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+          "Date supplied by cataloger."
+        ],
+        "subject": [
+          {
+            "name": "Cats"
+          },
+          {
+            "name": "Baby animals"
+          }
+        ],
+        "rights": "Copyright (c) Leslie Jones. This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+        "isPartOf": [
+          "Leslie Jones Collection",
+          "Leslie Jones Collection. Animals: Dogs & Cats"
+        ],
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "Massachusetts"
+          }
+        ],
+        "date": {
+          "displayDate": "1934-1956",
+          "end": "1956",
+          "begin": "1934"
+        },
+        "type": "image",
+        "identifier": [
+          "Local accession: 08_06_018978"
+        ],
+        "creator": "Jones, Leslie, 1886-1967"
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/4f39a46b91e1a11edf9054b2af541da2",
+      "originalRecord": {
+        "id": "oai:digitalcommonwealth.org:commonwealth:5h73tp00m",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digital-commonwealth",
+          "name": "Digital Commonwealth"
+        },
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "header": {
+          "identifier": "oai:digitalcommonwealth.org:commonwealth:5h73tp00m",
+          "setSpec": "commonwealth:2j62s484w",
+          "datestamp": "2013-09-20T14:13:43Z"
+        },
+        "metadata": {
+          "mods:mods": {
+            "mods:name": {
+              "type": "personal",
+              "authority": "local",
+              "mods:role": {
+                "mods:roleTerm": {
+                  "authority": "marcrelator",
+                  "#text": "Photographer",
+                  "authorityURI": "http://id.loc.gov/vocabulary/relators",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/relators/pht"
+                }
+              },
+              "mods:namePart": [
+                "Jones, Leslie",
+                {
+                  "#text": "1886-1967",
+                  "type": "date"
+                }
+              ]
+            },
+            "mods:titleInfo": {
+              "usage": "primary",
+              "mods:title": "Cat with kittens"
+            },
+            "mods:genre": [
+              {
+                "authority": "gmgpc",
+                "displayLabel": "general",
+                "#text": "Photographs",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm007721"
+              },
+              {
+                "authority": "gmgpc",
+                "displayLabel": "specific",
+                "#text": "Film negatives",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm003973"
+              }
+            ],
+            "mods:originInfo": {
+              "mods:dateCreated": [
+                {
+                  "point": "start",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1934",
+                  "keyDate": "yes"
+                },
+                {
+                  "point": "end",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1956"
+                }
+              ]
+            },
+            "mods:recordInfo": {
+              "mods:recordContentSource": "Boston Public Library",
+              "mods:languageOfCataloging": {
+                "mods:languageTerm": {
+                  "authority": "iso639-2b",
+                  "#text": "English",
+                  "authorityURI": "http://id.loc.gov/vocabulary/iso639-2",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/iso639-2/eng"
+                }
+              },
+              "mods:descriptionStandard": {
+                "#text": "gihc",
+                "authority": "marcdescription"
+              },
+              "mods:recordOrigin": "human prepared"
+            },
+            "mods:identifier": [
+              {
+                "#text": "08_06_018978",
+                "type": "local-accession"
+              },
+              {
+                "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp00m",
+                "type": "uri"
+              }
+            ],
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "mods:location": [
+              {
+                "mods:holdingSimple": {
+                  "mods:copyInformation": {
+                    "mods:subLocation": "Print Department"
+                  }
+                },
+                "mods:physicalLocation": "Boston Public Library"
+              },
+              {
+                "mods:url": [
+                  {
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp00m/thumbnail",
+                    "access": "preview"
+                  },
+                  {
+                    "usage": "primary",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tp00m",
+                    "access": "object in context"
+                  }
+                ]
+              }
+            ],
+            "mods:note": [
+              "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+              "Date supplied by cataloger."
+            ],
+            "version": "3.4",
+            "mods:subject": [
+              {
+                "authority": "lctgm",
+                "mods:topic": "Cats"
+              },
+              {
+                "authority": "lctgm",
+                "mods:topic": "Baby animals"
+              }
+            ],
+            "mods:typeOfResource": "still image",
+            "mods:physicalDescription": {
+              "mods:internetMediaType": [
+                "image/tiff",
+                "image/jpeg"
+              ],
+              "mods:extent": "1 negative : film, black & white ; 4 x 5 in.",
+              "mods:digitalOrigin": "reformatted digital"
+            },
+            "mods:accessCondition": [
+              {
+                "#text": "Copyright (c) Leslie Jones.",
+                "type": "use and reproduction"
+              },
+              {
+                "#text": "This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+                "type": "use and reproduction"
+              }
+            ],
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "mods:relatedItem": [
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Leslie Jones Collection"
+                },
+                "type": "host"
+              },
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Animals: Dogs & Cats"
+                },
+                "type": "series"
+              }
+            ],
+            "xmlns:mods": "http://www.loc.gov/mods/v3"
+          }
+        }
+      },
+      "score": 7.6532583
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tn94p",
+      "dataProvider": "Boston Public Library",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digital-commonwealth",
+        "name": "Digital Commonwealth"
+      },
+      "object": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tn94p/thumbnail",
+      "ingestionSequence": 5,
+      "id": "4a4d2981a420042806c5d64e510c49d1",
+      "_rev": "6-4ed4322d99a955cd1e4c73bd7308895f",
+      "ingestDate": "2014-02-15T17:40:50.814153",
+      "_id": "bpl--oai:digitalcommonwealth.org:commonwealth:5h73tn94p",
+      "admin": {
+        "sourceResource": {
+          "title": "Cat with kittens"
+        }
+      },
+      "sourceResource": {
+        "title": "Cat with kittens",
+        "extent": "1 negative : film, black & white ; 4 x 5 in.",
+        "description": [
+          "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+          "Date supplied by cataloger."
+        ],
+        "subject": [
+          {
+            "name": "Cats"
+          },
+          {
+            "name": "Baby animals"
+          }
+        ],
+        "rights": "Copyright (c) Leslie Jones. This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+        "isPartOf": [
+          "Leslie Jones Collection",
+          "Leslie Jones Collection. Animals: Dogs & Cats"
+        ],
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "stateLocatedIn": [
+          {
+            "name": "Massachusetts"
+          }
+        ],
+        "date": {
+          "displayDate": "1934-1956",
+          "end": "1956",
+          "begin": "1934"
+        },
+        "type": "image",
+        "identifier": [
+          "Local accession: 08_06_018975"
+        ],
+        "creator": "Jones, Leslie, 1886-1967"
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/4a4d2981a420042806c5d64e510c49d1",
+      "originalRecord": {
+        "id": "oai:digitalcommonwealth.org:commonwealth:5h73tn94p",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digital-commonwealth",
+          "name": "Digital Commonwealth"
+        },
+        "collection": [
+          {
+            "id": "460c76299e1b0a46afea352b1ab8f556",
+            "title": "Leslie Jones Collection",
+            "@id": "http://dp.la/api/collections/460c76299e1b0a46afea352b1ab8f556"
+          }
+        ],
+        "header": {
+          "identifier": "oai:digitalcommonwealth.org:commonwealth:5h73tn94p",
+          "setSpec": "commonwealth:2j62s484w",
+          "datestamp": "2013-09-20T14:13:43Z"
+        },
+        "metadata": {
+          "mods:mods": {
+            "mods:name": {
+              "type": "personal",
+              "authority": "local",
+              "mods:role": {
+                "mods:roleTerm": {
+                  "authority": "marcrelator",
+                  "#text": "Photographer",
+                  "authorityURI": "http://id.loc.gov/vocabulary/relators",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/relators/pht"
+                }
+              },
+              "mods:namePart": [
+                "Jones, Leslie",
+                {
+                  "#text": "1886-1967",
+                  "type": "date"
+                }
+              ]
+            },
+            "mods:titleInfo": {
+              "usage": "primary",
+              "mods:title": "Cat with kittens"
+            },
+            "mods:genre": [
+              {
+                "authority": "gmgpc",
+                "displayLabel": "general",
+                "#text": "Photographs",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm007721"
+              },
+              {
+                "authority": "gmgpc",
+                "displayLabel": "specific",
+                "#text": "Film negatives",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm003973"
+              }
+            ],
+            "mods:originInfo": {
+              "mods:dateCreated": [
+                {
+                  "point": "start",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1934",
+                  "keyDate": "yes"
+                },
+                {
+                  "point": "end",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1956"
+                }
+              ]
+            },
+            "mods:recordInfo": {
+              "mods:recordContentSource": "Boston Public Library",
+              "mods:languageOfCataloging": {
+                "mods:languageTerm": {
+                  "authority": "iso639-2b",
+                  "#text": "English",
+                  "authorityURI": "http://id.loc.gov/vocabulary/iso639-2",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/iso639-2/eng"
+                }
+              },
+              "mods:descriptionStandard": {
+                "#text": "gihc",
+                "authority": "marcdescription"
+              },
+              "mods:recordOrigin": "human prepared"
+            },
+            "mods:identifier": [
+              {
+                "#text": "08_06_018975",
+                "type": "local-accession"
+              },
+              {
+                "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tn94p",
+                "type": "uri"
+              }
+            ],
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "mods:location": [
+              {
+                "mods:holdingSimple": {
+                  "mods:copyInformation": {
+                    "mods:subLocation": "Print Department"
+                  }
+                },
+                "mods:physicalLocation": "Boston Public Library"
+              },
+              {
+                "mods:url": [
+                  {
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tn94p/thumbnail",
+                    "access": "preview"
+                  },
+                  {
+                    "usage": "primary",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/5h73tn94p",
+                    "access": "object in context"
+                  }
+                ]
+              }
+            ],
+            "mods:note": [
+              "Title from information provided by Leslie Jones or the Boston Public Library on the negative or negative sleeve.",
+              "Date supplied by cataloger."
+            ],
+            "version": "3.4",
+            "mods:subject": [
+              {
+                "authority": "lctgm",
+                "mods:topic": "Cats"
+              },
+              {
+                "authority": "lctgm",
+                "mods:topic": "Baby animals"
+              }
+            ],
+            "mods:typeOfResource": "still image",
+            "mods:physicalDescription": {
+              "mods:internetMediaType": [
+                "image/tiff",
+                "image/jpeg"
+              ],
+              "mods:extent": "1 negative : film, black & white ; 4 x 5 in.",
+              "mods:digitalOrigin": "reformatted digital"
+            },
+            "mods:accessCondition": [
+              {
+                "#text": "Copyright (c) Leslie Jones.",
+                "type": "use and reproduction"
+              },
+              {
+                "#text": "This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).",
+                "type": "use and reproduction"
+              }
+            ],
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "mods:relatedItem": [
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Leslie Jones Collection"
+                },
+                "type": "host"
+              },
+              {
+                "mods:titleInfo": {
+                  "mods:title": "Animals: Dogs & Cats"
+                },
+                "type": "series"
+              }
+            ],
+            "xmlns:mods": "http://www.loc.gov/mods/v3"
+          }
+        }
+      },
+      "score": 7.6532583
+    },
+    {
+      "@context": {
+        "edm": "http://www.europeana.eu/schemas/edm/",
+        "isShownAt": "edm:isShownAt",
+        "dpla": "http://dp.la/terms/",
+        "dataProvider": "edm:dataProvider",
+        "aggregatedDigitalResource": "dpla:aggregatedDigitalResource",
+        "state": "dpla:state",
+        "hasView": "edm:hasView",
+        "provider": "edm:provider",
+        "collection": "dpla:aggregation",
+        "object": "edm:object",
+        "stateLocatedIn": "dpla:stateLocatedIn",
+        "begin": {
+          "@type": "xsd:date",
+          "@id": "dpla:dateRangeStart"
+        },
+        "@vocab": "http://purl.org/dc/terms/",
+        "LCSH": "http://id.loc.gov/authorities/subjects",
+        "sourceResource": "edm:sourceResource",
+        "name": "xsd:string",
+        "coordinates": "dpla:coordinates",
+        "end": {
+          "@type": "xsd:date",
+          "@id": "dpla:end"
+        },
+        "originalRecord": "dpla:originalRecord"
+      },
+      "isShownAt": "http://ark.digitalcommonwealth.org/ark:/50959/vq27zq90t",
+      "dataProvider": "Boston Public Library",
+      "provider": {
+        "@id": "http://dp.la/api/contributor/digital-commonwealth",
+        "name": "Digital Commonwealth"
+      },
+      "object": "http://ark.digitalcommonwealth.org/ark:/50959/vq27zq90t/thumbnail",
+      "ingestionSequence": 5,
+      "id": "e91c39dcd6fcb9c63820b3104f585c7f",
+      "_rev": "4-7697e53a95bf874e7ff04a9ae4cffe1f",
+      "ingestDate": "2014-02-15T16:33:25.409092",
+      "_id": "bpl--oai:digitalcommonwealth.org:commonwealth:vq27zq90t",
+      "admin": {
+        "sourceResource": {
+          "title": "Cats and Kittens"
+        }
+      },
+      "sourceResource": {
+        "title": "Cats and Kittens",
+        "extent": "1 print : chromolithograph, color",
+        "description": [
+          "Title from item."
+        ],
+        "rights": "No known copyright restrictions. No known restrictions on use.",
+        "collection": [
+          {
+            "id": "9df57efe95aa2a95f1d0cdf7a2a65539",
+            "title": "Louis Prang & Company Chromolithographs",
+            "@id": "http://dp.la/api/collections/9df57efe95aa2a95f1d0cdf7a2a65539"
+          }
+        ],
+        "isPartOf": "Boston Public Library. Louis Prang & Company Collection",
+        "stateLocatedIn": [
+          {
+            "name": "Massachusetts"
+          }
+        ],
+        "date": {
+          "displayDate": "1861-1897",
+          "end": "1897",
+          "begin": "1861"
+        },
+        "type": "image",
+        "identifier": [
+          "Local accession: 07_11_001208"
+        ],
+        "creator": "L. Prang & Co"
+      },
+      "ingestType": "item",
+      "@id": "http://dp.la/api/items/e91c39dcd6fcb9c63820b3104f585c7f",
+      "originalRecord": {
+        "id": "oai:digitalcommonwealth.org:commonwealth:vq27zq90t",
+        "provider": {
+          "@id": "http://dp.la/api/contributor/digital-commonwealth",
+          "name": "Digital Commonwealth"
+        },
+        "collection": [
+          {
+            "id": "9df57efe95aa2a95f1d0cdf7a2a65539",
+            "title": "Louis Prang & Company Chromolithographs",
+            "@id": "http://dp.la/api/collections/9df57efe95aa2a95f1d0cdf7a2a65539"
+          }
+        ],
+        "header": {
+          "identifier": "oai:digitalcommonwealth.org:commonwealth:vq27zq90t",
+          "setSpec": "commonwealth:k643b116n",
+          "datestamp": "2013-10-22T08:27:11Z"
+        },
+        "metadata": {
+          "mods:mods": {
+            "mods:name": {
+              "authority": "naf",
+              "authorityURI": "http://id.loc.gov/authorities/names",
+              "type": "corporate",
+              "mods:role": {
+                "mods:roleTerm": {
+                  "authority": "marcrelator",
+                  "#text": "Publisher",
+                  "authorityURI": "http://id.loc.gov/vocabulary/relators",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/relators/pbl"
+                }
+              },
+              "valueURI": "http://id.loc.gov/authorities/names/n50078391",
+              "mods:namePart": "L. Prang & Co."
+            },
+            "mods:titleInfo": {
+              "usage": "primary",
+              "mods:title": "Cats and Kittens"
+            },
+            "mods:genre": [
+              {
+                "authority": "gmgpc",
+                "displayLabel": "general",
+                "#text": "Prints",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm008237"
+              },
+              {
+                "authority": "gmgpc",
+                "displayLabel": "specific",
+                "#text": "Chromolithographs",
+                "authorityURI": "http://id.loc.gov/vocabulary/graphicMaterials",
+                "valueURI": "http://id.loc.gov/vocabulary/graphicMaterials/tgm002041"
+              }
+            ],
+            "mods:originInfo": {
+              "mods:dateIssued": [
+                {
+                  "point": "start",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1861",
+                  "keyDate": "yes"
+                },
+                {
+                  "point": "end",
+                  "encoding": "w3cdtf",
+                  "qualifier": "approximate",
+                  "#text": "1897"
+                }
+              ]
+            },
+            "mods:recordInfo": {
+              "mods:recordContentSource": "Boston Public Library",
+              "mods:languageOfCataloging": {
+                "mods:languageTerm": {
+                  "authority": "iso639-2b",
+                  "#text": "English",
+                  "authorityURI": "http://id.loc.gov/vocabulary/iso639-2",
+                  "type": "text",
+                  "valueURI": "http://id.loc.gov/vocabulary/iso639-2/eng"
+                }
+              },
+              "mods:descriptionStandard": {
+                "#text": "gihc",
+                "authority": "marcdescription"
+              },
+              "mods:recordOrigin": "human prepared"
+            },
+            "mods:identifier": [
+              {
+                "#text": "07_11_001208",
+                "type": "local-accession"
+              },
+              {
+                "#text": "http://ark.digitalcommonwealth.org/ark:/50959/vq27zq90t",
+                "type": "uri"
+              }
+            ],
+            "xsi:schemaLocation": "http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-4.xsd",
+            "mods:location": [
+              {
+                "mods:holdingSimple": {
+                  "mods:copyInformation": {
+                    "mods:shelfLocator": "Box 24 - Animals",
+                    "mods:subLocation": "Print Department"
+                  }
+                },
+                "mods:physicalLocation": "Boston Public Library"
+              },
+              {
+                "mods:url": [
+                  {
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/vq27zq90t/thumbnail",
+                    "access": "preview"
+                  },
+                  {
+                    "usage": "primary",
+                    "#text": "http://ark.digitalcommonwealth.org/ark:/50959/vq27zq90t",
+                    "access": "object in context"
+                  }
+                ]
+              }
+            ],
+            "mods:note": "Title from item.",
+            "version": "3.4",
+            "mods:typeOfResource": "still image",
+            "mods:physicalDescription": {
+              "mods:internetMediaType": [
+                "image/tiff",
+                "image/jpeg"
+              ],
+              "mods:extent": "1 print : chromolithograph, color",
+              "mods:digitalOrigin": "reformatted digital"
+            },
+            "mods:accessCondition": [
+              {
+                "#text": "No known copyright restrictions.",
+                "type": "use and reproduction"
+              },
+              {
+                "#text": "No known restrictions on use.",
+                "type": "use and reproduction"
+              }
+            ],
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xmlns:xlink": "http://www.w3.org/1999/xlink",
+            "mods:relatedItem": {
+              "type": "host",
+              "mods:titleInfo": {
+                "mods:title": "Louis Prang & Company Collection"
+              }
+            },
+            "xmlns:mods": "http://www.loc.gov/mods/v3"
+          }
+        }
+      },
+      "score": 7.6532583
+    }
+  ],
+  "facets": {
+    "sourceResource.subject.@id": {
+      "_type": "terms",
+      "missing": 144,
+      "total": 0,
+      "other": 0,
+      "terms": [
+
+      ]
+    },
+    "sourceResource.subject.name": {
+      "_type": "terms",
+      "missing": 16,
+      "total": 599,
+      "other": 286,
+      "terms": [
+        {
+          "term": "Cats",
+          "count": 36
+        },
+        {
+          "term": "Kittens",
+          "count": 19
+        },
+        {
+          "term": "Baby animals",
+          "count": 19
+        },
+        {
+          "term": "Postcards",
+          "count": 12
+        },
+        {
+          "term": "Portraits",
+          "count": 12
+        },
+        {
+          "term": "Children",
+          "count": 11
+        },
+        {
+          "term": "Zoo animals",
+          "count": 9
+        },
+        {
+          "term": "Pumas",
+          "count": 9
+        },
+        {
+          "term": "Pets",
+          "count": 9
+        },
+        {
+          "term": "Linville (N.C.)",
+          "count": 9
+        },
+        {
+          "term": "Grandfather Mountain (N.C.)",
+          "count": 9
+        },
+        {
+          "term": "Avery County (N.C.)",
+          "count": 9
+        },
+        {
+          "term": "1980-1989",
+          "count": 9
+        },
+        {
+          "term": "Victoriana",
+          "count": 8
+        },
+        {
+          "term": "Souvenirs (Keepsakes)",
+          "count": 8
+        },
+        {
+          "term": "Social Life and Customs",
+          "count": 8
+        },
+        {
+          "term": "Sewing machines",
+          "count": 8
+        },
+        {
+          "term": "Photographs",
+          "count": 7
+        },
+        {
+          "term": "1970-1979",
+          "count": 7
+        },
+        {
+          "term": "People",
+          "count": 6
+        },
+        {
+          "term": "Kittens--Juvenile fiction",
+          "count": 6
+        },
+        {
+          "term": "Advertising",
+          "count": 6
+        },
+        {
+          "term": "Holsinger Studio (Charlottesville, Va.)",
+          "count": 5
+        },
+        {
+          "term": "Picture books",
+          "count": 4
+        },
+        {
+          "term": "Documentary Artifact",
+          "count": 4
+        },
+        {
+          "term": "Children--Portraits",
+          "count": 4
+        },
+        {
+          "term": "Books--Reviews",
+          "count": 4
+        },
+        {
+          "term": "Animals",
+          "count": 4
+        },
+        {
+          "term": "Advertising cards",
+          "count": 4
+        },
+        {
+          "term": "Kittens--Photographs",
+          "count": 3
+        },
+        {
+          "term": "Ducks--Juvenile fiction",
+          "count": 3
+        },
+        {
+          "term": "Cats--Photographs",
+          "count": 3
+        },
+        {
+          "term": "Cat",
+          "count": 3
+        },
+        {
+          "term": "Book review",
+          "count": 3
+        },
+        {
+          "term": "Babies",
+          "count": 3
+        },
+        {
+          "term": "Women",
+          "count": 2
+        },
+        {
+          "term": "Wheeler & Wilson Manufacturing Company",
+          "count": 2
+        },
+        {
+          "term": "Toys",
+          "count": 2
+        },
+        {
+          "term": "Textile printing--Massachusetts--Gloucester",
+          "count": 2
+        },
+        {
+          "term": "Textile design--Massachusetts--Gloucester",
+          "count": 2
+        },
+        {
+          "term": "Residential sites",
+          "count": 2
+        },
+        {
+          "term": "Poetry",
+          "count": 2
+        },
+        {
+          "term": "Plants",
+          "count": 2
+        },
+        {
+          "term": "Paintings",
+          "count": 2
+        },
+        {
+          "term": "Oral history--Massachusetts--Cape Ann",
+          "count": 2
+        },
+        {
+          "term": "New Home Sewing Machine Company",
+          "count": 2
+        },
+        {
+          "term": "Literature",
+          "count": 2
+        },
+        {
+          "term": "Lambda Chi Alpha (University of Nevada, Reno)",
+          "count": 2
+        },
+        {
+          "term": "Individuals",
+          "count": 2
+        },
+        {
+          "term": "Families",
+          "count": 2
+        }
+      ]
+    }
+  }
+}
