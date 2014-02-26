@@ -14,12 +14,15 @@ RSpec.configure do |config|
 
 end
 
+def fixture_path(path)
+  File.join(File.dirname(__FILE__), '..', 'fixtures', path)
+end
+
 def fixture path, &block
-  path = File.join(File.dirname(__FILE__), '..', 'fixtures', path)
-	if block_given?
-    open(path) &block
+  if block_given?
+    open(fixture_path(path)) &block
   else
-    open(path)
+    open(fixture_path(path))
   end
 end
 
