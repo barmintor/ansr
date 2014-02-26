@@ -1,19 +1,16 @@
 module Adpla
   module Model
     module Methods
-      def config=(yaml={})
-        yaml = YAML.load(yaml) if yaml.is_a? String
-        @config = yaml
-      end
+      include Adpla::Configurable
 
-      alias_method :configure, :"config="
-
-      def config
-        @config ||= {}
-      end
+      alias_method :configure, :"config"
 
       def api
-        @api ||= (config[:api] || Adpla::Api).new
+        @api ||= begin
+          a = (config[:api] || Adpla::Api).new
+          a.config(self.config)
+          a
+        end
       end
 
       def api=(api)

@@ -1,21 +1,10 @@
+require 'rest_client'
 module Adpla
   class Api
+    include Adpla::Configurable
 
     API_PARAM_KEYS = [:api_key, :callback, :facets, :fields, :page, :page_size, :sort_by, :sort_by_pin, :sort_order]
-    def config(yaml={})
-      @config ||= begin
-        y = begin
-          case yaml
-          when String
-            File.open(yaml) {|blob| YAML.load(blob)}
-          else
-            yaml
-          end
-        end
-        raise "DPLA clients must be configured with an API key" unless y[:api_key]
-        y
-      end
-    end
+
 
     def api_key
       config[:api_key]

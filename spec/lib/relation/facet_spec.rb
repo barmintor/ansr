@@ -38,6 +38,11 @@ describe Adpla::Relation do
 	    test = Adpla::Relation.new(Item, @mock_api)
 	    expect {test.facet(:foo=>'kittens')}.to raise_error
 	  end
+    it "should not require a search value for the facet" do
+      test = Adpla::Relation.new(Item, @mock_api).facet(:object)
+      @mock_api.should_receive(:items).with(:facets => :object).and_return('')
+      test.load
+    end
   end
 
   describe '#facets' do

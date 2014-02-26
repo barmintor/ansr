@@ -2,6 +2,7 @@ require 'active_record'
 module Adpla
   module Model
   	module Querying
+      include Adpla::Configurable
       include ActiveRecord::QueryMethods
 
       ActiveRecord::QueryMethods::WhereChain.class_eval <<-RUBY
@@ -116,11 +117,11 @@ module Adpla
         unless args.empty?
           facet_where = build_where(args)
           facet_where.each do |fnode|
-            facet_name = fnode.left.name.to_sym
+            facet_name = (::Arel::Nodes::Binary === fnode) ? fnode.left.name.to_sym : fnode.to_sym
             if FACETS.include? facet_name
               self.facet_values += facet_where
             else
-              raise "#{facet_name.to_s} is not a facetable value"
+              raise "#{facet_name} is not a facetable value"
             end
           end
         end
@@ -148,9 +149,9 @@ module Adpla
 
       def spawn
         if Adpla::Relation === self
-          Adpla::Relation.new(@klass, @api, @values.dup)
+          Adpla::Relation.new(@klass, self.api, @values.dup)
         else
-          Adpla::Relation.new(self.class, @api, {})
+          Adpla::Relation.new(self, self.api, {})
         end
       end
 
@@ -243,7 +244,11 @@ module Adpla
       def build_facet(arel, facet_values)
         facets = []
         facet_values.each do |facet|
-          facets << facet.left.name.to_sym if ::Arel::Nodes::Equality === facet
+          if ::Arel::Nodes::Equality === facet
+            facets << facet.left.name.to_sym
+          else
+            facets << facet.to_sym
+          end
         end
         arel.facets = facets.uniq
       end

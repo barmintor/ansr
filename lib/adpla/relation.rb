@@ -1,4 +1,5 @@
 require 'yaml'
+require 'blacklight'
 module Adpla
   class Relation < ::ActiveRecord::Relation
     attr_accessor :facets, :count, :context, :api, :resource
@@ -96,7 +97,7 @@ module Adpla
       default_scoped = with_default_scope
 
       if default_scoped.equal?(self)
-        @response = YAML.load(@api.send(self.resource, arel.query_opts)) || {}
+        @response = YAML.load(self.api.send(self.resource, arel.query_opts)) || {}
         @records = (@response['docs'] || []).collect do |d|
           arel.aliases.each do |k,v|
             d[v] = d.delete(k)
