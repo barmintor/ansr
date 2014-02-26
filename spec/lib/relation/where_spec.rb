@@ -34,7 +34,7 @@ describe Adpla::Relation do
       @mock_api.should_receive(:items).with(:q => 'kittens').and_return('')
       test.load
     end
-    describe '#where.not' do
+    describe '#not' do
       it 'should exclude a specified map of field values' do
         test = Adpla::Relation.new(Item, @mock_api)
         test = test.where(:foo =>'kittens')
@@ -47,15 +47,24 @@ describe Adpla::Relation do
         test = Adpla::Relation.new(Item, @mock_api)
         test = test.where('kittens')
         test = test.where.not('cats')
-        @mock_api.should_receive(:items).with(:q => 'kittens AND NOT cats').and_return('')
+        @mock_api.should_receive(:items).with(:q => ['kittens', 'NOT cats']).and_return('')
         test.load
       end
 
       pending 'should exclude a specified field' do
         test = Adpla::Relation.new(Item, @mock_api)
-        test = test.where(:q => 'kittens')
+        test = test.where(:foo => 'kittens')
         test = test.where.not('cats')
-        @mock_api.should_receive(:items).with(:q => 'kittens AND NOT cats').and_return('')
+        @mock_api.should_receive(:items).with(:foo => 'kittens', :q => 'NOT cats').and_return('')
+        test.load
+      end
+    end
+    describe '#or' do
+      pending 'should union a specified map of field values' do
+        test = Adpla::Relation.new(Item, @mock_api)
+        test = test.where(:foo =>'kittens')
+        test = test.where.or(:foo => 'cats')
+        @mock_api.should_receive(:items).with(:foo => ['kittens', 'OR cats']).and_return('')
         test.load
       end
     end
