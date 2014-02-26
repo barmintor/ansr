@@ -87,14 +87,23 @@ module Adpla
         @values[:facet] = values
       end
 
-      def facet(*args)
+      def facet(args)
         check_if_method_has_arguments!("facet", args)
-        spawn.facet!(*args)
+        spawn.facet!(args)
       end
 
-      def facet!(*args)
-        self.facet_values += build_where(args) unless args.empty?
-
+      def facet!(args)
+        unless args.empty?
+          facet_where = build_where(args)
+          facet_where.each do |fnode|
+            facet_name = fnode.left.name.to_sym
+            if FACETS.include? facet_name
+              self.facet_values += facet_where
+            else
+              raise "#{facet_name.to_s} is not a facetable value"
+            end
+          end
+        end
         self
       end
 
@@ -162,7 +171,8 @@ module Adpla
         build_order(arel)
 
         build_select(arel, select_values.uniq)
-
+        build_facet(arel, facet_values.uniq)
+        collapse_wheres(arel, (facet_values - ['']).uniq)
         arel
       end
 
@@ -210,6 +220,13 @@ module Adpla
         arel.fields = selects.join(',') unless selects.empty?
       end
 
+      def build_facet(arel, facet_values)
+        facets = []
+        facet_values.each do |facet|
+          facets << facet.left.name.to_sym if ::Arel::Nodes::Equality === facet
+        end
+        arel.facets = facets.uniq
+      end
   	end
   end
 end

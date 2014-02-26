@@ -9,23 +9,23 @@ describe Adpla::Relation do
   end
   describe '#facet' do
 	  it "do a single field, single value facet" do
-	    test = Adpla::Relation.new(Item, @mock_api).facet(:"provider.name"=>'kittens')
-	    @mock_api.should_receive(:items).with(:"provider.name" => 'kittens', :facets => :"provider.name").and_return('')
+	    test = Adpla::Relation.new(Item, @mock_api).facet(:object=>'kittens')
+	    @mock_api.should_receive(:items).with(:object => 'kittens', :facets => :object).and_return('')
 	    test.load
 	  end
 	  it "do a single field, multiple value facet" do
-	    test = Adpla::Relation.new(Item, @mock_api).facet(:"provider.name"=>['kittens', 'cats'])
-	    @mock_api.should_receive(:items).with(:"provider.name" => ['kittens','cats'], :facets => :"provider.name").and_return('')
+	    test = Adpla::Relation.new(Item, @mock_api).facet(:object=>['kittens', 'cats'])
+	    @mock_api.should_receive(:items).with(:object => ['kittens','cats'], :facets => :object).and_return('')
 	    test.load
 	  end
 	  it "do merge single field, multiple value facets" do
-	    test = Adpla::Relation.new(Item, @mock_api).facet(:q=>'kittens').facet(:q=>'cats')
+	    test = Adpla::Relation.new(Item, @mock_api).facet(:"provider.name"=>'kittens').facet(:"provider.name"=>'cats')
 	    @mock_api.should_receive(:items).with(:"provider.name" => ['kittens','cats'], :facets => :"provider.name").and_return('')
 	    test.load
 	  end
 	  it "do a multiple field, single value facet" do
-	    test = Adpla::Relation.new(Item, @mock_api).facet(:q=>'kittens',:foo=>'bears')
-	    @mock_api.should_receive(:items).with(:q => 'kittens', :foo=>'bears', :facets => [:q, :foo]).and_return('')
+	    test = Adpla::Relation.new(Item, @mock_api).facet(:object=>'kittens',:isShownAt=>'bears')
+	    @mock_api.should_receive(:items).with(:object => 'kittens', :isShownAt=>'bears', :facets => [:object, :isShownAt]).and_return('')
 	    test.load
 	  end
 	  it "should keep scope distinct from spawned Relations" do
@@ -55,11 +55,12 @@ describe Adpla::Relation do
     end
     it 'should dispatch a query with no docs requested if not loaded' do
       test = Adpla::Relation.new(Item, @mock_api).where(:q=>'kittens')
-      @mock_api.should_receive(:items).with(:q => 'kittens').and_return(@faceted)
+      @mock_api.should_receive(:items).with(:q => 'kittens', :page_size=>0).once.and_return(@faceted)
       fkey = test.facets.keys.first
       facet = test.facets[fkey]
       expect(facet).to be_a(Blacklight::SolrResponse::Facets::FacetField)
       expect(test.loaded?).to be_false
+      test.facets # make sure we memoized the facet values
     end
   end
 

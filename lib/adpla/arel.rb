@@ -83,6 +83,12 @@ module Adpla
           @query_opts[:page] = (value.to_i / (@query_opts[:page_size] || Relation::DEFAULT_PAGE_SIZE)) + 1
         end
       end
+
+      def facets=(values)
+        unless values.empty?
+          @query_opts[:facets] = (values[1]) ? values : values[0]
+        end
+      end
     end
 
     class BigTable

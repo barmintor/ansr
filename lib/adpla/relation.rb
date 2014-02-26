@@ -65,19 +65,28 @@ module Adpla
     end
 
     def facets
-      self.load
-      f = {}
-      (@response['facets'] || {}).inject(f) do |h,(k,v)|
-        if v['total'] = 0
-          items = v['terms'].collect do |term|
-            Blacklight::SolrResponse::Facets::FacetItem.new(:value => term['term'], :hits => term['count'])
+      if loaded?
+        @facet_cache ||= begin
+          f = {}
+          (@response['facets'] || {}).inject(f) do |h,(k,v)|
+            if v['total'] = 0
+              items = v['terms'].collect do |term|
+                Blacklight::SolrResponse::Facets::FacetItem.new(:value => term['term'], :hits => term['count'])
+              end
+              options = {:sort => 'asc', :offset => 0}
+              h[k] = Blacklight::SolrResponse::Facets::FacetField.new k, items, options
+            end
+            h
           end
-          options = {:sort => 'asc', :offset => 0}
-          h[k] = Blacklight::SolrResponse::Facets::FacetField.new k, items, options
+          f
         end
-        h
+      else
+        @facet_cache ||= begin 
+          query = self.limit(0)
+          query.load
+          query.facets
+        end
       end
-      f
     end
 
     private
@@ -104,6 +113,7 @@ module Adpla
 
       self.limit_value = DEFAULT_PAGE_SIZE unless self.limit_value
       self.offset_value = 0 unless self.offset_value
+      @facet_cache = nil # unload any cached facets
       @loaded = true
       @records
     end
