@@ -109,7 +109,7 @@ describe Adpla::Relation do
       @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo).and_return('')
       test.load
     end
-    
+
     it "should replace existing ASC order" do
       test = Adpla::Relation.new(Item, @mock_api).where(q:'kittens').order("foo ASC")
       test = test.reverse_order
@@ -186,6 +186,12 @@ describe Adpla::Relation do
       mock_api.should_receive(:items).with(:q => 'kittens', :page_size=>17).and_return('')
       test = test.limit(17)
       test.load
+    end
+    it "should raise an error if limit > 500" do
+      mock_api = double('api')
+      test = Adpla::Relation.new(Item, mock_api).where(q:'kittens')
+      test = test.limit(500)
+      expect {test.load }.to raise_error
     end
   end
 

@@ -72,7 +72,10 @@ module Adpla
       end
 
       def take(value=nil)
-        @query_opts[:page_size] = value.to_i if value
+        if value and (value = value.to_i)
+          raise "Page size cannot be > 500 (#{value}" if value > 500
+          @query_opts[:page_size] = value
+        end
       end
 
       def skip(value=nil)
