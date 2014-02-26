@@ -4,6 +4,26 @@ module Adpla
   	module Querying
       include ActiveRecord::QueryMethods
 
+      ActiveRecord::QueryMethods::WhereChain.class_eval <<-RUBY
+        def or(opts, *rest)
+          where_value = @scope.send(:build_where, opts, rest).map do |rel|
+            case rel
+            when ::Arel::Nodes::In
+              next rel
+            when ::Arel::Nodes::Equality
+              # ::Arel::Nodes::OrEqual.new(rel.left, rel.right)
+              ::Arel::Nodes::Or.new(rel.left, rel.right)
+            when String
+              ::Arel::Nodes::Or.new(::Arel::Nodes::SqlLiteral.new(rel))
+            else
+              ::Arel::Nodes::Or.new(rel)
+            end
+          end
+          @scope.where_values += where_value.flatten
+          @scope
+        end
+      RUBY
+
       FIELDS = [
         # can we list the fields from the DPLA v2 api?
       ]

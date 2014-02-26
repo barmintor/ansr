@@ -60,7 +60,7 @@ describe Adpla::Relation do
       end
     end
     describe '#or' do
-      pending 'should union a specified map of field values' do
+      it 'should union a specified map of field values' do
         test = Adpla::Relation.new(Item, @mock_api)
         test = test.where(:foo =>'kittens')
         test = test.where.or(:foo => 'cats')

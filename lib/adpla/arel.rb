@@ -23,12 +23,17 @@ module Adpla
               end
             when ::Arel::Nodes::Grouping
               n = node.expr
-              if ::Arel::Nodes::NotEqual === n
-                val = "NOT #{n.right}"
-                if @query_opts[n.left.name.to_sym]
-                  @query_opts[n.left.name.to_sym] = Array[@query_opts[n.left.name.to_sym]] << val
-                else
-                  @query_opts[n.left.name.to_sym] = val
+              if ::Arel::Nodes::Binary === n
+                prefix = nil
+                prefix = "NOT" if (::Arel::Nodes::NotEqual === n)
+                prefix = "OR" if (::Arel::Nodes::Or === n)
+                if prefix
+                  val = "#{prefix} #{n.right}"
+                  if @query_opts[n.left.name.to_sym]
+                    @query_opts[n.left.name.to_sym] = Array[@query_opts[n.left.name.to_sym]] << val
+                  else
+                    @query_opts[n.left.name.to_sym] = val
+                  end
                 end
               end
             else
