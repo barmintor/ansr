@@ -99,40 +99,40 @@ module Adpla
         :"provider.name",
       ]
 
-      def facet_values
-        @values[:facet] || []
+      def filter_values
+        @values[:filter] || []
       end
 
-      def facet_values=(values)
+      def filter_values=(values)
         raise ImmutableRelation if @loaded
-        @values[:facet] = values
+        @values[:filter] = values
       end
 
-      def facet(args)
-        check_if_method_has_arguments!("facet", args)
-        spawn.facet!(args)
+      def filter(args)
+        check_if_method_has_arguments!("filter", args)
+        spawn.filter!(args)
       end
 
-      def facet!(args)
+      def filter!(args)
         unless args.empty?
-          facet_where = build_where(args)
-          facet_where.each do |fnode|
-            facet_name = (::Arel::Nodes::Binary === fnode) ? fnode.left.name.to_sym : fnode.to_sym
-            if FACETS.include? facet_name
-              self.facet_values += facet_where
+          filter_where = build_where(args)
+          filter_where.each do |fnode|
+            filter_name = (::Arel::Nodes::Binary === fnode) ? fnode.left.name.to_sym : fnode.to_sym
+            if FACETS.include? filter_name
+              self.filter_values += filter_where
             else
-              raise "#{facet_name} is not a facetable value"
+              raise "#{filter_name} is not a filterable value"
             end
           end
         end
         self
       end
 
-      def all_facets
+      def all_filter_fields
         FACETS
       end
 
-      def sorts
+      def all_sort_fields
         SORTS
       end
 
@@ -160,7 +160,7 @@ module Adpla
       end
 
       def arel_table
-        @big_table ||= Adpla::Arel::BigTable.new({:fields => FIELDS, :facets => FACETS, :sorts => SORTS})
+        @big_table ||= Adpla::Arel::BigTable.new({:fields => FIELDS, :filters => FACETS, :sorts => SORTS})
       end
 
       def with_default_scope #:nodoc:
@@ -192,8 +192,8 @@ module Adpla
         build_order(arel)
 
         build_select(arel, select_values.uniq)
-        build_facet(arel, facet_values.uniq)
-        collapse_wheres(arel, (facet_values - ['']).uniq)
+        build_filter(arel, filter_values.uniq)
+        collapse_wheres(arel, (filter_values - ['']).uniq)
         arel
       end
 
@@ -241,16 +241,16 @@ module Adpla
         arel.fields = selects.join(',') unless selects.empty?
       end
 
-      def build_facet(arel, facet_values)
-        facets = []
-        facet_values.each do |facet|
-          if ::Arel::Nodes::Equality === facet
-            facets << facet.left.name.to_sym
+      def build_filter(arel, filter_values)
+        filters = []
+        filter_values.each do |filter|
+          if ::Arel::Nodes::Equality === filter
+            filters << filter.left.name.to_sym
           else
-            facets << facet.to_sym
+            filters << filter.to_sym
           end
         end
-        arel.facets = facets.uniq
+        arel.filters = filters.uniq
       end
   	end
   end

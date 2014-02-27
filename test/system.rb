@@ -8,12 +8,12 @@ opts = {q: 'kittens', facets: 'sourceResource.contributor', fields: 'sourceResou
 puts Item.api.items_path(opts)
 rel = Item.where(opts)
 rel.to_a
-rel = Item.where(q: 'kittens').limit(2).facet('sourceResource.contributor').select('sourceResource.title')
+rel = Item.where(q: 'kittens').limit(2).filter('sourceResource.contributor').select('sourceResource.title')
 rel.to_a.each do |item|
   puts "#{item.__id__} \"#{item['sourceResource.title']}\""
 end
 
-rel.facets.each do |k,f|
+rel.filters.each do |k,f|
   puts "#{k} values"
   f.items.each do |item|
     puts "  \"#{item.value}\" : #{item.hits}"
@@ -26,7 +26,7 @@ rel.to_a.each do |item|
   puts "#{item.__id__} \"#{item['sourceResource.title']}\""
 end
 
-rel.facets.each do |k,f|
+rel.filters.each do |k,f|
   puts "#{k} values"
   f.items.each do |item|
     puts "  \"#{item.value}\" : #{item.hits}"

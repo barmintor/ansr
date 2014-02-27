@@ -2,7 +2,7 @@ require 'yaml'
 require 'blacklight'
 module Adpla
   class Relation < ::ActiveRecord::Relation
-    attr_accessor :facets, :count, :context, :api, :resource
+    attr_accessor :filters, :count, :context, :api, :resource
 
     DEFAULT_PAGE_SIZE = 10
     
@@ -65,9 +65,9 @@ module Adpla
       @response['count']
     end
 
-    def facets
+    def filters
       if loaded?
-        @facet_cache ||= begin
+        @filter_cache ||= begin
           f = {}
           (@response['facets'] || {}).inject(f) do |h,(k,v)|
             if v['total'] = 0
@@ -82,10 +82,10 @@ module Adpla
           f
         end
       else
-        @facet_cache ||= begin 
+        @filter_cache ||= begin 
           query = self.limit(0)
           query.load
-          query.facets
+          query.filters
         end
       end
     end
@@ -114,7 +114,7 @@ module Adpla
 
       self.limit_value = DEFAULT_PAGE_SIZE unless self.limit_value
       self.offset_value = 0 unless self.offset_value
-      @facet_cache = nil # unload any cached facets
+      @filter_cache = nil # unload any cached filters
       @loaded = true
       @records
     end

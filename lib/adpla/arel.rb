@@ -89,7 +89,7 @@ module Adpla
         end
       end
 
-      def facets=(values)
+      def filters=(values)
         unless values.empty?
           @query_opts[:facets] = (values[1]) ? values : values[0]
         end
