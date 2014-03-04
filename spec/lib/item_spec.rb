@@ -28,7 +28,7 @@ describe Item do
     	Item.configure({:api=>Adpla::TestApi, :api_key => :dummy})
     end
   	it 'should return a Relation when there is query information' do
-      expect(Item.where({:q=>'kittens'})).to be_a Adpla::Relation
+      expect(Item.where({:q=>'kittens'})).to be_a ActiveNoSql::Relation
   	end
     it 'should return itself when there is no query information' do
       expect(Item.where({})).to be Item

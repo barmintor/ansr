@@ -1,10 +1,13 @@
 require 'rest_client'
 module Adpla
   class Api
-    include Adpla::Configurable
+    include ActiveNoSql::Configurable
 
     API_PARAM_KEYS = [:api_key, :callback, :facets, :fields, :page, :page_size, :sort_by, :sort_by_pin, :sort_order]
 
+    def initialize(config=nil)
+      self.config(config) if config
+    end
 
     def api_key
       config[:api_key]

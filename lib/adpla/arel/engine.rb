@@ -1,8 +1,8 @@
 module Adpla
-  module Model
-    module Methods
-      include Adpla::Configurable
+  module Arel
+    class Engine
 
+      include ActiveNoSql::Configurable
       alias_method :configure, :"config"
 
       def api
@@ -16,6 +16,7 @@ module Adpla
       def api=(api)
         @api = api
       end
+
     end
   end
 end

@@ -1,23 +1,15 @@
 require 'yaml'
 require 'blacklight'
-module Adpla
+module ActiveNoSql
   class Relation < ::ActiveRecord::Relation
     attr_accessor :filters, :count, :context, :api, :resource
 
     DEFAULT_PAGE_SIZE = 10
     
-    include Adpla::Model::Querying
+    include QueryMethods, ArelMethods
 
-    attr_reader :klass, :loaded
-    attr_accessor :default_scoped
-    alias :model :klass
-    alias :loaded? :loaded
-    alias :default_scoped? :default_scoped
-
-    def initialize(klass, api, values = {})
-    	@api = api
-      @klass = klass
-      @values = values
+    def initialize(klass, values = {})
+      super(klass, klass.table, values)
     end
 
     def resource
@@ -90,6 +82,10 @@ module Adpla
       end
     end
 
+    def spawn
+      Relation.new(@klass, @values.dup)
+    end
+
     private
 
 
@@ -97,12 +93,10 @@ module Adpla
       default_scoped = with_default_scope
 
       if default_scoped.equal?(self)
-        @response = YAML.load(self.api.send(self.resource, arel.query_opts)) || {}
+        #@response = YAML.load(self.api.send(self.resource, arel.query_opts)) || {}
+        @response = model.find_by_nosql(arel, bind_values)
         @records = (@response['docs'] || []).collect do |d|
-          arel.aliases.each do |k,v|
-            d[v] = d.delete(k)
-          end
-          @klass.new(d)
+          model.new(d)
         end
 
         # this is ceremonial, it's always true

@@ -1,6 +1,6 @@
 module Adpla
   class TestApi
-  	include Adpla::Configurable
+  	include ActiveNoSql::Configurable
     def items(opts={})
     end
     def collections(opts={})
