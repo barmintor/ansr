@@ -3,6 +3,7 @@ module ActiveNoSql
   extend ActiveSupport::Autoload
   eager_autoload do
     autoload :Configurable
+    autoload :BigTable
     autoload :Base
     autoload :Model
     autoload :Relation

@@ -27,6 +27,14 @@ module Adpla
         @big_table = table
       end
 
+      def self.engine
+        @engine ||= begin
+          e = Adpla::Arel::Engine.new
+          e.config(self.config)
+          e
+        end
+      end
+
       def self.api
         @api ||= begin
           a = (config[:api] || Adpla::Api).new

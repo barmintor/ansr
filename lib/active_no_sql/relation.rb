@@ -8,8 +8,8 @@ module ActiveNoSql
     
     include QueryMethods, ArelMethods
 
-    def initialize(klass, values = {})
-      super(klass, klass.table, values)
+    def initialize(klass, table, values = {})
+      super(klass, table, values)
     end
 
     def resource
@@ -83,7 +83,7 @@ module ActiveNoSql
     end
 
     def spawn
-      Relation.new(@klass, @values.dup)
+      Relation.new(@klass, @table, @values.dup)
     end
 
     private

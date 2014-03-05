@@ -1,7 +1,6 @@
 module Adpla
   module Arel
-    class BigTable
-      include ActiveNoSql::Configurable
+    class BigTable < ActiveNoSql::BigTable
       FIELDS = [
         # can we list the fields from the DPLA v2 api?
       ]
@@ -77,27 +76,15 @@ module Adpla
       ]
 
       def initialize(klass, opts={})
-        @name = klass.name
+        super(klass)
         @fields = (opts[:fields] || FIELDS).dup
         @facets = (opts[:facets] || FACETS).dup
         @sorts = (opts[:sorts] || SORTS).dup
         self.config(opts[:config]) if opts[:config]
       end
-
-      def name
-        @name
-      end
       
       def [](name)
         ::Arel::Attribute.new(self, name)
-      end
-
-      def engine
-        @engine ||= begin
-          e = Engine.new
-          e.config(self.config)
-          e
-        end
       end
 
     end

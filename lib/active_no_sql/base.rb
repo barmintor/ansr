@@ -14,11 +14,11 @@ module ActiveNoSql
     end
 
     def self.engine
-      table().engine
+      raise 'Implementing classes must provide an Engine factory'
     end
 
     def self.spawn
-      ActiveNoSql::Relation.new(self)
+      ActiveNoSql::Relation.new(self, self.table)
     end
 
     def self.inherited(subclass)
