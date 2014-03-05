@@ -6,10 +6,12 @@ module ActiveNoSql
 
     DEFAULT_PAGE_SIZE = 10
     
-    include QueryMethods, ArelMethods
+    include Sanitization::ClassMethods
+    include QueryMethods
 
-    def initialize(klass, values = {})
-      super(klass, klass.table, values)
+    def initialize(klass, table, values = {})
+      raise "Cannot search nil model" if klass.nil?
+      super(klass, table, values)
     end
 
     def resource
@@ -83,7 +85,9 @@ module ActiveNoSql
     end
 
     def spawn
-      Relation.new(@klass, @values.dup)
+      s = self.class.new(@klass, @table, @values.dup)
+      s.references!(references_values())
+      s
     end
 
     private

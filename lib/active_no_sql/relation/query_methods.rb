@@ -44,26 +44,49 @@ module ActiveNoSql
 
       filter_where = build_filter(args)
       return self unless filter_where
-
       filter_name = filter_name(filter_where)
       if (filter_name)
-        self.where_values += filter_where
-        select!(filter_name)
+        @klass = @klass.view(*filter_where)
+        model().projections += Array(filter_name)
       end
     
       self
     end
 
-    def filter_name(filter_where)
-      if filter_where.is_a? Array
-        return filter_where.collect{|x| filter_name(x)}.compact
+    def filter_name(expr)
+      connection.sanitize_filter_name(field_name(expr))
+    end
+
+    def field_name(expr)
+      if expr.is_a? Array
+        return expr.collect{|x| field_name(x)}.compact
       else
-        filter_name = (::Arel::Nodes::Binary === filter_where) ? filter_where.left.name.to_sym : filter_where.to_sym
-        filter_name = connection.sanitize_filter_name(filter_name)
-        if filter_name
-          filter_name = filter_name =~ /filters\./ ? filter_name : "filters.#{filter_name.to_s}"
+        case expr
+        when ::Arel::Nodes::Binary
+          if expr.left.relation.name != model().name
+            # oof, this is really hacky
+            field_name = "#{expr.left.relation.name}.#{expr.left.name}".to_sym
+          else
+            field_name = expr.left.name.to_sym
+          end
+        when ::Arel::Attributes::Attribute
+          if expr.relation.name != model().name
+            # oof, this is really hacky
+            field_name = "#{expr.relation.name}.#{expr.name}".to_sym
+          else
+            field_name = expr.name.to_sym
+          end
+        when ::Arel::Nodes::Unary
+          if expr.expr.relation.name != model().name
+            # oof, this is really hacky
+            field_name = "#{expr.expr.relation.name}.#{expr.expr.name}".to_sym
+          else
+            field_name = expr.expr.name.to_sym
+          end
+        else
+          field_name = expr.to_sym
         end
-        return filter_name
+        return field_name
       end
     end
 
@@ -106,10 +129,9 @@ module ActiveNoSql
             self.bind_values += rel.bind_values
           end
           opts = (other.empty? ? opts : ([opts] + other))
-          [opts]
-          [@klass.send(:sanitize_sql, opts)]
+          [model().send(:sanitize_sql, opts, model().table_name)]
         when Hash
-          attributes = @klass.send(:expand_hash_conditions_for_aggregates, opts)
+          attributes = model().send(:expand_hash_conditions_for_sql_aggregates, opts)
 
           attributes.keys.each do |k|
             sk = filter_name(k)
@@ -119,7 +141,7 @@ module ActiveNoSql
             self.bind_values += rel.bind_values
           end
 
-          ActiveRecord::PredicateBuilder.build_from_hash(klass, attributes, table)
+          ActiveRecord::PredicateBuilder.build_from_hash(model(), attributes, model().table)
         else
           [opts]
       end

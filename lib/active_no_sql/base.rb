@@ -4,27 +4,19 @@ module ActiveNoSql
     extend ActiveNoSql::Configurable
     extend ActiveNoSql::QueryMethods
     extend ActiveNoSql::ArelMethods
+    include ActiveNoSql::Sanitization
 
-    def self.table
-      raise 'Implementing classes must provide a BigTable reader'
+    self.abstract_class = true
+    
+    def initialize doc={}
+      @doc = doc
     end
 
-    def self.table=(table)
-      raise 'Implementing classes must provide a BigTable writer'
+    def [](key)
+      @doc[key]
     end
 
-    def self.engine
-      table().engine
+    def readonly!
     end
-
-    def self.spawn
-      ActiveNoSql::Relation.new(self)
-    end
-
-    def self.inherited(subclass)
-      # a hack for sanitize sql overrides to work, and some others where @klass used in place of klass()
-      subclass.instance_variable_set(:"@klass", subclass)
-    end
-
   end
 end

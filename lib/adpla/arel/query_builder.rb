@@ -14,13 +14,13 @@ module Adpla
         arel_nodes = [arel_nodes].compact unless arel_nodes.respond_to? :each
         arel_nodes.each.select {|an| ::Arel::SqlLiteral === an}.each do |n|
           select_val = n.to_s.split(" AS ")
-          if (select_val[0] =~ /^filters\./)
-            add_facet(select_val[0])
-          else
-            add_field(select_val[0])
-          end
+          add_field(select_val[0])
           aliases[select_val[0]] = select_val[1] if select_val[1]
         end
+      end
+
+      def field_key_from_node(node)
+        table.model.field_name(node)
       end
 
       def add_field(field_name)
@@ -32,23 +32,24 @@ module Adpla
 
       def add_facet(field_name)
         return unless field_name
-        field_name = field_name.clone
-        field_name.sub!(/^filters\./,'')
+        field_name = Array(field_name).uniq
         if query_opts[:facets]
-          query_opts[:facets] = Array(query_opts[:facets]) << field_name.to_sym
+          query_opts[:facets] = (Array(query_opts[:facets]) + field_name).uniq
         else
-          query_opts[:facets] = field_name.to_sym
+          query_opts[:facets] = field_name[1] ? field_name : field_name[0]
         end
-      end        
+      end
 
       def where(arel_nodes)
-        arel_nodes.children.each do |node|
+          arel_nodes = (arel_nodes.respond_to? :each) ? arel_nodes : Array(arel_nodes)
+        arel_nodes.each do |node|
           case node
             when ::Arel::Nodes::Equality
-              if @query_opts[node.left.name.to_sym]
-                @query_opts[node.left.name.to_sym] = Array[@query_opts[node.left.name.to_sym]] << node.right
+              field_key = field_key_from_node(node.left)
+              if @query_opts[field_key]
+                @query_opts[field_key] = (Array(@query_opts[field_key]) << node.right)
               else
-                @query_opts[node.left.name.to_sym] = node.right
+                @query_opts[field_key] = node.right
               end
             when ::Arel::Nodes::Grouping
               n = node.expr
@@ -58,15 +59,17 @@ module Adpla
                 prefix = "OR" if (::Arel::Nodes::Or === n)
                 if prefix
                   val = "#{prefix} #{n.right}"
-                  if @query_opts[n.left.name.to_sym]
-                    @query_opts[n.left.name.to_sym] = Array[@query_opts[n.left.name.to_sym]] << val
-                  else
-                    @query_opts[n.left.name.to_sym] = val
-                  end
+                else
+                  val = n.right
+                end
+                field_key = field_key_from_node(n)
+                if @query_opts[field_key]
+                  @query_opts[field_key] = Array(@query_opts[field_key]) << val
+                else
+                  @query_opts[field_key] = val
                 end
               end
-            else
-              Rails.logger.warn "GOT AN UNEXPECTED NODE #{node.inspect}"
+            when ::Arel::Attributes::Attribute # this is the field references
           end
         end
       end

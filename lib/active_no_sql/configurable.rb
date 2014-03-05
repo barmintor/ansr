@@ -10,7 +10,6 @@ module ActiveNoSql
             yaml
           end
         end
-        raise "DPLA clients must be configured with an API key" unless y[:api_key]
         y
       end : @config
     end

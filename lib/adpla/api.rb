@@ -3,6 +3,13 @@ module Adpla
   class Api
     include ActiveNoSql::Configurable
 
+    def config(yaml=nil)
+      super
+      raise "DPLA clients must be configured with an API key" unless @config[:api_key]
+      @config
+    end
+
+
     API_PARAM_KEYS = [:api_key, :callback, :facets, :fields, :page, :page_size, :sort_by, :sort_by_pin, :sort_order]
 
     def initialize(config=nil)

@@ -6,15 +6,8 @@ module ActiveNoSql
       @arel ||= build_arel
     end
 
-    def build_arel
-      arel = super
-      build_filter(arel, filter_values.uniq)
-      #collapse_wheres(arel, (filter_values - ['']).uniq)
-      arel
-    end
-
     def arel_table
-      model.table
+      model().table
     end
 
   end
