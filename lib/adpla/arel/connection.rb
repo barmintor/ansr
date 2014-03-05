@@ -52,6 +52,10 @@ module Adpla
         true
       end
 
+      def schema_cache(*args)
+        @table
+      end
+
       def sanitize_limit(limit_value)
         if limit_value.to_s.to_i > -1
           limit_value

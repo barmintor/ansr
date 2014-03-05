@@ -47,7 +47,7 @@ module ActiveNoSql
 
       filter_name = filter_name(filter_where)
       if (filter_name)
-        self.where_values += filter_where
+        self.table = self.table.view(filter_where)
         select!(filter_name)
       end
     
@@ -61,7 +61,7 @@ module ActiveNoSql
         filter_name = (::Arel::Nodes::Binary === filter_where) ? filter_where.left.name.to_sym : filter_where.to_sym
         filter_name = connection.sanitize_filter_name(filter_name)
         if filter_name
-          filter_name = filter_name =~ /filters\./ ? filter_name : "filters.#{filter_name.to_s}"
+          #filter_name = filter_name =~ /filters\./ ? filter_name : "filters.#{filter_name.to_s}"
         end
         return filter_name
       end
@@ -107,7 +107,7 @@ module ActiveNoSql
           end
           opts = (other.empty? ? opts : ([opts] + other))
           [opts]
-          [@klass.send(:sanitize_sql, opts)]
+          #[@klass.send(:sanitize_sql, opts)]
         when Hash
           attributes = @klass.send(:expand_hash_conditions_for_aggregates, opts)
 

@@ -29,6 +29,10 @@ module ActiveNoSql
       @constraints = constraints
     end
 
+    def view?
+      @constraints and @constraints.length > 0
+    end
+
     def dup2
       dup = self.class.new(@klass, self.engine)
       dup.aliases = self.aliases.dup

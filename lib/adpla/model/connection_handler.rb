@@ -10,7 +10,7 @@ module Adpla
         klass.connection
       end
 
-      def connected?
+      def connected?(*args)
         true
       end
     end

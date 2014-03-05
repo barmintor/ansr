@@ -1,8 +1,11 @@
 module ActiveNoSql
   module Model
   	module Methods
+  		def model=(klass)
+  			@klass = klass
+      end
 	    def model
-	      self
+	      @klass
 	    end
 
 	    def build_default_scope

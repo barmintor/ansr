@@ -43,31 +43,39 @@ module Adpla
 
       def where(arel_nodes)
         arel_nodes.children.each do |node|
-          case node
-            when ::Arel::Nodes::Equality
-              if @query_opts[node.left.name.to_sym]
-                @query_opts[node.left.name.to_sym] = Array[@query_opts[node.left.name.to_sym]] << node.right
-              else
-                @query_opts[node.left.name.to_sym] = node.right
-              end
-            when ::Arel::Nodes::Grouping
-              n = node.expr
-              if ::Arel::Nodes::Binary === n
-                prefix = nil
-                prefix = "NOT" if (::Arel::Nodes::NotEqual === n)
-                prefix = "OR" if (::Arel::Nodes::Or === n)
-                if prefix
-                  val = "#{prefix} #{n.right}"
-                  if @query_opts[n.left.name.to_sym]
-                    @query_opts[n.left.name.to_sym] = Array[@query_opts[n.left.name.to_sym]] << val
-                  else
-                    @query_opts[n.left.name.to_sym] = val
-                  end
+          add_where_query(node)
+        end
+        puts arel_nodes.inspect
+        if arel_nodes.table.view?
+          arel_nodes.table.view_constraints.each {|vc| add_where_query(vc)}
+        end
+      end
+
+      def add_where_query(node)
+        case node
+          when ::Arel::Nodes::Equality
+            if @query_opts[node.left.name.to_sym]
+              @query_opts[node.left.name.to_sym] = Array[@query_opts[node.left.name.to_sym]] << node.right
+            else
+              @query_opts[node.left.name.to_sym] = node.right
+            end
+          when ::Arel::Nodes::Grouping
+            n = node.expr
+            if ::Arel::Nodes::Binary === n
+              prefix = nil
+              prefix = "NOT" if (::Arel::Nodes::NotEqual === n)
+              prefix = "OR" if (::Arel::Nodes::Or === n)
+              if prefix
+                val = "#{prefix} #{n.right}"
+                if @query_opts[n.left.name.to_sym]
+                  @query_opts[n.left.name.to_sym] = Array[@query_opts[n.left.name.to_sym]] << val
+                else
+                  @query_opts[n.left.name.to_sym] = val
                 end
               end
-            else
-              Rails.logger.warn "GOT AN UNEXPECTED NODE #{node.inspect}"
-          end
+            end
+          else
+            Rails.logger.warn "GOT AN UNEXPECTED NODE #{node.inspect}"
         end
       end
 

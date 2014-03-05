@@ -23,7 +23,7 @@ module ActiveNoSql
 
     def self.inherited(subclass)
       # a hack for sanitize sql overrides to work, and some others where @klass used in place of klass()
-      subclass.instance_variable_set(:"@klass", subclass)
+      self.model = subclass
     end
 
   end

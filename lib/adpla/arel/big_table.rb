@@ -87,6 +87,9 @@ module Adpla
         ::Arel::Attribute.new(self, name)
       end
 
+      def table_exists?(*args)
+        true
+      end
     end
   end
 end
