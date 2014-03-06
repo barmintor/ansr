@@ -18,7 +18,7 @@ module ActiveNoSql
     end
 
     def self.spawn
-      ActiveNoSql::Relation.new(self, self.table)
+      ActiveNoSql::Relation.new(self, self.table.spawn)
     end
 
     def self.inherited(subclass)
@@ -26,5 +26,22 @@ module ActiveNoSql
       self.model = subclass
     end
 
+    def self.reflect_on_association(column_sym)
+      DummyReflection.new(column_sym)
+    end
+
+    class DummyReflection
+      def initialize(symbol)
+        @symbol = symbol
+      end
+
+      def polymorphic?
+        false
+      end
+
+      def foreign_key
+        @symbol
+      end
+    end
   end
 end

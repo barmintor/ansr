@@ -6,6 +6,12 @@ module Adpla
         @query_opts = {}
         @aliases = {}
         @table = big_table
+        if big_table.view?
+          big_table.view_constraints.each do |vc|
+            add_where_query(vc)
+          end
+          filters=(big_table.view_projections)
+        end
       end
       def fields=(value)
         @query_opts[:fields] = value
@@ -14,11 +20,7 @@ module Adpla
         arel_nodes = [arel_nodes].compact unless arel_nodes.respond_to? :each
         arel_nodes.each.select {|an| ::Arel::SqlLiteral === an}.each do |n|
           select_val = n.to_s.split(" AS ")
-          if (select_val[0] =~ /^filters\./)
-            add_facet(select_val[0])
-          else
-            add_field(select_val[0])
-          end
+          add_field(select_val[0])
           aliases[select_val[0]] = select_val[1] if select_val[1]
         end
       end
@@ -45,19 +47,18 @@ module Adpla
         arel_nodes.children.each do |node|
           add_where_query(node)
         end
-        puts arel_nodes.inspect
-        if arel_nodes.table.view?
-          arel_nodes.table.view_constraints.each {|vc| add_where_query(vc)}
-        end
       end
 
       def add_where_query(node)
         case node
+          when Array
+            node.each {|n| add_where_query(n)}
           when ::Arel::Nodes::Equality
             if @query_opts[node.left.name.to_sym]
-              @query_opts[node.left.name.to_sym] = Array[@query_opts[node.left.name.to_sym]] << node.right
+              @query_opts[node.left.name.to_sym] = (Array(@query_opts[node.left.name.to_sym]) + Array(node.right)).uniq
             else
-              @query_opts[node.left.name.to_sym] = node.right
+              vals = Array(node.right).uniq
+              @query_opts[node.left.name.to_sym] = (vals[1] ? vals : vals[0])
             end
           when ::Arel::Nodes::Grouping
             n = node.expr
@@ -68,14 +69,21 @@ module Adpla
               if prefix
                 val = "#{prefix} #{n.right}"
                 if @query_opts[n.left.name.to_sym]
-                  @query_opts[n.left.name.to_sym] = Array[@query_opts[n.left.name.to_sym]] << val
+                  @query_opts[n.left.name.to_sym] = Array(@query_opts[n.left.name.to_sym]) << val
                 else
                   @query_opts[n.left.name.to_sym] = val
                 end
               end
             end
+          when Symbol # this is just a select field for facets, but we shouldn't be here!
+            add_facet(node.to_s)
           else
-            Rails.logger.warn "GOT AN UNEXPECTED NODE #{node.inspect}"
+            msg = "GOT AN UNEXPECTED NODE #{node.inspect}"
+            if Rails.logger
+              Rails.logger.warn msg
+            else
+              puts msg
+            end
         end
       end
 
@@ -128,7 +136,7 @@ module Adpla
 
       def filters=(values)
         unless values.empty?
-          @query_opts[:facets] = (values[1]) ? values : values[0]
+          @query_opts[:facets] = ((values[1]) ? values : values[0])
         end
       end
     end

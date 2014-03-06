@@ -4,6 +4,9 @@ module Adpla
 
       include ActiveNoSql::Configurable
       alias_method :configure, :"config"
+      def initialize(config=nil)
+        self.config(config) if config
+      end
 
       def api
         @api ||= begin

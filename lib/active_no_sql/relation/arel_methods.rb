@@ -8,7 +8,7 @@ module ActiveNoSql
 
     def build_arel
       arel = super
-      build_filter(arel, filter_values.uniq)
+      #build_filter(arel, filter_values.uniq)
       #collapse_wheres(arel, (filter_values - ['']).uniq)
       arel
     end
@@ -17,5 +17,8 @@ module ActiveNoSql
       model.table
     end
 
+    def arel_engine
+      model()
+    end
   end
 end

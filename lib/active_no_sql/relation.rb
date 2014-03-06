@@ -10,6 +10,7 @@ module ActiveNoSql
 
     def initialize(klass, table, values = {})
       super(klass, table, values)
+      references!(table.references)
     end
 
     def resource
@@ -75,7 +76,7 @@ module ActiveNoSql
         end
       else
         @filter_cache ||= begin 
-          query = self.limit(0)
+          query = limit(0)
           query.load
           query.filters
         end
@@ -83,7 +84,15 @@ module ActiveNoSql
     end
 
     def spawn
-      Relation.new(@klass, @table, @values.dup)
+      Relation.new(@klass, @table.spawn, @values.dup)
+    end
+
+    def arel_engine
+      model.engine(table)
+    end
+
+    def arel_table
+      table
     end
 
     private

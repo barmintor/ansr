@@ -2,7 +2,7 @@ require 'active_no_sql'
 module Adpla
   module Model
     class ConnectionHandler
-      def retrieve_connection(klass)
+      def retrieve_connection(klass) 
         Adpla::Arel::Connection.new(klass.table)
       end
 

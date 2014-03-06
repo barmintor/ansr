@@ -4,7 +4,10 @@ module Adpla
       def initialize(table)
         @table = table
         @method = table.name.downcase.pluralize.to_sym
-        @api = table.engine.api
+      end
+
+      def api
+        @api ||= @table.engine.api
       end
 
       def to_sql(*args)
@@ -12,7 +15,7 @@ module Adpla
       end
 
       def to_nosql(select_manager, bind_values)
-        qb = Adpla::Arel::QueryBuilder.new(@table)
+        qb = Adpla::Arel::QueryBuilder.new(select_manager.source.left)
         select_manager.constraints.each {|c| qb.where(c)}
         select_manager.orders.each {|c| qb.order(c)}
         select_manager.projections.each {|c| qb.select(c)}
@@ -22,13 +25,13 @@ module Adpla
       end
 
       def to_aliases(select_manager, bind_values)
-        qb = Adpla::Arel::QueryBuilder.new(@table)
+        qb = Adpla::Arel::QueryBuilder.new(select_manager.source.left)
         select_manager.projections.each {|c| qb.select(c)}
         qb.aliases
       end
 
       def execute(query, aliases = {})
-        json = @api.send(@method, query)
+        json = api().send(@method, query)
         json = json.length > 0 ? JSON.load(json) : {}
         if json['docs'] and aliases
           json['docs'].each do |doc|
@@ -64,19 +67,6 @@ module Adpla
         end
       end
 
-      def sanitize_filter_name(filter_value)
-        if filter_value.is_a? Array
-          return filter_value.collect {|x| sanitize_filter_name(x)}.compact
-        else
-          if BigTable::FACETS.include? filter_value.to_sym
-            return filter_value
-          else
-            raise "#{filter_value} is not a facetable field"
-            #Rails.logger.warn "Ignoring #{filter_value} (not a filterable field)" if Rails.logger
-            #return nil
-          end
-        end
-      end
     end
   end
 end

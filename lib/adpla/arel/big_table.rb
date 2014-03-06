@@ -75,8 +75,10 @@ module Adpla
         :"provider.name",
       ]
 
-      def initialize(klass, opts={})
-        super(klass)
+      REFERENCES = [:sourceResource, :hasView, :isPartOf, :provider]
+
+      def initialize(klass, engine=nil, opts={})
+        super(klass, engine)
         @fields = (opts[:fields] || FIELDS).dup
         @facets = (opts[:facets] || FACETS).dup
         @sorts = (opts[:sorts] || SORTS).dup
@@ -89,6 +91,24 @@ module Adpla
 
       def table_exists?(*args)
         true
+      end
+
+      def references
+        REFERENCES
+      end
+
+      def sanitize_filter_name(filter_value)
+        if filter_value.is_a? Array
+          return filter_value.collect {|x| sanitize_filter_name(x)}.compact
+        else
+          if BigTable::FACETS.include? filter_value.to_sym
+            return filter_value
+          else
+            raise "#{filter_value} is not a facetable field"
+            #Rails.logger.warn "Ignoring #{filter_value} (not a filterable field)" if Rails.logger
+            #return nil
+          end
+        end
       end
     end
   end

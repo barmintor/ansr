@@ -30,7 +30,6 @@ module ActiveNoSql
     end
 
     def filter_values=(values)
-      raise ImmutableRelation if @loaded
       @values[:filter] = values
     end
 
@@ -40,32 +39,17 @@ module ActiveNoSql
     end
 
     def filter!(args)
-      return self if args.empty?
+      return self if args.nil? or args.empty?
+      raise ImmutableRelation if @loaded
 
       filter_where = build_filter(args)
       return self unless filter_where
 
-      filter_name = filter_name(filter_where)
-      if (filter_name)
-        self.table = self.table.view(filter_where)
-        select!(filter_name)
-      end
+      self.table = self.table.view(filter_where)
     
       self
     end
 
-    def filter_name(filter_where)
-      if filter_where.is_a? Array
-        return filter_where.collect{|x| filter_name(x)}.compact
-      else
-        filter_name = (::Arel::Nodes::Binary === filter_where) ? filter_where.left.name.to_sym : filter_where.to_sym
-        filter_name = connection.sanitize_filter_name(filter_name)
-        if filter_name
-          #filter_name = filter_name =~ /filters\./ ? filter_name : "filters.#{filter_name.to_s}"
-        end
-        return filter_name
-      end
-    end
 
     def all_filter_fields
       FACETS
@@ -111,10 +95,6 @@ module ActiveNoSql
         when Hash
           attributes = @klass.send(:expand_hash_conditions_for_aggregates, opts)
 
-          attributes.keys.each do |k|
-            sk = filter_name(k)
-            attributes[sk] = attributes.delete(k) unless sk.eql? k.to_s
-          end
           attributes.values.grep(ActiveRecord::Relation) do |rel|
             self.bind_values += rel.bind_values
           end

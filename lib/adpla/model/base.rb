@@ -20,7 +20,7 @@ module Adpla
       end
 
       def self.table
-        @big_table ||= Adpla::Arel::BigTable.new(self, {:config => self.config})
+        @big_table ||= Adpla::Arel::BigTable.new(model(), nil, {:config => self.config})
       end
 
       def self.table=(table)
@@ -33,6 +33,7 @@ module Adpla
           e.config(self.config)
           e
         end
+        @engine
       end
 
       def self.api
@@ -65,6 +66,9 @@ module Adpla
         args
       end
 
+      def self.arel_engine
+        nil
+      end
     end
   end
 end
