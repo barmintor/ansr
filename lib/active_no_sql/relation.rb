@@ -2,7 +2,7 @@ require 'yaml'
 require 'blacklight'
 module ActiveNoSql
   class Relation < ::ActiveRecord::Relation
-    attr_accessor :filters, :count, :context, :api, :resource
+    attr_accessor :filters, :count, :context, :resource
 
     DEFAULT_PAGE_SIZE = 10
     
@@ -97,7 +97,6 @@ module ActiveNoSql
       default_scoped = with_default_scope
 
       if default_scoped.equal?(self)
-        #@response = YAML.load(self.api.send(self.resource, arel.query_opts)) || {}
         @response = model.find_by_nosql(arel, bind_values)
         @records = (@response['docs'] || []).collect do |d|
           model.new(d)

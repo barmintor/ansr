@@ -100,12 +100,12 @@ module ActiveNoSql
 
     def find(id)
       klass = model()
-      resource = klass.name.downcase.to_sym
-      response = YAML.load(@api.send(resource, id)) || {}
-      if response['count'] != 1
+      rel = klass.build_default_scope.where(klass.table.primary_key.name => id).limit(1)
+      rel.to_a
+      unless rel.to_a[0]
         raise 'Bad ID'
       end
-      klass.new(response['docs'].first)
+      klass.new(rel.to_a.first)
     end
 
     def collapse_wheres(arel, wheres)

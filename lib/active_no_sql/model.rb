@@ -42,7 +42,7 @@ module ActiveNoSql
 	    end
 
 	    def build_default_scope
-        ActiveNoSql::Relation.new(model())
+        ActiveNoSql::Relation.new(model(), table())
 	    end
 
       def view(*wheres)

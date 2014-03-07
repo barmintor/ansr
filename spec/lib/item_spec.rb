@@ -12,13 +12,13 @@ describe Item do
     it "should find an item given an id" do
       mock_api = double('api')
       Item.api = mock_api
-      mock_api.should_receive(:item).with('123').and_return(read_fixture('item.jsonld'))
+      mock_api.should_receive(:items).with(:id=>"123", :page_size=>1).and_return(read_fixture('item.jsonld'))
       Item.find('123')
     end
     it "should raise an exception for a bad id" do
       mock_api = double('api')
       Item.api = mock_api
-      mock_api.should_receive(:item).with('123').and_return(read_fixture('empty.jsonld'))
+      mock_api.should_receive(:items).with(:id=>"123", :page_size=>1).and_return(read_fixture('empty.jsonld'))
       expect {Item.find('123')}.to raise_error
     end
   end

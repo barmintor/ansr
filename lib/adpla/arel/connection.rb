@@ -7,6 +7,10 @@ module Adpla
         @api = @table.engine.api
       end
 
+      def primary_key(table_name)
+        'id'
+      end
+
       def to_sql(*args)
         to_nosql(*args)
       end
