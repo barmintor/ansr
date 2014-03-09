@@ -3,7 +3,7 @@ module ActiveNoSql
   extend ActiveSupport::Autoload
   eager_autoload do
     autoload :Configurable
-    autoload :BigTable
+    autoload :Arel
     autoload :Base
     autoload :Model
     autoload :Sanitization

@@ -1,7 +1,6 @@
 module Adpla
   module Arel
-    class BigTable < ActiveNoSql::BigTable
-      attr_reader :fields, :facets, :sorts
+    class BigTable < ActiveNoSql::Arel::BigTable
 
       FIELDS = [
         # can we list the fields from the DPLA v2 api?
@@ -94,15 +93,11 @@ module Adpla
 
       def initialize(klass, opts={})
         super(klass.model())
-        @fields = (opts[:fields] || FIELDS).dup
-        @facets = (opts[:facets] || FACETS).dup
-        @sorts = (opts[:sorts] || SORTS).dup
+        @fields += (opts[:fields] || FIELDS)
+        @facets += (opts[:facets] || FACETS)
+        @sorts += (opts[:sorts] || SORTS)
         self.config(opts[:config]) if opts[:config]
       end
-      
-      #def [](name)
-      #  ::Arel::Attribute.new(self, name)
-      #end
 
     end
   end

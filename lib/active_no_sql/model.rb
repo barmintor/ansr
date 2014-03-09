@@ -153,6 +153,7 @@ module ActiveNoSql
       end
     end
 
+    require 'active_no_sql/model/connection'
     require 'active_no_sql/model/connection_handler'
   end
 end

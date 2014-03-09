@@ -239,7 +239,13 @@ describe ActiveNoSql::Relation do
   end
 
   describe '#empty?' do
-    it 'should not make another call if records are loaded'
+    it 'should not make another call if records are loaded' do
+      test = ActiveNoSql::Relation.new(Item, Item.table).where(q:'kittens')
+      @mock_api.should_receive(:items).with(:q => 'kittens').once.and_return(@empty)
+      test.load
+      expect(test.loaded?).to be_true
+      expect(test.empty?).to be_true
+    end
 
   end
 
