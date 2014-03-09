@@ -34,4 +34,23 @@ describe Item do
       expect(Item.where({})).to be Item
     end
   end
+
+  describe 'accessor methods' do
+    before do
+      mock_api = double('api')
+      Item.api = mock_api
+      @hash = JSON.parse(read_fixture('item.jsonld'))['docs'][0]
+      @test = Item.new(@hash)
+    end
+
+    it 'should dispatch method names to the hash' do
+      @test.dataProvider.should == "Boston Public Library"
+    end
+
+    it 'should miss methods for undefined fields' do
+      expect {@test.foo}.to raise_error
+    end
+  end
+
+
 end

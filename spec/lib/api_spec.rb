@@ -14,7 +14,6 @@ describe Adpla::Api do
     end
 
     it "should be configurable with a path to a yaml" do
-      puts fixture_path('dpla.yml')
       @test.config(fixture_path('dpla.yml'))
       expect(@test.url).to eql('http://fake.dp.la/v0/')
     end

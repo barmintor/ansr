@@ -7,6 +7,7 @@ module ActiveNoSql
       end
 
       def inherited(subclass)
+        super
         # a hack for sanitize sql overrides to work, and some others where @klass used in place of klass()
         subclass.instance_variable_set("@klass", subclass)
         # a hack for the intermediate abstract model classes to work with table_name
@@ -148,7 +149,7 @@ module ActiveNoSql
       end
 
       def method_missing(method, *args, &block)
-        model().send(method, *args)
+        model().send(method, *args, &block)
       end
     end
 

@@ -5,6 +5,21 @@ module Adpla
 
       FIELDS = [
         # can we list the fields from the DPLA v2 api?
+        # the sourceResource, originalRecord, and provider fields need to be associations, right?
+        :"_id",
+        :"dataProvider",
+        :"sourceResource",
+        :"object",
+        :"ingestDate",
+        :"originalRecord",
+        :"ingestionSequence",
+        :"isShownAt",
+        :"hasView",
+        :"provider",
+        :"@context",
+        :"ingestType",
+        :"@id",
+        :"id"
       ]
 
       FACETS = [
@@ -85,9 +100,9 @@ module Adpla
         self.config(opts[:config]) if opts[:config]
       end
       
-      def [](name)
-        ::Arel::Attribute.new(self, name)
-      end
+      #def [](name)
+      #  ::Arel::Attribute.new(self, name)
+      #end
 
     end
   end

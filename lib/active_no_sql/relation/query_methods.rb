@@ -105,7 +105,7 @@ module ActiveNoSql
       unless rel.to_a[0]
         raise 'Bad ID'
       end
-      klass.new(rel.to_a.first)
+      rel.to_a.first
     end
 
     def collapse_wheres(arel, wheres)

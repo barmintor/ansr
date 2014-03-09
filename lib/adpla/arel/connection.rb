@@ -131,7 +131,7 @@ module Adpla
 
       # this is called by the BigTable impl
       def columns(table_name, *rest)
-        []
+        @table.fields.map {|s| ::ActiveRecord::ConnectionAdapters::Column.new(s.to_s, nil, nil)}
       end
 
       # Sanitization methods that are expected to be provided by a connection impl

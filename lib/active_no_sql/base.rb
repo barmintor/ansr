@@ -8,15 +8,22 @@ module ActiveNoSql
 
     self.abstract_class = true
     
-    def initialize doc={}
-      @doc = doc
+    def initialize doc={}, options={}
+      super(filter_source_hash(doc), options)
+      @source_doc = doc
+    end
+
+    def filter_source_hash(doc)
+      fields = self.class.model().table().fields()
+      filtered = doc.select do |k,v|
+        fields.include? k.to_sym 
+      end
+      filtered.with_indifferent_access
     end
 
     def [](key)
-      @doc[key]
+      @source_doc[key]
     end
 
-    def readonly!
-    end
   end
 end
