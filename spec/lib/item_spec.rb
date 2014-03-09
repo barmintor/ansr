@@ -45,6 +45,7 @@ describe Item do
 
     it 'should dispatch method names to the hash' do
       @test.dataProvider.should == "Boston Public Library"
+      @test.sourceResource.identifier.should == [ "Local accession: 08_06_000884" ]
     end
 
     it 'should miss methods for undefined fields' do
