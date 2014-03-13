@@ -1,20 +1,18 @@
-require File.join(File.dirname(__FILE__), 'lib/adpla/version')
+require File.join(File.dirname(__FILE__), 'lib/ansr/version')
 Gem::Specification.new do |spec|
-  spec.name = 'adpla'
+  spec.name = 'ansr'
   spec.version = Adpla.version
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Benjamin Armintor"]
   spec.email = ["armintor@gmail.com"]
-  spec.summary = 'ActiveRecord-style modeling for DPLA APIs'
+  spec.summary = 'ActiveRecord-style relations for no-sql data sources'
   spec.description = 'Wrapping the DPLA APIs in Rails-like models'
-  spec.homepage = 'http://github.com/barmintor/adpla'
+  spec.homepage = 'http://github.com/barmintor/ansr'
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'json-ld'
-  spec.add_dependency 'rest-client'
   spec.add_dependency 'loggable'
   spec.add_dependency 'blacklight', '>=5.1.0'
 
