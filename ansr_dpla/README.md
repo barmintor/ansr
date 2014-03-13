@@ -1,4 +1,4 @@
-adpla
+Ansr::Dpla
 =====
 
 DPLA + ActiveRecord::Relation + Blacklight
