@@ -3,7 +3,7 @@ Ansr::Dpla
 
 DPLA + ActiveRecord::Relation + Blacklight
 
-This project creates a Rails model that can be used to search the DPLA's public REST API (http://dp.la/info/developers/codex/).
+This project creates a Rails model that can be used to search the DPLA's public REST API (http://dp.la/info/developers/codex/). The goal of this project is to provide an avenue by which data from the DPLA REST API might be explored via a [Blacklight](https://github.com/projectblacklight/blacklight) application. It is proof-of-concept for a broader proposal described at (https://github.com/barmintor/ansr) 
 
 To use the Item and Collection models, they must first be configured with a DPLA API key:
 
