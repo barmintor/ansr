@@ -12,7 +12,7 @@ BL might be refactored to locate the actual Solr querying machinery behind the c
 
 1.   Adherence to the Principle of Least Surprise: The BL document model would behave more like a Rails model backed by RDBMS. When bringing new developers into a BL project, familiarity with the standard patterns of Rails would translate more immediately to the BL context.
 
-2.   Flexible abstraction of the document store: Moving the specifics of querying the document store would make the introduction of models interacting with other stores possible. For example, the DPLA REST API exposes some Solr-like concepts, and a proof-of-concept model for an ActiveRecord-like approach to searching them can be seen at (https://github.com/barmintor/ansr/ansr_adpla)
+2.   Flexible abstraction of the document store: Moving the specifics of querying the document store would make the introduction of models interacting with other stores possible. For example, the DPLA REST API exposes some Solr-like concepts, and a proof-of-concept model for an ActiveRecord-like approach to searching them can be seen at (https://github.com/barmintor/ansr/ansr_dpla)
 
 3.   Clearer testing strategies and ease of console debugging
 
@@ -32,4 +32,4 @@ What would such a refactor require?
 
 Since these changes are incompatible with current BL, they are proposed as a principal feature of BL 6.0.
 
-An example of the kinds of models to be implemented can be seen in a [DPLA proof of concept](https://github.com/barmintor/ansr/ansr_adpla).
+An example of the kinds of models to be implemented can be seen in a [DPLA proof of concept](https://github.com/barmintor/ansr/ansr_dpla).
