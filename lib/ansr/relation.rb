@@ -1,6 +1,6 @@
 require 'yaml'
 require 'blacklight'
-module ActiveNoSql
+module Ansr
   class Relation < ::ActiveRecord::Relation
     attr_accessor :filters, :count, :context, :resource
 

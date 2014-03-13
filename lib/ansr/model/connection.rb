@@ -1,4 +1,4 @@
-module ActiveNoSql
+module Ansr
 	module Model
     class Connection
       def initialize(klass)
@@ -81,7 +81,7 @@ module ActiveNoSql
         if limit_value.to_s.to_i >= 0
           limit_value
         else
-          ActiveNoSql::Relation::DEFAULT_PAGE_SIZE
+          Ansr::Relation::DEFAULT_PAGE_SIZE
         end
       end
 

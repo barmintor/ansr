@@ -1,4 +1,4 @@
-module Adpla
+module Ansr::Dpla
   module Arel
     class QueryBuilder
       attr_reader :query_opts, :aliases, :table
@@ -117,7 +117,7 @@ module Adpla
 
       def skip(value=nil)
         if value
-          @query_opts[:page] = (value.to_i / (@query_opts[:page_size] || ActiveNoSql::Relation::DEFAULT_PAGE_SIZE)) + 1
+          @query_opts[:page] = (value.to_i / (@query_opts[:page_size] || Ansr::Relation::DEFAULT_PAGE_SIZE)) + 1
         end
       end
 

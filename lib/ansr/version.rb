@@ -1,5 +1,5 @@
-module Adpla
-  VERSION = '0.1.0'
+module Ansr
+  VERSION = '0.0.1'
   def self.version
   	VERSION
   end

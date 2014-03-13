@@ -1,5 +1,5 @@
-module ActiveNoSql
+module Ansr
   module Arel
-    require 'active_no_sql/arel/big_table'
+    require 'ansr/arel/big_table'
   end
 end

@@ -1,10 +1,10 @@
-module ActiveNoSql
+module Ansr
   class Base < ActiveRecord::Base
-    extend ActiveNoSql::Model::Methods
-    extend ActiveNoSql::Configurable
-    extend ActiveNoSql::QueryMethods
-    extend ActiveNoSql::ArelMethods
-    include ActiveNoSql::Sanitization
+    extend Ansr::Model::Methods
+    extend Ansr::Configurable
+    extend Ansr::QueryMethods
+    extend Ansr::ArelMethods
+    include Ansr::Sanitization
 
     self.abstract_class = true
     

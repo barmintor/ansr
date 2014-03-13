@@ -1,4 +1,4 @@
-module ActiveNoSql
+module Ansr
 	module Sanitization
     extend ActiveSupport::Concern
     module ClassMethods

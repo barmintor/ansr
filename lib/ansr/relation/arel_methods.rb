@@ -1,4 +1,4 @@
-module ActiveNoSql
+module Ansr
   module ArelMethods
     # Returns the Arel object associated with the relation.
     # duplicated to respect access control

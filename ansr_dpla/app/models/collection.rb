@@ -1,2 +1,2 @@
-class Collection < Adpla::Model::Base
+class Collection < Ansr::Dpla::Model::Base
 end

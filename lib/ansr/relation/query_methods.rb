@@ -1,7 +1,7 @@
 require 'active_record'
-module ActiveNoSql
+module Ansr
   module QueryMethods
-    include ActiveNoSql::Configurable
+    include Ansr::Configurable
     include ActiveRecord::QueryMethods
 
     ActiveRecord::QueryMethods::WhereChain.class_eval <<-RUBY

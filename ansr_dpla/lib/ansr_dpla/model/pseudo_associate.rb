@@ -1,5 +1,5 @@
 # a class to pretend the unfindable "associations" are real models
-module Adpla
+module Ansr::Dpla
 	module Model
     class PseudoAssociate
       def initialize(doc = {})

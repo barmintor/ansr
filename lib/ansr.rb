@@ -1,5 +1,5 @@
 require 'active_support'
-module ActiveNoSql
+module Ansr
   extend ActiveSupport::Autoload
   eager_autoload do
     autoload :Configurable

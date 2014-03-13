@@ -1,10 +1,12 @@
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app/models'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
 require 'rspec/autorun'
 require 'loggable'
-require 'adpla'
+require 'ansr'
+require 'ansr_dpla'
 require 'adpla_test_api'
 require 'blacklight'
 require 'item'

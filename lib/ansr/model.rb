@@ -1,8 +1,8 @@
-module ActiveNoSql
+module Ansr
   module Model
   	module Methods
       def spawn
-        s = ActiveNoSql::Relation.new(model(), table())
+        s = Ansr::Relation.new(model(), table())
         s.references!(references())
       end
 
@@ -43,7 +43,7 @@ module ActiveNoSql
 	    end
 
 	    def build_default_scope
-        ActiveNoSql::Relation.new(model(), table())
+        Ansr::Relation.new(model(), table())
 	    end
 
       def view(*wheres)
@@ -153,7 +153,7 @@ module ActiveNoSql
       end
     end
 
-    require 'active_no_sql/model/connection'
-    require 'active_no_sql/model/connection_handler'
+    require 'ansr/model/connection'
+    require 'ansr/model/connection_handler'
   end
 end

@@ -1,7 +1,7 @@
 require 'rest_client'
-module Adpla
+module Ansr::Dpla
   class Api
-    include ActiveNoSql::Configurable
+    include Ansr::Configurable
 
     def config(yaml=nil)
       super

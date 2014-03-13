@@ -1,6 +1,6 @@
-module Adpla
+module Ansr::Dpla
   module Arel
-    class BigTable < ActiveNoSql::Arel::BigTable
+    class BigTable < Ansr::Arel::BigTable
 
       FIELDS = [
         # can we list the fields from the DPLA v2 api?

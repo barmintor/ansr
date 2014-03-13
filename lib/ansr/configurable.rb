@@ -1,4 +1,4 @@
-module ActiveNoSql
+module Ansr
   module Configurable
     def config(yaml=nil)
       yaml ? @config ||= begin

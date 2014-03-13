@@ -1,12 +1,12 @@
 require File.join(File.dirname(__FILE__), 'lib/ansr/version')
 Gem::Specification.new do |spec|
   spec.name = 'ansr'
-  spec.version = Adpla.version
+  spec.version = Ansr.version
   spec.platform = Gem::Platform::RUBY
   spec.authors = ["Benjamin Armintor"]
   spec.email = ["armintor@gmail.com"]
   spec.summary = 'ActiveRecord-style relations for no-sql data sources'
-  spec.description = 'Wrapping the DPLA APIs in Rails-like models'
+  spec.description = 'Wrapping the no-sql data sources in Rails-like models and relations'
   spec.homepage = 'http://github.com/barmintor/ansr'
   spec.files         = `git ls-files`.split("\n")
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

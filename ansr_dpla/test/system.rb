@@ -1,5 +1,7 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app/models'))
-require 'adpla'
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', '..', 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'ansr_dpla'
 require 'item'
 
 # you config the model with a hash including an API key for dp.la/v2, or the path to a YAML file

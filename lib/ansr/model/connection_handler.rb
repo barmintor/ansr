@@ -1,4 +1,4 @@
-module ActiveNoSql
+module Ansr
   module Model
     class ConnectionHandler
       def initialize(connection_class)

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Adpla::Api do
+describe Ansr::Dpla::Api do
 
   describe '#config' do
     before do
-      @test = Adpla::Api.new
+      @test = Ansr::Dpla::Api.new
     end
 
     it "should be configurable with a Hash" do
@@ -19,15 +19,15 @@ describe Adpla::Api do
     end
 
     it "should raise an error of the config doesn't have required fields" do
-      expect { Adpla::Api.new.config({:url => :foo})}.to raise_error
-      Adpla::Api.new.config({:url => :foo, :api_key => :foo})
+      expect { Ansr::Dpla::Api.new.config({:url => :foo})}.to raise_error
+      Ansr::Dpla::Api.new.config({:url => :foo, :api_key => :foo})
     end
 
   end
 
   describe '#path_for' do
     before do
-      @test = Adpla::Api.new
+      @test = Ansr::Dpla::Api.new
       @test.config({:api_key => :testing})
     end
 

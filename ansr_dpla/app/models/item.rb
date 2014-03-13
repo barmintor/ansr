@@ -1,2 +1,2 @@
-class Item < Adpla::Model::Base
+class Item < Ansr::Dpla::Model::Base
 end

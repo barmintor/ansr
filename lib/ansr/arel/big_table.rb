@@ -1,9 +1,9 @@
-module ActiveNoSql
+module Ansr
   module Arel
   	class BigTable < ::Arel::Table
       attr_reader :fields, :facets, :sorts
 
-      include ActiveNoSql::Configurable
+      include Ansr::Configurable
 
       attr_reader :klass
       alias :model :klass
@@ -17,7 +17,7 @@ module ActiveNoSql
       end
 
       def view?
-        ActiveNoSql::Model::ViewProxy === model()
+        Ansr::Model::ViewProxy === model()
       end
     end
   end
