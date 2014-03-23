@@ -9,9 +9,8 @@ module Ansr
         where_value = @scope.send(:build_where, opts, rest).map do |rel|
           case rel
           when ::Arel::Nodes::In
-            next rel
+            ::Arel::Nodes::Or.new(rel.left, rel.right)
           when ::Arel::Nodes::Equality
-            # ::Arel::Nodes::OrEqual.new(rel.left, rel.right)
             ::Arel::Nodes::Or.new(rel.left, rel.right)
           when String
             ::Arel::Nodes::Or.new(::Arel::Nodes::SqlLiteral.new(rel))
@@ -63,21 +62,21 @@ module Ansr
       else
         case expr
         when ::Arel::Nodes::Binary
-          if expr.left.relation.name != model().name
+          if expr.left.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.left.relation.name}.#{expr.left.name}".to_sym
           else
             field_name = expr.left.name.to_sym
           end
         when ::Arel::Attributes::Attribute
-          if expr.relation.name != model().name
+          if expr.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.relation.name}.#{expr.name}".to_sym
           else
             field_name = expr.name.to_sym
           end
         when ::Arel::Nodes::Unary
-          if expr.expr.relation.name != model().name
+          if expr.expr.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.expr.relation.name}.#{expr.expr.name}".to_sym
           else
@@ -100,7 +99,7 @@ module Ansr
 
     def find(id)
       klass = model()
-      rel = klass.build_default_scope.where(klass.table.primary_key.name => id).limit(1)
+      rel = where(klass.table.primary_key.name => id).limit(1)
       rel.to_a
       unless rel.to_a[0]
         raise 'Bad ID'
@@ -111,12 +110,28 @@ module Ansr
     def collapse_wheres(arel, wheres)
       predicates = wheres.map do |where|
         next where if ::Arel::Nodes::Equality === where
-        where if String === where
+        where = Arel.sql(where) if String === where # SqlLiteral-ize
         ::Arel::Nodes::Grouping.new(where)
       end
 
       arel.where(::Arel::Nodes::And.new(predicates)) if predicates.present?
     end
+
+    def collapse_filters(arel, wheres)
+      predicates = wheres.map do |where|
+        next where if ::Arel::Nodes::Equality === where
+        where = Arel.sql(where) if String === where # SqlLiteral-ize
+        ::Arel::Nodes::Grouping.new(where)
+      end
+
+      arel.filter(::Arel::Nodes::And.new(predicates)) if predicates.present?
+    end
+
+    # Could filtering be moved out of intersection into one arel tree?
+    def build_arel
+      arel = super
+      #collapse_filters(arel, (filter_values - ['']).uniq)
+    end      
 
     # cloning from ActiveRecord::QueryMethods.build_where as a first pass
     def build_filter(opts, other=[])
@@ -128,7 +143,7 @@ module Ansr
           values.grep(ActiveRecord::Relation) do |rel|
             self.bind_values += rel.bind_values
           end
-          opts = (other.empty? ? opts : ([opts] + other))
+          opts = (other.empty? ? opts : (Array(opts) + other))
           [model().send(:sanitize_sql, opts, model().table_name)]
         when Hash
           attributes = model().send(:expand_hash_conditions_for_sql_aggregates, opts)
@@ -148,9 +163,12 @@ module Ansr
     end
 
     def find_by_nosql(arel, bind_values)
-      query = model.connection.to_nosql(arel, bind_values)
-      aliases = model.connection.to_aliases(arel, bind_values)
-      model.connection.execute(query, aliases)
+      @ansr_query = model.connection.to_nosql(arel, bind_values)
+      model.connection.execute(@ansr_query)
+    end
+
+    def ansr_qeury
+      @ansr_query
     end
   end
 end

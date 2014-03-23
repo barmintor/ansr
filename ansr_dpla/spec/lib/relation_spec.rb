@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Ansr::Relation do
+describe Ansr::Dpla::Relation do
   before do
     @kittens = read_fixture('kittens.jsonld')
     @faceted = read_fixture('kittens_faceted.jsonld')
@@ -10,6 +10,8 @@ describe Ansr::Relation do
     Item.engine.api= @mock_api
   end
 
+  subject { Ansr::Dpla::Relation.new(Item, Item.table) }
+
   describe "#initialize" do
     it "should identify the correct resource for the model" do
       class Foo
@@ -18,21 +20,21 @@ describe Ansr::Relation do
         end
       end
 
-      test = Ansr::Relation.new(Foo, Foo.table)
+      test = Ansr::Dpla::Relation.new(Foo, Foo.table)
       expect(test.resource).to eql(:foos)
     end
   end
 
   describe ".load" do
     it "should fetch the appropriate REST resource" do
-      test = Ansr::Relation.new(Item, Item.table).where(:q=>'kittens')
+      test = subject.where(:q=>'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens').and_return('')
       test.load
     end
 
     describe "Relation attributes" do
       it "should set attributes correctly from a response" do
-        test = Ansr::Relation.new(Item, Item.table).where(:q=>'kittens')
+        test = subject.where(:q=>'kittens')
         @mock_api.stub(:items).and_return(@kittens)
         test.load
         expect(test.count).to eql(144)
@@ -41,7 +43,7 @@ describe Ansr::Relation do
       end
 
       it "should set attributes correctly for an empty response" do
-        test = Ansr::Relation.new(Item, Item.table).where(:q=>'kittens')
+        test = subject.where(:q=>'kittens')
         @mock_api.stub(:items).and_return(@empty)
         test.load
         expect(test.count).to eql(0)
@@ -62,21 +64,21 @@ describe Ansr::Relation do
   describe '.order' do
     describe 'with symbol parms' do
       it "should add sort clause to query" do
-        test = Ansr::Relation.new(Item, Item.table).where(:q=>'kittens').order(:foo)
+        test = subject.where(:q=>'kittens').order(:foo)
         expect(test).to be_a(Ansr::Relation)
         @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo).and_return('')
         test.load
       end
 
       it "should add multiple sort clauses to query" do
-        test = Ansr::Relation.new(Item, Item.table).where(:q=>'kittens').order(:foo).order(:bar)
+        test = subject.where(:q=>'kittens').order(:foo).order(:bar)
         expect(test).to be_a(Ansr::Relation)
         @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>[:foo,:bar]).and_return('')
         test.load
       end
 
       it "should sort in descending order if necessary" do
-        test = Ansr::Relation.new(Item, Item.table).where(:q=>'kittens').order(:foo => :desc)
+        test = subject.where(:q=>'kittens').order(:foo => :desc)
         expect(test).to be_a(Ansr::Relation)
         @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo, :sort_order=>:desc).and_return('')
         test.load
@@ -84,14 +86,14 @@ describe Ansr::Relation do
     end
     describe 'with String parms' do
       it "should add sort clause to query" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo")
+        test = subject.where(q:'kittens').order("foo")
         expect(test).to be_a(Ansr::Relation)
         @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo).and_return('')
         test.load
       end
 
       it "should sort in descending order if necessary" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo DESC")
+        test = subject.where(q:'kittens').order("foo DESC")
         expect(test).to be_a(Ansr::Relation)
         @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo, :sort_order=>:desc).and_return('')
         test.load
@@ -101,7 +103,7 @@ describe Ansr::Relation do
 
   describe '#reorder' do
     it "should replace existing order" do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo DESC")
+      test = subject.where(q:'kittens').order("foo DESC")
       test = test.reorder("foo ASC")
       expect(test).to be_a(Ansr::Relation)
       @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo).and_return('')
@@ -111,7 +113,7 @@ describe Ansr::Relation do
 
   describe '#reverse_order' do
     it "should replace existing DESC order" do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo DESC")
+      test = subject.where(q:'kittens').order("foo DESC")
       test = test.reverse_order
       expect(test).to be_a(Ansr::Relation)
       @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo).and_return('')
@@ -119,7 +121,7 @@ describe Ansr::Relation do
     end
 
     it "should replace existing ASC order" do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo ASC")
+      test = subject.where(q:'kittens').order("foo ASC")
       test = test.reverse_order
       expect(test).to be_a(Ansr::Relation)
       @mock_api.should_receive(:items).with(:q => 'kittens',:sort_by=>:foo, :sort_order=>:desc).and_return('')
@@ -129,7 +131,7 @@ describe Ansr::Relation do
 
   describe '#unscope' do
     it 'should remove clauses only from spawned Relation' do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo DESC")
+      test = subject.where(q:'kittens').order("foo DESC")
       test2 = test.unscope(:order)
       expect(test2).to be_a(Ansr::Relation)
       @mock_api.should_receive(:items).with(:q => 'kittens').and_return('')
@@ -139,7 +141,7 @@ describe Ansr::Relation do
     # ActiveRecord::QueryMethods.VALID_UNSCOPING_VALUES =>
     # Set.new([:where, :select, :group, :order, :lock, :limit, :offset, :joins, :includes, :from, :readonly, :having])
     it 'should reject bad scope keys' do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').order("foo DESC")
+      test = subject.where(q:'kittens').order("foo DESC")
       expect { test.unscope(:foo) }.to raise_error
     end
   end
@@ -147,7 +149,7 @@ describe Ansr::Relation do
   describe '#select' do
     describe 'with a block given' do
       it "should build an array" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+        test = subject.where(q:'kittens')
         @mock_api.should_receive(:items).with(:q => 'kittens').and_return(@kittens)
         actual = test.select {|d| true}
         expect(actual).to be_a(Array)
@@ -159,22 +161,22 @@ describe Ansr::Relation do
     end
     describe 'with a String or Symbol key given' do
       it 'should change the requested document fields' do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
-        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>'name').and_return('')
+        test = subject.where(q:'kittens')
+        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>:name).and_return('')
         test = test.select('name')
         test.load
       end
     end
     describe 'with a list of keys' do
       it "should add all the requested document fields" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
-        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>'name,foo').and_return('')
+        test = subject.where(q:'kittens')
+        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>[:name,:foo]).and_return('')
         test = test.select(['name','foo'])
         test.load
       end
       it "should add all the requested document fields and proxy them" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
-        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>'object').and_return(@kittens)
+        test = subject.where(q:'kittens')
+        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>:object).and_return(@kittens)
         test = test.select('object AS my_object')
         test.load
         expect(test.to_a.first['object']).to be_nil
@@ -185,13 +187,13 @@ describe Ansr::Relation do
 
   describe '#limit' do
     it "should add page_size to the query params" do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+      test = subject.where(q:'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens', :page_size=>17).and_return('')
       test = test.limit(17)
       test.load
     end
     it "should raise an error if limit > 500" do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+      test = subject.where(q:'kittens')
       test = test.limit(500)
       expect {test.load }.to raise_error
     end
@@ -199,13 +201,13 @@ describe Ansr::Relation do
 
   describe '#offset' do
     it "should add page to the query params when page_size is defaulted" do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+      test = subject.where(q:'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens', :page=>3).and_return('')
       test = test.offset(20)
       test.load
     end
     it 'should raise an error if an offset is requested that is not a multiple of the page size' do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens').limit(12)
+      test = subject.where(q:'kittens').limit(12)
       expect{test.offset(17)}.to raise_error(/^Bad/)
       test.offset(24)
     end
@@ -218,7 +220,7 @@ describe Ansr::Relation do
 
   describe '#loaded?' do
     it 'should be false before and true after' do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+      test = subject.where(q:'kittens')
       @mock_api.stub(:items).with(:q => 'kittens').and_return('')
       expect(test.loaded?).to be_false
       test.load
@@ -240,7 +242,7 @@ describe Ansr::Relation do
 
   describe '#empty?' do
     it 'should not make another call if records are loaded' do
-      test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+      test = subject.where(q:'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens').once.and_return(@empty)
       test.load
       expect(test.loaded?).to be_true

@@ -1,3 +1,4 @@
+require 'active_record'
 module Ansr
   class Base < ActiveRecord::Base
     extend Ansr::Model::Methods

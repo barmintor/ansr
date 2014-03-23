@@ -4,6 +4,12 @@ module Ansr
       def initialize(connection_class)
         @connection_class = connection_class
       end
+
+      def adapter
+        @connection_class
+      end
+
+      # retrieve a datasource adapter
       def retrieve_connection(klass)
         @connection_class.new(klass)
       end

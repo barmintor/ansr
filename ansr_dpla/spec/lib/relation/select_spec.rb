@@ -10,10 +10,12 @@ describe Ansr::Relation do
     Item.engine.api= @mock_api
   end
 
+  subject { Ansr::Dpla::Relation.new(Item, Item.table) }
+
   describe '#select' do
     describe 'with a block given' do
       it "should build an array" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
+        test = subject.where(q:'kittens')
         @mock_api.should_receive(:items).with(:q => 'kittens').and_return(@kittens)
         actual = test.select {|d| true}
         expect(actual).to be_a(Array)
@@ -25,22 +27,22 @@ describe Ansr::Relation do
     end
     describe 'with a String or Symbol key given' do
       it 'should change the requested document fields' do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
-        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>'name').and_return('')
+        test = subject.where(q:'kittens')
+        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>:name).and_return('')
         test = test.select('name')
         test.load
       end
     end
     describe 'with a list of keys' do
       it "should add all the requested document fields" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
-        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>'name,foo').and_return('')
+        test = subject.where(q:'kittens')
+        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>[:name,:foo]).and_return('')
         test = test.select(['name','foo'])
         test.load
       end
       it "should add all the requested document fields and proxy them" do
-        test = Ansr::Relation.new(Item, Item.table).where(q:'kittens')
-        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>'object').and_return(@kittens)
+        test = subject.where(q:'kittens')
+        @mock_api.should_receive(:items).with(:q => 'kittens', :fields=>:object).and_return(@kittens)
         test = test.select('object AS my_object')
         test.load
         expect(test.to_a.first['object']).to be_nil

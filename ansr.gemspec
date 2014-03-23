@@ -14,6 +14,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'loggable'
+  spec.add_dependency 'arel'
+  spec.add_dependency 'activerecord'
   spec.add_dependency 'blacklight', '>=5.1.0'
 
   spec.add_development_dependency("rake")

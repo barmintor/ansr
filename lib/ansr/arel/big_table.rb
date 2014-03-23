@@ -1,3 +1,4 @@
+require 'arel'
 module Ansr
   module Arel
   	class BigTable < ::Arel::Table

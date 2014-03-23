@@ -2,12 +2,15 @@ require 'yaml'
 require 'blacklight'
 module Ansr
   class Relation < ::ActiveRecord::Relation
+    attr_reader :response
     attr_accessor :filters, :count, :context, :resource
 
     DEFAULT_PAGE_SIZE = 10
     
     include Sanitization::ClassMethods
     include QueryMethods
+    include Kaminari::PageScopeMethods
+    alias :total_count :count
 
     def initialize(klass, table, values = {})
       raise "Cannot search nil model" if klass.nil?
@@ -18,6 +21,10 @@ module Ansr
       rsrc = @klass.name.downcase
       rsrc << ((rsrc =~ /s$/) ? 'es' : 's')
       rsrc.to_sym
+    end
+
+    def default_limit_value
+      DEFAULT_PAGE_SIZE
     end
 
     def load
@@ -46,35 +53,36 @@ module Ansr
     end
 
     def offset!(value)
-      page_size = self.limit_value || DEFAULT_PAGE_SIZE
-      if (value.to_i % page_size.to_i) != 0
-        raise "Bad offset #{value} for page size #{page_size}"
-      end
       self.offset_value=value
       self
     end
 
-    def count
+    def count()
       self.load
-      @response['count']
+      @response.count
+    end
+
+    def total_count
+      count
+    end
+
+    def max_pages
+      (total_count.to_f / limit_value).ceil
+    end
+
+    # override to parse filters from response 
+    def filters_from(response)
+      {} and raise "this is a dead method!"
+    end
+
+    # override to parse docs from response
+    def docs_from(response)
+      []
     end
 
     def filters
       if loaded?
-        @filter_cache ||= begin
-          f = {}
-          (@response['facets'] || {}).inject(f) do |h,(k,v)|
-            if v['total'] = 0
-              items = v['terms'].collect do |term|
-                Blacklight::SolrResponse::Facets::FacetItem.new(:value => term['term'], :hits => term['count'])
-              end
-              options = {:sort => 'asc', :offset => 0}
-              h[k] = Blacklight::SolrResponse::Facets::FacetField.new k, items, options
-            end
-            h
-          end
-          f
-        end
+        @filter_cache = filters_from(response)
       else
         @filter_cache ||= begin 
           query = self.limit(0)
@@ -92,13 +100,23 @@ module Ansr
 
     private
 
+    # override to prevent default selection of all fields
+    def build_select(arel, selects)
+      unless selects.empty?
+        @implicit_readonly = false
+        arel.project(*selects)
+      #else
+      #  arel.project(@klass.arel_table[Arel.star])
+      end
+    end
+
 
     def exec_queries
       default_scoped = with_default_scope
 
       if default_scoped.equal?(self)
         @response = model.find_by_nosql(arel, bind_values)
-        @records = (@response['docs'] || []).collect do |d|
+        @records = docs_from(@response).collect do |d|
           model.new(d)
         end
 
@@ -109,13 +127,12 @@ module Ansr
         @records = default_scoped.to_a
       end
 
-      self.limit_value = DEFAULT_PAGE_SIZE unless self.limit_value
+      self.limit_value = default_limit_value unless self.limit_value
       self.offset_value = 0 unless self.offset_value
       @filter_cache = nil # unload any cached filters
       @loaded = true
       @records
     end
   end
-
 
 end
