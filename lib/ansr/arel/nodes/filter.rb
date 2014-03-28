@@ -5,13 +5,6 @@ module Ansr::Arel::Nodes
     def initialize(expr, opts={})
       @expr = expr
       @opts = opts
-      @opts[:select] = true unless @opts.has_key? :select
-    end
-
-    def select(*val)
-      puts "#{expr}.select(#{val.inspect})"
-      @opts[:select] = val.first.to_s.downcase != 'false' if val.first
-      @opts[:select]
     end
 
     def order(*val)

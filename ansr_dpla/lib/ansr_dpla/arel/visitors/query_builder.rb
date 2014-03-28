@@ -16,7 +16,7 @@ module Ansr::Dpla::Arel::Visitors
       case a
       when Ansr::Arel::Visitors::From
         query_opts.path = o
-      when Ansr::Arel::Visitors::Filter
+      when Ansr::Arel::Visitors::Facet
         filter_field(o.to_sym)
       when Ansr::Arel::Visitors::Order
         order(o)
@@ -30,7 +30,7 @@ module Ansr::Dpla::Arel::Visitors
       case attribute
       when Ansr::Arel::Visitors::Order
         order(n.to_s)
-      when Ansr::Arel::Visitors::Filter
+      when Ansr::Arel::Visitors::Facet
         filter_field(select_val[0].to_sym)
       else
         field(select_val[0].to_sym)
@@ -43,11 +43,27 @@ module Ansr::Dpla::Arel::Visitors
 
     def visit_Ansr_Arel_Nodes_Filter(object, attribute)
       expr = object.expr
-      name = object.expr.name
       case expr
+      when ::Arel::SqlLiteral
+        visit expr, Ansr::Arel::Visitors::Filter.new(attribute) if object.select
       when ::Arel::Attributes::Attribute
+        name = object.expr.name
         name = "#{expr.relation.name}.#{name}" if expr.relation.name.to_s != table.name.to_s
         visit name, Ansr::Arel::Visitors::Filter.new(attribute) if object.select
+      else
+        raise "Unexpected filter expression type #{object.expr.class}"
+      end
+    end
+
+    def visit_Ansr_Arel_Nodes_Facet(object, attribute)
+      expr = object.expr
+      case expr
+      when ::Arel::SqlLiteral
+        visit expr, Ansr::Arel::Visitors::Facet.new(attribute)
+      when ::Arel::Attributes::Attribute
+        name = object.expr.name
+        name = "#{expr.relation.name}.#{name}" if expr.relation.name.to_s != table.name.to_s
+        visit name, Ansr::Arel::Visitors::Facet.new(attribute) if object.select
       else
         raise "Unexpected filter expression type #{object.expr.class}"
       end
@@ -73,6 +89,8 @@ module Ansr::Dpla::Arel::Visitors
 
     def filter_field(field_name)
       return unless field_name
+      field_name = Array(field_name)
+      field_name.each {|fn| raise "#{fn} is not a facetable field" unless table.facets.include? fn.to_sym}
       old = query_opts[:facets] ? Array(query_opts[:facets]) : []
       field_names = (old + Array(field_name)).uniq
       if field_names[0]
@@ -89,12 +107,11 @@ module Ansr::Dpla::Arel::Visitors
       end
     end
 
+    # the DPLA API makes no distinction between filter and normal queries
     def visit_Arel_Nodes_Equality(object, attribute)
       add_where_clause(object.left, object.right)
-      if ::Ansr::Arel::Nodes::Filter === object.left
-        visit object.left, attribute
-      end
     end
+
     def visit_Arel_Nodes_NotEqual(object, attribute)
       add_where_clause(object.left, "NOT " + object.right)
     end

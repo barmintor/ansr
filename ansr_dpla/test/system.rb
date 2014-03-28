@@ -22,7 +22,7 @@ rel.to_a
 # the limit decorator adds a page size limit
 # the offset decorator adds a non-zero starting point in the response set
 # the filter decorator adds filter/facet fields and optionally values to query them on
-rel = Item.where(q: 'kittens').limit(2).filter('sourceResource.contributor').select('sourceResource.title')
+rel = Item.where(q: 'kittens').limit(2).facet('sourceResource.contributor').select('sourceResource.title')
 rel.to_a.each do |item|
   puts "#{item["id"]} \"#{item['sourceResource.title']}\""
 end

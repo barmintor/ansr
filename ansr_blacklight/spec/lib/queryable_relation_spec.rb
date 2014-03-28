@@ -32,10 +32,10 @@ describe Ansr::Blacklight::Relation do
   describe "a bunch of query stuff" do
     before do
       # The filter node will be either Filter(:attrs) or Equality(:left: Filter, :right: Expr)
-      subject.filter!("title_facet", limit: "vest", select: false)
-      subject.filter!({"name_facet" => "Fedo"}, limit: 10, select: false)
+      subject.facet!("title_facet", limit: "vest")
+      subject.filter!({"name_facet" => "Fedo"})
+      subject.facet!("name_facet", limit: 10)
       subject.as!('hey') # qt is essentially a table alias; solr path is a table name cf. Relation.from
-      subject.where!(:fq => ["what's up.", "dood"])
       subject.where!('q'=> "what's")
       subject.offset!(21)
       subject.limit!(12)
@@ -51,7 +51,9 @@ describe Ansr::Blacklight::Relation do
       visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestModel.table, config)
       query = visitor.accept subject.build_arel.ast
       expect(query.to_hash).to eq({"defType" => "had",
+         "f.name_facet.facet.limit" => "10",
          "f.title_facet.facet.limit" => "vest",
+         "facet.field" => [:title_facet,:name_facet],
          "fq" => ["{!raw f=name_facet}Fedo"],
          "group" => "I",
          "hl" => "I",

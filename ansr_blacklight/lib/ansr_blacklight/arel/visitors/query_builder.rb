@@ -21,6 +21,20 @@ module Ansr::Blacklight::Arel::Visitors
       true
     end
 
+    def visit_String o, a
+      case a
+      when Ansr::Arel::Visitors::From
+        query_opts.path = o
+      when Ansr::Arel::Visitors::Filter
+        filter_field(o.to_sym)
+      when Ansr::Arel::Visitors::Order
+        order(o)
+      else
+        raise "visited String \"#{o}\" with #{a.to_s}"
+      end
+    end
+
+
     def visit_Arel_Nodes_TableAlias(object, attribute)
       solr_request[:qt] = object.name.to_s
       visit object.relation, attribute
@@ -64,10 +78,10 @@ module Ansr::Blacklight::Arel::Visitors
 
     def filter_field(field_name)
       return unless field_name
-      old = solr_request[:facets] ? Array(solr_request[:facets]) : []
+      old = solr_request[:"facet.field"] ? Array(solr_request[:"facet.field"]) : []
       field_names = (old + Array(field_name)).uniq
       if field_names[0]
-        solr_request[:facets] = field_names[1] ? field_names : field_names[0]
+        solr_request[:"facet.field"] = field_names[1] ? field_names : field_names[0]
       end
     end
 
@@ -95,14 +109,12 @@ module Ansr::Blacklight::Arel::Visitors
       solr_request[:group] = object.expr.to_s
     end
 
-    def visit_Ansr_Arel_Nodes_Filter(object, attribute)
+    def visit_Ansr_Arel_Nodes_Facet(object, attribute)
       name = object.expr.name
-      if object.select
-        filter_field(name.to_sym)
-      end
+      filter_field(name.to_sym)
       # there's got to be a helper for this
       object.opts.each do |att, value|
-        solr_request["f.#{name}.facet.#{att.to_s}".to_sym] = value if att != :select
+        solr_request["f.#{name}.facet.#{att.to_s}".to_sym] = value.to_s
       end
     end
 

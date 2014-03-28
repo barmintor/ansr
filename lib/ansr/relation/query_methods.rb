@@ -33,29 +33,30 @@ module Ansr
       @values[:filter] = values
     end
 
-    def filter(expr, opts = {})
+    def filter(expr)
       check_if_method_has_arguments!("filter", expr)
-      spawn.filter!(expr, opts)
+      spawn.filter!(expr)
     end
 
-    def filter!(expr, opts = {})
+    def filter!(expr)
       return self if expr.empty?
 
-      filter_nodes = build_filter(expr)
+      filter_nodes = build_where(expr)
       return self unless filter_nodes
       filters = []
       filter_nodes.each do |filter_node|
         case filter_node
         when ::Arel::Nodes::In, ::Arel::Nodes::Equality
-          filter_node.left = Ansr::Arel::Nodes::Filter.new(filter_node.left, opts)
-        when ::Arel::SqlLiteral, String, Symbol
-          filter_node = Ansr::Arel::Nodes::Filter.new(::Arel::Attribute.new(model().table, filter_node.to_s), opts)
+          filter_node.left = Ansr::Arel::Nodes::Filter.new(filter_node.left)
+        when ::Arel::SqlLiteral
+          filter_node = Ansr::Arel::Nodes::Filter.new(filter_node)
+        when String, Symbol
+          filter_node = Ansr::Arel::Nodes::Filter.new(::Arel::SqlLiteral.new(filter_node.to_s))
         else
           raise "unexpected filter node type #{filter_node.class}"
         end
         filters << filter_node
       end
-      #filter_name = filter_name(filter_where)
       self.filter_values+= filters 
     
       self
@@ -73,6 +74,27 @@ module Ansr
           raise "unscope(filter: #{target_value.inspect}) failed: unscoping #{rel.class} is unimplemented."
         end
       end
+    end
+
+    def facet(expr, opts = {})
+      spawn.facet!(expr, opts)
+    end
+
+    def facet!(expr, opts={})
+      self.facet_values+= build_facets(expr, opts)
+      self
+    end
+
+    def facet_values
+      @values[:facets] || []
+    end
+
+    def facet_values=(values)
+      raise ActiveRecord::ImmutableRelation if @loaded
+      @values[:facets]=values
+    end
+
+    def facet_unscoping(target_value)
     end
 
     def filter_name(expr)
@@ -219,36 +241,22 @@ module Ansr
       collapse_filters(arel, (filter_values).uniq)
       arel.projections << @values[:spellcheck] if @values[:spellcheck]
       arel.projections << @values[:highlight] if @values[:highlight]
+      arel.projections += facet_values
       arel.from arel.create_table_alias(arel.source.left, as_value) if as_value
       arel
     end      
 
     # cloning from ActiveRecord::QueryMethods.build_where as a first pass
-    def build_filter(opts, other=[])
-      case opts
-        when String, Array
-          #TODO: Remove duplication with: /activerecord/lib/active_record/sanitization.rb:113
-          values = Hash === other.first ? other.first.values : other
-
-          values.grep(ActiveRecord::Relation) do |rel|
-            self.bind_values += rel.bind_values
-          end
-          opts = (other.empty? ? opts : (Array(opts) + other))
-          [model().send(:sanitize_sql, opts, model().table_name)]
-        when Hash
-          attributes = model().send(:expand_hash_conditions_for_sql_aggregates, opts)
-
-          attributes.keys.each do |k|
-            sk = filter_name(k)
-            attributes[sk] = attributes.delete(k) unless sk.eql? k.to_s
-          end
-          attributes.values.grep(ActiveRecord::Relation) do |rel|
-            self.bind_values += rel.bind_values
-          end
-
-          ActiveRecord::PredicateBuilder.build_from_hash(model(), attributes, model().table)
-        else
-          [opts]
+    def build_facets(expr, opts={})
+      case expr
+      when Array
+        r = expr.inject([]) {|m,e| m.concat build_facets(e,opts)}
+      when String, Symbol
+        [Ansr::Arel::Nodes::Facet.new(::Arel::Attributes::Attribute.new(table, expr.to_s), opts)]
+      when ::Arel::Attributes::Attribute
+        [Ansr::Arel::Nodes::Facet.new(expr, opts)]
+      else
+        [opts]
       end
     end
 

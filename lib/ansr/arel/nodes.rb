@@ -5,7 +5,6 @@ module Ansr::Arel::Nodes
     def initialize(expr, opts={})
       @expr = expr
       @opts = opts
-      @opts[:select] = true unless @opts.has_key? :select
     end
 
     def method_missing(method, *args)
@@ -15,11 +14,7 @@ module Ansr::Arel::Nodes
 
   end
 
-  class Filter < UnaryProperties
-    def select(*val)
-      @opts[:select] = val.first.to_s.downcase == 'false' if val.first
-      @opts[:select]
-    end
+  class Facet < UnaryProperties
 
     def order(*val)
       if val.first
@@ -39,7 +34,8 @@ module Ansr::Arel::Nodes
       @opts[:limit]
     end
   end
+  class Filter < UnaryProperties; end
   class Highlight < UnaryProperties; end
-  class Spellcheck < UnaryProperties; end
   class ProjectionTraits < UnaryProperties; end
+  class Spellcheck < UnaryProperties; end
 end

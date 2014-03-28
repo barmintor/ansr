@@ -8,6 +8,11 @@ module Ansr::Dpla
       super(klass, table, values)
     end
 
+    def facet_values=(values)
+      values.each {|value| raise "#{value.expr.name.to_sym} is not facetable" unless table.facets.include? value.expr.name.to_sym}
+      super
+    end
+
     def empty?
       count == 0
     end
