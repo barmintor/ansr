@@ -93,6 +93,7 @@ module Ansr::Dpla
 
       def initialize(klass, opts={})
         super(klass.model())
+        self.name = klass.name.downcase.pluralize
         @fields += (opts[:fields] || FIELDS)
         @facets += (opts[:facets] || FACETS)
         @sorts += (opts[:sorts] || SORTS)

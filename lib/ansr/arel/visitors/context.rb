@@ -6,7 +6,7 @@ module Ansr::Arel::Visitors
     end
   end
 
-  %w(Filter From).each do |name|
+  %W(Filter From Order).each do |name|
     const_set(name, Class.new(Context))
   end
 end

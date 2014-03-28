@@ -4,7 +4,7 @@ module Ansr::Dpla::Arel::Visitors
     
     def initialize(table, query_opts=nil)
       super(table)
-      @query_opts = query_opts ||= Ansr::OpenStructWithHashAccess.new
+      @query_opts = query_opts ||= Ansr::Dpla::Request.new
     end
 
     # determines whether multiple values should accumulate or overwrite in merges
@@ -12,9 +12,25 @@ module Ansr::Dpla::Arel::Visitors
       true
     end
 
+    def visit_String o, a
+      case a
+      when Ansr::Arel::Visitors::From
+        query_opts.path = o
+      when Ansr::Arel::Visitors::Filter
+        filter_field(o.to_sym)
+      when Ansr::Arel::Visitors::Order
+        order(o)
+      else
+        raise "visited String \"#{o}\" with #{a.to_s}"
+      end
+    end
+
     def visit_Arel_SqlLiteral(n, attribute)
       select_val = n.to_s.split(" AS ")
-      if Ansr::Arel::Visitors::Filter === attribute
+      case attribute
+      when Ansr::Arel::Visitors::Order
+        order(n.to_s)
+      when Ansr::Arel::Visitors::Filter
         filter_field(select_val[0].to_sym)
       else
         field(select_val[0].to_sym)
@@ -22,6 +38,18 @@ module Ansr::Dpla::Arel::Visitors
           query_opts.aliases ||= {}
           query_opts.aliases[select_val[0]] = select_val[1]
         end
+      end
+    end
+
+    def visit_Ansr_Arel_Nodes_Filter(object, attribute)
+      expr = object.expr
+      name = object.expr.name
+      case expr
+      when ::Arel::Attributes::Attribute
+        name = "#{expr.relation.name}.#{name}" if expr.relation.name.to_s != table.name.to_s
+        visit name, Ansr::Arel::Visitors::Filter.new(attribute) if object.select
+      else
+        raise "Unexpected filter expression type #{object.expr.class}"
       end
     end
 
@@ -63,6 +91,9 @@ module Ansr::Dpla::Arel::Visitors
 
     def visit_Arel_Nodes_Equality(object, attribute)
       add_where_clause(object.left, object.right)
+      if ::Ansr::Arel::Nodes::Filter === object.left
+        visit object.left, attribute
+      end
     end
     def visit_Arel_Nodes_NotEqual(object, attribute)
       add_where_clause(object.left, "NOT " + object.right)
@@ -74,6 +105,17 @@ module Ansr::Dpla::Arel::Visitors
     def visit_Arel_Nodes_Grouping(object, attribute)
       visit object.expr, attribute
     end
+
+    def visit_Arel_Nodes_Ordering(object, attribute)
+      if query_opts[:sort_by]
+        query_opts[:sort_by] = Array[query_opts[:sort_by]] << object.expr.name
+      else
+        query_opts[:sort_by] = object.expr.name
+      end
+      direction = :asc if (::Arel::Nodes::Ascending === object and direction)
+      direction = :desc if (::Arel::Nodes::Descending === object)
+      query_opts[:sort_order] = direction if direction
+    end      
 
     def order(*arel_nodes)
       direction = nil

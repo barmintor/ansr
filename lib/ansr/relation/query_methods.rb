@@ -33,27 +33,113 @@ module Ansr
       @values[:filter] = values
     end
 
-    def filter(args)
-      check_if_method_has_arguments!("filter", args)
-      spawn.filter!(args)
+    def filter(expr, opts = {})
+      check_if_method_has_arguments!("filter", expr)
+      spawn.filter!(expr, opts)
     end
 
-    def filter!(args)
-      return self if args.empty?
+    def filter!(expr, opts = {})
+      return self if expr.empty?
 
-      filter_where = build_filter(args)
-      return self unless filter_where
-      filter_name = filter_name(filter_where)
-      if (filter_name)
-        @klass = @klass.view(*filter_where)
-        model().projections += Array(filter_name)
+      filter_nodes = build_filter(expr)
+      return self unless filter_nodes
+      filters = []
+      filter_nodes.each do |filter_node|
+        case filter_node
+        when ::Arel::Nodes::In, ::Arel::Nodes::Equality
+          filter_node.left = Ansr::Arel::Nodes::Filter.new(filter_node.left, opts)
+        when ::Arel::SqlLiteral, String, Symbol
+          filter_node = Ansr::Arel::Nodes::Filter.new(::Arel::Attribute.new(model().table, filter_node.to_s), opts)
+        else
+          raise "unexpected filter node type #{filter_node.class}"
+        end
+        filters << filter_node
       end
+      #filter_name = filter_name(filter_where)
+      self.filter_values+= filters 
     
       self
     end
 
+    def filter_unscoping(target_value)
+      target_value_sym = target_value.to_sym
+
+      filter_values.reject! do |rel|
+        case rel
+        when ::Arel::Nodes::In, ::Arel::Nodes::Equality
+          subrelation = (rel.left.kind_of?(::Arel::Attributes::Attribute) ? rel.left : rel.right)
+          subrelation.name.to_sym == target_value_sym
+        else
+          raise "unscope(filter: #{target_value.inspect}) failed: unscoping #{rel.class} is unimplemented."
+        end
+      end
+    end
+
     def filter_name(expr)
       connection.sanitize_filter_name(field_name(expr))
+    end
+
+    def as(args)
+      spawn.as!(args)
+    end
+
+    def as!(args)
+      self.as_value= args
+    end
+
+    def as_value
+      @values[:as]
+    end
+
+    def as_value=(args)
+      raise ActiveRecord::ImmutableRelation if @loaded
+      @values[:as] = args
+    end
+
+    def as_unscoping(*args)
+      @values.delete(:as)
+    end
+
+    def highlight(expr, opts={})
+      spawn.highlight!(expr, opts)
+    end
+
+    def highlight!(expr, opts = {})
+      self.highlight_value= Ansr::Arel::Nodes::Highlight.new(expr, opts)
+    end
+
+    def highlight_value
+      @values[:highlight]
+    end
+
+    def highlight_value=(val)
+      raise ActiveRecord::ImmutableRelation if @loaded
+      @values[:highlight] = val
+    end
+
+    def highlight_unscoping(*args)
+      @values.delete(:highlight)
+    end
+
+    def spellcheck(expr, opts={})
+      spawn.spellcheck!(expr, opts)
+    end
+
+    def spellcheck!(expr, opts = {})
+      self.spellcheck_value= Ansr::Arel::Nodes::Spellcheck.new(expr, opts)
+    end
+
+    def spellcheck_value
+      @values[:spellcheck]
+    end
+
+    def spellcheck_value=(val)
+      raise ActiveRecord::ImmutableRelation if @loaded
+      @values[:spellcheck] = val
+    end
+
+    def spellcheck_unscoping(*args)
+      @values.delete(:spellcheck)
     end
 
     def field_name(expr)
@@ -75,7 +161,7 @@ module Ansr
           else
             field_name = expr.name.to_sym
           end
-        when ::Arel::Nodes::Unary
+        when ::Arel::Nodes::Unary, Ansr::Arel::Nodes::Filter
           if expr.expr.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.expr.relation.name}.#{expr.expr.name}".to_sym
@@ -117,20 +203,24 @@ module Ansr
       arel.where(::Arel::Nodes::And.new(predicates)) if predicates.present?
     end
 
-    def collapse_filters(arel, wheres)
-      predicates = wheres.map do |where|
-        next where if ::Arel::Nodes::Equality === where
-        where = Arel.sql(where) if String === where # SqlLiteral-ize
-        ::Arel::Nodes::Grouping.new(where)
+    def collapse_filters(arel, filters)
+      predicates = filters.map do |filter|
+        next filter if ::Arel::Nodes::Equality === filter
+        filter = Arel.sql(filter) if String === filter # SqlLiteral-ize
+        ::Arel::Nodes::Grouping.new(filter)
       end
 
-      arel.filter(::Arel::Nodes::And.new(predicates)) if predicates.present?
+      arel.where(::Arel::Nodes::And.new(predicates)) if predicates.present?
     end
 
     # Could filtering be moved out of intersection into one arel tree?
     def build_arel
       arel = super
-      #collapse_filters(arel, (filter_values - ['']).uniq)
+      collapse_filters(arel, (filter_values).uniq)
+      arel.projections << @values[:spellcheck] if @values[:spellcheck]
+      arel.projections << @values[:highlight] if @values[:highlight]
+      arel.from arel.create_table_alias(arel.source.left, as_value) if as_value
+      arel
     end      
 
     # cloning from ActiveRecord::QueryMethods.build_where as a first pass

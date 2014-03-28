@@ -12,7 +12,10 @@ module Ansr::Blacklight::Arel
       blacklight_config.solr_path
     end
     
-    delegate :index_fields, to: :blacklight_config
+    def index_fields
+      blacklight_config.index_fields
+    end
+    #delegate :index_fields, to: :blacklight_config
     delegate :show_fields, to: :blacklight_config
     delegate :sort_fields, to: :blacklight_config
 

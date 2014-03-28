@@ -33,7 +33,7 @@ module Ansr::Blacklight::ConnectionAdapters
       query[:qt] = blacklight_config.qt unless query[:qt] or !blacklight_config.qt
       params = {params: query, method: blacklight_config.http_method || :get}
       params[:data] = params.delete(:params) if params[:method] == :post
-      raw_response = eval(@connection.send(@method, query[:query_handler], params))
+      raw_response = eval(@connection.send(@method, query.path, params))
       Blacklight::SolrResponse.new(raw_response, raw_response['params'])
     end
 

@@ -8,7 +8,6 @@ module Ansr::Dpla
 
       def initialize(klass, logger = nil, pool = nil) #:nodoc:
         super(klass, klass.api, logger, pool)
-        @method = klass.name.downcase.pluralize.to_sym
         @visitor = Ansr::Dpla::Arel::Visitors::ToNoSql.new(@table)
       end
 
@@ -17,10 +16,11 @@ module Ansr::Dpla
       end
 
       def execute(query, name='ANSR-DPLA')
-        query = query.to_h if Ansr::OpenStructWithHashAccess === query
+        method = query.path
+        query = query.to_h if Ansr::Dpla::Request === query
         query = query.dup
         aliases = query.delete(:aliases)
-        json = @connection.send(@method, query)
+        json = @connection.send(method, query)
         json = json.length > 0 ? JSON.load(json) : {'docs' => [], 'facets' => []}
         if json['docs'] and aliases
           json['docs'].each do |doc|

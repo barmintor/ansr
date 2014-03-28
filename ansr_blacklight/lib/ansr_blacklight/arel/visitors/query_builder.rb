@@ -7,7 +7,7 @@ module Ansr::Blacklight::Arel::Visitors
     def initialize(table, blacklight_config)
       super(table)
       @blacklight_config = blacklight_config
-      @solr_request = Blacklight::Solr::Request.new
+      @solr_request = Ansr::Blacklight::Solr::Request.new
       default_solr_parameters(@solr_request, nil)
       add_solr_fields_to_query(@solr_request, nil)
     end
@@ -19,6 +19,17 @@ module Ansr::Blacklight::Arel::Visitors
     # determines whether multiple values should accumulate or overwrite in merges
     def multiple?(field_key)
       true
+    end
+
+    def visit_Arel_Nodes_TableAlias(object, attribute)
+      solr_request[:qt] = object.name.to_s
+      visit object.relation, attribute
+    end
+
+    def visit_Ansr_Arel_Nodes_ProjectionTraits(object, attribute)
+      solr_request[:wt] = object.wt if object.wt
+      solr_request[:defType] = object.defType if object.defType
+      visit(object.expr, attribute)
     end
 
     def visit_Arel_SqlLiteral(n, attribute)
@@ -35,7 +46,11 @@ module Ansr::Blacklight::Arel::Visitors
     end
 
     def from(value)
-      solr_request[:query_handler] = value
+      if value.respond_to? :name
+        solr_request.path = value.name
+      else
+        solr_request.path = value.to_s
+      end
     end
 
     def field(field_name)
@@ -49,30 +64,21 @@ module Ansr::Blacklight::Arel::Visitors
 
     def filter_field(field_name)
       return unless field_name
-      old = query_opts[:facets] ? Array(query_opts[:facets]) : []
+      old = solr_request[:facets] ? Array(solr_request[:facets]) : []
       field_names = (old + Array(field_name)).uniq
       if field_names[0]
-        query_opts[:facets] = field_names[1] ? field_names : field_names[0]
-      end
-    end
-
-    def add_where_clause(attr_node, val)
-      if query_opts[field_key]
-        query_opts[field_key] = Array(query_opts[field_key]) << val
-      else
-        query_opts[field_key] = val
+        solr_request[:facets] = field_names[1] ? field_names : field_names[0]
       end
     end
 
     def visit_Arel_Nodes_Equality(object, attribute)
-      field_key = field_key_from_node(object.left)
-      if Filter === attribute
+      field_key = (object.left.respond_to? :expr) ? field_key_from_node(object.left.expr) : field_key_from_node(object.left)
+      if Ansr::Arel::Visitors::Filter === attribute or Ansr::Arel::Nodes::Filter === object.left
         add_facet_fq_to_solr(solr_request, f: {field_key => object.right})
       else
         # do some q stuff
         add_query_to_solr(solr_request, search_field: field_key, q: object.right)
       end
-      add_where_clause(object.left, object.right)
     end
 
     def visit_Arel_Nodes_NotEqual(object, attribute)
@@ -83,6 +89,39 @@ module Ansr::Blacklight::Arel::Visitors
 
     def visit_Arel_Nodes_Grouping(object, attribute)
       visit object.expr, attribute
+    end
+
+    def visit_Arel_Nodes_Group(object, attribute)
+      solr_request[:group] = object.expr.to_s
+    end
+
+    def visit_Ansr_Arel_Nodes_Filter(object, attribute)
+      name = object.expr.name
+      if object.select
+        filter_field(name.to_sym)
+      end
+      # there's got to be a helper for this
+      object.opts.each do |att, value|
+        solr_request["f.#{name}.facet.#{att.to_s}".to_sym] = value if att != :select
+      end
+    end
+
+    def visit_Ansr_Arel_Nodes_Spellcheck(object, attribute)
+      unless object.expr == false
+        solr_request[:spellcheck] = object.expr.to_s
+      end
+      object.opts.each do |att, val|
+        solr_request["spellcheck.#{att.to_s}".to_sym] = val if att != :select
+      end
+    end
+
+    def visit_Ansr_Arel_Nodes_Highlight(object, attribute)
+      unless object.expr == false or object.expr == true
+        solr_request[:hl] = object.expr.to_s
+      end
+      object.opts.each do |att, val|
+        solr_request["hl.#{att.to_s}".to_sym] = val if att != :select
+      end
     end
 
     def order(*arel_nodes)
@@ -107,30 +146,30 @@ module Ansr::Blacklight::Arel::Visitors
       end
       nodes.each do |node|
         if ::Arel::Nodes::Ordering === node
-          if query_opts[:sort_by]
-            query_opts[:sort_by] = Array[query_opts[:sort_by]] << node.expr.name
+          if solr_request[:sort_by]
+            solr_request[:sort_by] = Array[solr_request[:sort_by]] << node.expr.name
           else
-            query_opts[:sort_by] = node.expr.name
+            solr_request[:sort_by] = node.expr.name
           end
           direction = :asc if (::Arel::Nodes::Ascending === node and direction)
           direction = :desc if (::Arel::Nodes::Descending === node)
         end
       end
-      query_opts[:sort_order] = direction if direction
+      solr_request[:sort_order] = direction if direction
     end
 
     def visit_Arel_Nodes_Limit(object, attribute)
       value = object.expr
       if value and (value = value.to_i)
         raise "Page size cannot be > 500 (#{value}" if value > 500
-        query_opts[:page_size] = value
+        solr_request[:rows] = value.to_s
       end
     end
 
     def visit_Arel_Nodes_Offset(object, attribute)
       value = object.expr
       if value
-        query_opts[:page] = (value.to_i / (query_opts[:page_size] || Ansr::Relation::DEFAULT_PAGE_SIZE)) + 1
+        solr_request[:start] = value.to_s
       end
     end        
 

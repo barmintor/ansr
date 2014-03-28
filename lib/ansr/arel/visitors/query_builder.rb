@@ -10,7 +10,7 @@ module Ansr::Arel::Visitors
     end
 
     def visit_Ansr_Arel_BigTable(object, attribute)
-      from(object) if From === attribute
+      visit object.name, attribute if Ansr::Arel::Visitors::From === attribute
     end
 
     def visit_Arel_Nodes_SelectCore(object, attribute)
@@ -22,24 +22,12 @@ module Ansr::Arel::Visitors
     end
 
     def visit_Symbol o, a
-      Filter === a ? filter_field(o) : field(o)
-    end
-
-    def visit_String o, a
-      case a
-      when From
-        from(o)
-      when Filter
-        filter_field(o)
-      else
-        raise "visited String \"#{o}\" with #{a.to_s}"
-      end
+      visit o.to_s, a
     end
 
     def visit_Array o, a
       o.map { |x| visit x, a }
     end
-
 
     def visit_Arel_Nodes_And(object, attribute)
       visit(object.children, attribute)
@@ -54,8 +42,5 @@ module Ansr::Arel::Visitors
       false
     end
 
-    private
-    def from(*args)
-    end
   end
 end

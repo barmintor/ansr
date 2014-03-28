@@ -22,27 +22,22 @@ module Ansr::Arel::Visitors
       object.cores.each { |x| builder.visit_Arel_Nodes_SelectCore(x, attribute) }
 
       unless object.orders.empty?
+
         object.orders.each do |x|
-          case x
-          when ::Arel::Nodes::SqlLiteral
-            builder.order(x.to_s)
-          when ::Arel::Nodes::Ordering
-            builder.order(x)
-          else
-            builder.merge visit(x, attribute)
-          end
+          oa = Ansr::Arel::Visitors::Order.new(attribute)
+          builder.visit x, oa
         end
       end
 
       builder.visit(object.limit, attribute) if object.limit
       builder.visit(object.offset, attribute) if object.offset
-      # not relevant  
+      # not relevant
       #builder.visit(o.lock, attribute) if object.lock
 
       builder.query_opts
     end
 
-    def visit_Arel_Nodes_Intersect(object, attribute)
+    def visit_Arel_Nodes_Intersect2(object, attribute)
       query_opts = visit_Arel_Nodes_SelectStatement(object.left, attribute)
       builder = query_builder(query_opts)
 
