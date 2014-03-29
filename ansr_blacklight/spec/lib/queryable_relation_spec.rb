@@ -31,17 +31,26 @@ describe Ansr::Blacklight::Relation do
   let(:r) { subject }
   describe "a bunch of query stuff" do
     before do
-      # The filter node will be either Filter(:attrs) or Equality(:left: Filter, :right: Expr)
-      subject.facet!("title_facet", limit: "vest")
-      subject.filter!({"name_facet" => "Fedo"})
-      subject.facet!("name_facet", limit: 10)
-      subject.as!('hey') # qt is essentially a table alias; solr path is a table name cf. Relation.from
+      ## COMMON AREL CONCEPTS ##
+      # from() indicates the big table name for the relation; in BL/Solr this maps to the request path 
+      # as() indicates an alias for the big table; in BL/Solr this maps to the :qt param
+      subject.as!('hey')
+      # constraints map directly
       subject.where!('q'=> "what's")
+      # as do offsets and limits
       subject.offset!(21)
       subject.limit!(12)
-      subject.highlight!("I", 'fl' =>  "wish")
       subject.group!("I")
+      ## COMMON NO-SQL CONCEPTS ##
+      # facets are a kind of projection with attributes (attribute support is optional)
+      subject.facet!("title_facet", limit: "vest")
+      # filters are a type of constraint
+      subject.filter!({"name_facet" => "Fedo"})
+      subject.facet!("name_facet", limit: 10)
+      subject.highlight!("I", 'fl' =>  "wish")
       subject.spellcheck!("a", q: "fleece")
+      ## SOLR ECCENTRICITIES ##
+      # these are present for compatibility, but not expected to be used generically
       subject.wt!("going")
       subject.defType!("had")
     end
