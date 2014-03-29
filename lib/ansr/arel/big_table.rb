@@ -17,9 +17,6 @@ module Ansr
         @sorts = []
       end
 
-      def view?
-        Ansr::Model::ViewProxy === model()
-      end
     end
   end
 end

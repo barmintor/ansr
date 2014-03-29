@@ -46,9 +46,6 @@ module Ansr
         Ansr::Relation.new(model(), table())
 	    end
 
-      def view(*wheres)
-        return Ansr::Arel::ViewProxy.new(model(), *wheres)
-      end
     end
 
     require 'ansr/model/connection_handler'
