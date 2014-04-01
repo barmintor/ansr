@@ -6,6 +6,7 @@ module Ansr
     autoload :Configurable
     autoload :ConnectionAdapters
     autoload :Arel
+    autoload :Facets
     autoload :Base
     autoload :Model
     autoload :Sanitization

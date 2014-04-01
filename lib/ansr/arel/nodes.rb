@@ -1,5 +1,5 @@
 module Ansr::Arel::Nodes
-  class UnaryProperties < ::Arel::Nodes::Node
+  class ConfiguredUnary < ::Arel::Nodes::Node
     attr_reader :expr, :opts
 
     def initialize(expr, opts={})
@@ -14,7 +14,7 @@ module Ansr::Arel::Nodes
 
   end
 
-  class Facet < UnaryProperties
+  class Facet < ConfiguredUnary
 
     def order(*val)
       if val.first
@@ -34,8 +34,8 @@ module Ansr::Arel::Nodes
       @opts[:limit]
     end
   end
-  class Filter < UnaryProperties; end
-  class Highlight < UnaryProperties; end
-  class ProjectionTraits < UnaryProperties; end
-  class Spellcheck < UnaryProperties; end
+  class Filter < ConfiguredUnary; end
+  class Highlight < ConfiguredUnary; end
+  class ProjectionTraits < ConfiguredUnary; end
+  class Spellcheck < ConfiguredUnary; end
 end

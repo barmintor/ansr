@@ -5,20 +5,20 @@ module Ansr::Blacklight::Model
     module ClassMethods
 
       def solr
-        Blacklight.solr
+        Ansr::Blacklight.solr
       end
 
       def build_default_scope
-        rel = Ansr::Blacklight::Relation.new(model(), table()).from(blacklight_config.solr_path)
+        rel = Ansr::Blacklight::Relation.new(model(), table())
         rel
       end
 
       def unique_key
-        blacklight_config.document_unique_id_param
+        table().unique_key
       end
 
       def table
-        @big_table ||= Ansr::Blacklight::Arel::BigTable.new(model(), nil, blacklight_config)
+        @big_table ||= Ansr::Arel::BigTable.new(model(), nil)
       end
 
       def table=(val)

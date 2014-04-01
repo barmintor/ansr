@@ -1,17 +1,16 @@
 module Ansr::Blacklight::Arel::Visitors
   class QueryBuilder < Ansr::Arel::Visitors::QueryBuilder
-    include Blacklight::SolrHelper
-  	include Blacklight::RequestBuilders
-    attr_reader :blacklight_config, :solr_request
+    #include Blacklight::SolrHelper
+    #include Blacklight::RequestBuilders
+  	include Ansr::Blacklight::RequestBuilders
+    attr_reader :solr_request
     
-    def initialize(table, blacklight_config)
+    def initialize(table)
       super(table)
-      @blacklight_config = blacklight_config
       @solr_request = Ansr::Blacklight::Solr::Request.new
-      default_solr_parameters(@solr_request, nil)
-      add_solr_fields_to_query(@solr_request, nil)
     end
 
+    public
     def query_opts
     	solr_request
     end
@@ -65,6 +64,7 @@ module Ansr::Blacklight::Arel::Visitors
       else
         solr_request.path = value.to_s
       end
+      self.table=value if (value.is_a? Ansr::Arel::BigTable)
     end
 
     def field(field_name)
@@ -88,10 +88,12 @@ module Ansr::Blacklight::Arel::Visitors
     def visit_Arel_Nodes_Equality(object, attribute)
       field_key = (object.left.respond_to? :expr) ? field_key_from_node(object.left.expr) : field_key_from_node(object.left)
       if Ansr::Arel::Visitors::Filter === attribute or Ansr::Arel::Nodes::Filter === object.left
-        add_facet_fq_to_solr(solr_request, f: {field_key => object.right})
+        add_facet_fq_to_solr(solr_request, f: {field_key => object.right}, opts: object.left.opts)
       else
-        # do some q stuff
-        add_query_to_solr(solr_request, search_field: field_key, q: object.right)
+        # check the table for configured fields
+        field = table[object.left]
+        puts "#{table.class.name}#[#{object.left.class.name}]"
+        add_query_to_solr(field, object.right)
       end
     end
 

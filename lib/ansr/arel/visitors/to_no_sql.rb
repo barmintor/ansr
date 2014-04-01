@@ -37,17 +37,6 @@ module Ansr::Arel::Visitors
       builder.query_opts
     end
 
-    def visit_Arel_Nodes_Intersect2(object, attribute)
-      query_opts = visit_Arel_Nodes_SelectStatement(object.left, attribute)
-      builder = query_builder(query_opts)
-
-      filter_context = object.right
-      filter_context.cores.each { |x| builder.visit_Arel_Nodes_SelectCore(x, Filter.new(attribute)) }
-
-      builder.query_opts
-
-    end
-
   end
 
 end

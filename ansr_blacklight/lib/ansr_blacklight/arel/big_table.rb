@@ -1,26 +1,19 @@
 module Ansr::Blacklight::Arel
   class BigTable < Ansr::Arel::BigTable
-
-    attr_accessor :blacklight_config
+    attr_accessor :name
 
     def initialize(klass, engine=nil, config=nil)
       super(klass, engine)
-      @blacklight_config = config
-    end
-
-    def name
-      blacklight_config.solr_path
+      @name = 'select'
+      self.config(config)
     end
     
-    def index_fields
-      blacklight_config.index_fields
-    end
-    #delegate :index_fields, to: :blacklight_config
-    delegate :show_fields, to: :blacklight_config
-    delegate :sort_fields, to: :blacklight_config
+    delegate :index_fields, to: :config
+    delegate :show_fields, to: :config
+    delegate :sort_fields, to: :config
 
     def filterable
-      blacklight_config.facet_fields.keys
+      config.facet_fields.keys
     end
 
     alias_method :facets, :filterable
@@ -30,11 +23,11 @@ module Ansr::Blacklight::Arel
     end
 
     def constrainable
-      blacklight_config.search_fields.keys
+      index_fields.keys
     end
 
     def constrainable?(field)
-      constrainable.include?(field)
+      index_fields.include?(field)
     end
 
     def selectable
@@ -58,7 +51,7 @@ module Ansr::Blacklight::Arel
     end
 
     def primary_key
-      @primary_key = ::Arel::Attribute.new(self, blacklight_config.document_unique_id_param.to_s)
+      @primary_key = ::Arel::Attribute.new(self, config.document_unique_id_param.to_s)
     end
   end
 end

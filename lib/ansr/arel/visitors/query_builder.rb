@@ -11,6 +11,7 @@ module Ansr::Arel::Visitors
 
     def visit_Ansr_Arel_BigTable(object, attribute)
       visit object.name, attribute if Ansr::Arel::Visitors::From === attribute
+      @table = object if Ansr::Arel::BigTable === object and Ansr::Arel::Visitors::From === attribute
     end
 
     def visit_Arel_Nodes_SelectCore(object, attribute)

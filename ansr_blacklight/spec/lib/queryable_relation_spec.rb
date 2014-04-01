@@ -16,9 +16,20 @@ describe Ansr::Blacklight::Relation do
     end
   end
 
+  class TestTable < Ansr::Arel::BigTable
+    def name
+      'outside'
+    end
+
+    def [](val)
+      key = (Arel::Attributes::Attribute === val) ? val.name.to_sym : val.to_sym
+      key == :configured ? Ansr::Arel::ConfiguredField.new(key, {:property => 'test', :escape => 'tes"t'}) : super(val)
+    end
+  end
+
   before do
     TestModel.solr = stub_solr
-    TestModel.blacklight_config.facet_fields[:name_facet] = :foo
+    #TestModel.blacklight_config.facet_fields[:name_facet] = :foo
     @relation = Ansr::Blacklight::Relation.new(TestModel, TestModel.table)
   end
 
@@ -33,10 +44,12 @@ describe Ansr::Blacklight::Relation do
     before do
       ## COMMON AREL CONCEPTS ##
       # from() indicates the big table name for the relation; in BL/Solr this maps to the request path 
+      subject.from!(TestTable.new(TestModel))
       # as() indicates an alias for the big table; in BL/Solr this maps to the :qt param
       subject.as!('hey')
       # constraints map directly
-      subject.where!('q'=> "what's")
+      subject.where!(:configured=> "what's")
+
       # as do offsets and limits
       subject.offset!(21)
       subject.limit!(12)
@@ -57,8 +70,9 @@ describe Ansr::Blacklight::Relation do
 
     it "should accept valid parameters" do
       config = Blacklight::Configuration.new
-      visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestModel.table, config)
+      visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestModel.table)
       query = visitor.accept subject.build_arel.ast
+      expect(query.path).to eq('outside')
       expect(query.to_hash).to eq({"defType" => "had",
          "f.name_facet.facet.limit" => "10",
          "f.title_facet.facet.limit" => "vest",
@@ -67,7 +81,7 @@ describe Ansr::Blacklight::Relation do
          "group" => "I",
          "hl" => "I",
          "hl.fl" => "wish",
-         "q" => "what's",
+         "q" => "{!property=test escape='tes\\\"t'}what's",
          "qt" => "hey",
          "rows" => "13",
          "spellcheck" => "a",
