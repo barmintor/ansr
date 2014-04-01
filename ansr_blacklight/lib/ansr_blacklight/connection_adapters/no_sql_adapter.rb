@@ -4,7 +4,7 @@ module Ansr::Blacklight::ConnectionAdapters
     attr_accessor :blacklight_config
 
     def self.connection_for(klass)
-      klass.solr
+      Ansr::Blacklight.solr
     end
 
     def initialize(klass, logger = nil, pool = nil) #:nodoc:
@@ -34,7 +34,7 @@ module Ansr::Blacklight::ConnectionAdapters
       params = {params: query, method: blacklight_config.http_method || :get}
       params[:data] = params.delete(:params) if params[:method] == :post
       raw_response = eval(@connection.send(@method, query.path, params))
-      Blacklight::SolrResponse.new(raw_response, raw_response['params'])
+      Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     end
 
     # how can we determine the names of the query handlers (and corresponding "table")?

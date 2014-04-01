@@ -5,7 +5,7 @@ module Ansr::Blacklight::Model
     module ClassMethods
 
       def solr
-        Blacklight.solr
+        Ansr::Blacklight.solr
       end
 
       def build_default_scope

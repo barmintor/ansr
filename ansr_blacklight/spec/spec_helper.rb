@@ -3,11 +3,13 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'app/models'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
-require 'rspec/autorun'
-require 'loggable'
-require 'blacklight'
+ENV["RAILS_ENV"] ||= 'test'
 require 'ansr'
+require 'rails/all'
+require 'rspec/rails'
+require 'loggable'
 require 'ansr_blacklight'
+#require 'blacklight'
 
 RSpec.configure do |config|
   # == Mock Framework

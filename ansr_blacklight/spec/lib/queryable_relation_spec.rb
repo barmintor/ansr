@@ -18,7 +18,7 @@ describe Ansr::Blacklight::Relation do
 
   before do
     TestModel.solr = stub_solr
-    TestModel.blacklight_config.facet_fields[:name_facet] = :foo
+    #TestModel.blacklight_config.facet_fields[:name_facet] = :foo
     @relation = Ansr::Blacklight::Relation.new(TestModel, TestModel.table)
   end
 

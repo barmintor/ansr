@@ -30,11 +30,11 @@ module Ansr::Blacklight::Arel
     end
 
     def constrainable
-      blacklight_config.search_fields.keys
+      blacklight_config.index_fields.keys
     end
 
     def constrainable?(field)
-      constrainable.include?(field)
+      blacklight_config.index_fields.include?(field)
     end
 
     def selectable

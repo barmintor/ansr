@@ -1,7 +1,8 @@
 module Ansr::Blacklight::Arel::Visitors
   class QueryBuilder < Ansr::Arel::Visitors::QueryBuilder
-    include Blacklight::SolrHelper
-  	include Blacklight::RequestBuilders
+    #include Blacklight::SolrHelper
+    #include Blacklight::RequestBuilders
+  	include Ansr::Blacklight::RequestBuilders
     attr_reader :blacklight_config, :solr_request
     
     def initialize(table, blacklight_config)
@@ -12,6 +13,21 @@ module Ansr::Blacklight::Arel::Visitors
       add_solr_fields_to_query(@solr_request, nil)
     end
 
+    ## Below Copied from Blacklight::SolrHelper ##
+    private
+
+    def should_add_to_solr field_name, field
+      field.include_in_request || (field.include_in_request.nil? && blacklight_config.add_field_configuration_to_solr_request)
+    end
+
+    ## Above Copied from Blacklight::SolrHelper ##
+    ## Below copied from Blacklight::SearchFields ##
+    def search_field_def_for_key(key)
+      blacklight_config.search_fields[key]
+    end
+    ## Above copied from Blacklight::SearchFields ##
+
+    public
     def query_opts
     	solr_request
     end
