@@ -40,6 +40,7 @@ describe Ansr::Blacklight::Relation do
   subject { @relation }
 
   let(:r) { subject }
+  let(:visitor) {Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestModel.table)}
   describe "a bunch of query stuff" do
     before do
       ## COMMON AREL CONCEPTS ##
@@ -60,6 +61,7 @@ describe Ansr::Blacklight::Relation do
       # filters are a type of constraint
       subject.filter!({"name_facet" => "Fedo"})
       subject.facet!("name_facet", limit: 10)
+      subject.facet!(limit: 20)
       subject.highlight!("I", 'fl' =>  "wish")
       subject.spellcheck!("a", q: "fleece")
       ## SOLR ECCENTRICITIES ##
@@ -68,15 +70,45 @@ describe Ansr::Blacklight::Relation do
       subject.defType!("had")
     end
 
+    describe "#from" do
+      subject {@relation.from(TestTable.new(TestModel))}
+      it "should set the path to the table name"
+        query = visitor.accept subject.build_arel.ast
+        expect(query.path).to eql('outside')
+      end
+
+      it "should change the table" do
+        expect(subject.table).to be_a TestTable
+      end
+    end
+
+    describe "#as" do
+      subject {@relation.as('hey')}
+      it "should set the :qt parameter" do
+        query = visitor.accept subject.build_arel.ast
+        expect(query.to_hash[:qt]).to eql 'hey'
+      end
+    end
+
+    describe "#facet" do
+      subject { @relation.facet(limit: 20)}
+      it "should set default facet parms when no field expr is given" do
+        rel = subject.facet(limit: 20)
+        query = visitor.accept rel.
+      end
+      it "should set facet field params" do
+      end
+    end
+
     it "should accept valid parameters" do
       config = Blacklight::Configuration.new
-      visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestModel.table)
       query = visitor.accept subject.build_arel.ast
       expect(query.path).to eq('outside')
       expect(query.to_hash).to eq({"defType" => "had",
          "f.name_facet.facet.limit" => "10",
          "f.title_facet.facet.limit" => "vest",
          "facet.field" => [:title_facet,:name_facet],
+         "facet.limit" => "20",
          "fq" => ["{!raw f=name_facet}Fedo"],
          "group" => "I",
          "hl" => "I",

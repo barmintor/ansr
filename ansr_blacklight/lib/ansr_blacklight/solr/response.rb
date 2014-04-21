@@ -47,7 +47,7 @@ class Ansr::Blacklight::Solr::Response < HashWithIndifferentAccess
     self['spelling']
   end
 
-  def grouped
+  def grouped(model)
     @groups ||= self["grouped"].map do |field, group|
       # grouped responses can either be grouped by:
       #   - field, where this key is the field name, and there will be a list
@@ -57,9 +57,9 @@ class Ansr::Blacklight::Solr::Response < HashWithIndifferentAccess
       #   - query, where the key is the query, and the matching documents will be
       #        in the doclist on THIS object
       if group["groups"] # field or function
-        GroupResponse.new field, group, self
+        GroupResponse.new field, model, group, self
       else # query
-        Group.new field, group, self
+        Group.new({field => field}, model, group, self)
       end
     end
   end

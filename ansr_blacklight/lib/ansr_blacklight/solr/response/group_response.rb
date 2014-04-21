@@ -2,10 +2,11 @@ class Ansr::Blacklight::Solr::Response::GroupResponse
 
   include Ansr::Blacklight::Solr::Response::PaginationMethods
 
-  attr_reader :key, :group, :response
+  attr_reader :key, :model, :group, :response
 
-  def initialize key, group, response
+  def initialize key, model, group, response
     @key = key
+    @model = model
     @group = group
     @response = response
   end
@@ -14,7 +15,7 @@ class Ansr::Blacklight::Solr::Response::GroupResponse
 
   def groups
     @groups ||= group["groups"].map do |g|
-      Ansr::Blacklight::Solr::Response::Group.new g[:groupValue], g, self
+      Ansr::Blacklight::Solr::Response::Group.new({key => g[:groupValue]}, model, g, self)
     end
   end
 

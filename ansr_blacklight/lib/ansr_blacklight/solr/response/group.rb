@@ -1,12 +1,11 @@
-class Ansr::Blacklight::Solr::Response::Group
+class Ansr::Blacklight::Solr::Response::Group < Ansr::Group
 
   include Ansr::Blacklight::Solr::Response::PaginationMethods
 
-  attr_reader :key, :group, :response
+  attr_reader :response
   
-  def initialize key, group, response
-    @key = key
-    @group = group
+  def initialize group_key, model, group, response
+    super(group_key, model, group)
     @response = response
   end
 
@@ -24,7 +23,7 @@ class Ansr::Blacklight::Solr::Response::Group
   end
 
   def docs
-    doclist[:docs].map {|doc| SolrDocument.new(doc, response)}
+    doclist[:docs].map {|doc| model.new(doc)} #TODO do we need to have the solrResponse in the item? 
   end
 
   def field

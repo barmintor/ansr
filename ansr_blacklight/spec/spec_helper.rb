@@ -48,3 +48,8 @@ def read_fixture(path)
 ensure
   _f and _f.close
 end
+
+def create_response(response, params = {})
+  Ansr::Blacklight::Solr::Response.new(response, params)
+end
+
