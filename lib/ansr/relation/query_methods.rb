@@ -249,9 +249,11 @@ module Ansr
     # cloning from ActiveRecord::QueryMethods.build_where as a first pass
     def build_facets(expr, opts={})
       case expr
+      when Hash
+        build_facets(::Arel.star,expr)
       when Array
         r = expr.inject([]) {|m,e| m.concat build_facets(e,opts)}
-      when String, Symbol
+      when String, Symbol, Arel::SqlLiteral
         [Ansr::Arel::Nodes::Facet.new(::Arel::Attributes::Attribute.new(table, expr.to_s), opts)]
       when ::Arel::Attributes::Attribute
         [Ansr::Arel::Nodes::Facet.new(expr, opts)]

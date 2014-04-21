@@ -13,6 +13,7 @@ module Ansr
     autoload :Relation
     autoload :OpenStructWithHashAccess, 'ansr/utils'
     autoload_under 'relation' do
+      autoload :Group
       autoload :ArelMethods
       autoload :QueryMethods
     end

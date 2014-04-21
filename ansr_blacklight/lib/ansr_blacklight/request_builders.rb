@@ -100,6 +100,7 @@ module Ansr::Blacklight
     def facet_value_to_fq_string(facet_field, value, facet_opts=nil)
       facet_field = table[facet_field]
       facet_config = (Ansr::Arel::ConfiguredField === facet_field)
+      facet_default = (::Arel.star == facet_field)
       local_params = []
       local_params << "tag=#{facet_field.tag}" if facet_config and facet_field.tag
 
@@ -107,6 +108,8 @@ module Ansr::Blacklight
       prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
 
       fq = case
+        when facet_default
+          ""
         when (facet_config and facet_field.query)
           facet_field.query[value][:fq]
         when (facet_config and facet_field.date),

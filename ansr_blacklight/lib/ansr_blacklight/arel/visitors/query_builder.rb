@@ -113,10 +113,15 @@ module Ansr::Blacklight::Arel::Visitors
 
     def visit_Ansr_Arel_Nodes_Facet(object, attribute)
       name = object.expr.name
-      filter_field(name.to_sym)
+      if name == ::Arel.star
+        prefix = "facet."
+      else
+        filter_field(name.to_sym) unless default
+        prefix = "f.#{name}.facet."
+      end
       # there's got to be a helper for this
       object.opts.each do |att, value|
-        solr_request["f.#{name}.facet.#{att.to_s}".to_sym] = value.to_s
+        solr_request["#{prefix}#{att.to_s}".to_sym] = value.to_s
       end
     end
 
