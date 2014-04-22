@@ -107,6 +107,7 @@ module Ansr
 
     def as!(args)
       self.as_value= args
+      self
     end
 
     def as_value
