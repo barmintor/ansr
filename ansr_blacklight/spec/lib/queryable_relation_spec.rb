@@ -28,10 +28,9 @@ describe Ansr::Blacklight::Relation do
 
       @visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(QueryTestModel.table)
 
-      @relation = Ansr::Blacklight::Relation.new(QueryTestModel, QueryTestModel.table)
       ## COMMON AREL CONCEPTS ##
       # from() indicates the big table name for the relation; in BL/Solr this maps to the request path 
-      @relation.from!(ConfiguredTable.new(QueryTestModel))
+      @relation = QueryTestModel.from(ConfiguredTable.new(QueryTestModel))
       # as() indicates an alias for the big table; in BL/Solr this maps to the :qt param
       @relation.as!('hey')
       # constraints map directly

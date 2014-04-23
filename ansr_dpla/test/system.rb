@@ -5,7 +5,9 @@ require 'ansr_dpla'
 require 'item'
 
 # you config the model with a hash including an API key for dp.la/v2, or the path to a YAML file
-Item.config('config/dpla.yml')
+open('config/dpla.yml') do |blob|
+  Item.config {|x| x.merge! YAML.load(blob)}
+end
 
 # then you can find single items with known IDs
 puts Item.find("7eb617e559007e1ad6d95bd30a30b16b")
