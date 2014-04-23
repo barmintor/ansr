@@ -49,7 +49,24 @@ ensure
   _f and _f.close
 end
 
+def stub_solr(response='')
+  solr = double('Solr')
+  solr.stub(:send_and_receive).and_return(response)
+  solr
+end
+
 def create_response(response, params = {})
   Ansr::Blacklight::Solr::Response.new(response, params)
 end
 
+class TestModel < Ansr::Blacklight::Base
+  configure do |config|
+    config[:unique_key] = 'id'
+  end
+  def self.solr=(solr)
+    @solr = solr
+  end
+  def self.solr
+    @solr
+  end
+end

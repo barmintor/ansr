@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Item do
   describe '.configure' do
     it "should store the configured Api class" do
-    	Item.configure({:api=>Ansr::Dpla::TestApi, :api_key => :dummy})
+    	Item.configure {|x| x.merge!(:api=>Ansr::Dpla::TestApi, :api_key => :dummy)}
     	expect(Item.api).to be_a Ansr::Dpla::TestApi
     end
   end
@@ -25,7 +25,7 @@ describe Item do
 
   describe '.where' do
   	before do
-    	Item.configure({:api=>Ansr::Dpla::TestApi, :api_key => :dummy})
+    	Item.configure{|x| x.merge!({:api=>Ansr::Dpla::TestApi, :api_key => :dummy})}
     end
   	it 'should return a Relation when there is query information' do
       expect(Item.where({:q=>'kittens'})).to be_a Ansr::Relation

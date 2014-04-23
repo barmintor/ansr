@@ -5,6 +5,7 @@ module Ansr
   eager_autoload do
     autoload :Configurable
     autoload :ConnectionAdapters
+    autoload :DummyAssociations
     autoload :Arel
     autoload :Facets
     autoload :Base
@@ -14,6 +15,7 @@ module Ansr
     autoload :OpenStructWithHashAccess, 'ansr/utils'
     autoload_under 'relation' do
       autoload :Group
+      autoload :PredicateBuilder
       autoload :ArelMethods
       autoload :QueryMethods
     end

@@ -174,13 +174,15 @@ module Ansr
           if expr.left.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.left.relation.name}.#{expr.left.name}".to_sym
+            field_name = expr.left.name.to_sym
           else
             field_name = expr.left.name.to_sym
           end
-        when ::Arel::Attributes::Attribute
+        when ::Arel::Attributes::Attribute, Ansr::Arel::ConfiguredField
           if expr.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.relation.name}.#{expr.name}".to_sym
+            field_name = expr.name.to_sym
           else
             field_name = expr.name.to_sym
           end
@@ -188,6 +190,7 @@ module Ansr
           if expr.expr.relation.name != model().table.name
             # oof, this is really hacky
             field_name = "#{expr.expr.relation.name}.#{expr.expr.name}".to_sym
+            field_name = expr.expr.name.to_sym
           else
             field_name = expr.expr.name.to_sym
           end
@@ -258,6 +261,31 @@ module Ansr
         [Ansr::Arel::Nodes::Facet.new(::Arel::Attributes::Attribute.new(table, expr.to_s), opts)]
       when ::Arel::Attributes::Attribute
         [Ansr::Arel::Nodes::Facet.new(expr, opts)]
+      else
+        [expr]
+      end
+    end
+
+    # cloning from ActiveRecord::QueryMethods.build_where to use our PredicateBuilder
+    def build_where(opts, other = [])
+      case opts
+      when String, Array
+        #TODO: Remove duplication with: /activerecord/lib/active_record/sanitization.rb:113
+        values = Hash === other.first ? other.first.values : other
+
+        values.grep(ActiveRecord::Relation) do |rel|
+          self.bind_values += rel.bind_values
+        end
+
+        [@klass.send(:sanitize_sql, other.empty? ? opts : ([opts] + other))]
+      when Hash
+        attributes = @klass.send(:expand_hash_conditions_for_aggregates, opts)
+
+        attributes.values.grep(ActiveRecord::Relation) do |rel|
+          self.bind_values += rel.bind_values
+        end
+
+        PredicateBuilder.build_from_hash(klass, attributes, table)
       else
         [opts]
       end

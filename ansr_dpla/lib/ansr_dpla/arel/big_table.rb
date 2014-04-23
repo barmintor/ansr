@@ -100,6 +100,9 @@ module Ansr::Dpla
         self.config(opts[:config]) if opts[:config]
       end
 
+      def name
+        super.pluralize.downcase
+      end
     end
   end
 end

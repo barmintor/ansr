@@ -6,7 +6,7 @@ describe Ansr::Dpla::Relation do
     @faceted = read_fixture('kittens_faceted.jsonld')
     @empty = read_fixture('empty.jsonld')
     @mock_api = double('api')
-    Item.config({:api_key => :foo})
+    Item.config{ |x| x[:api_key] = :foo}
     Item.engine.api= @mock_api
   end
 

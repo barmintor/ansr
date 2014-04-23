@@ -11,36 +11,7 @@ require 'spec_helper'
 #
 describe Ansr::Blacklight do
 
-  def stub_solr
-    @solr ||= double('Solr')
-    @solr.stub(:send_and_receive).and_return(sample_response)
-    @solr
-  end
-
-  class TestModel < Ansr::Blacklight::Base
-    def intialize(args, opts={})
-      super(args, opts)
-    end
-
-    def self.solr=(solr)
-      @solr = solr
-    end
-    def self.solr
-      @solr
-    end
-    def self.table
-      TestTable.new(self)
-    end
-
-    def table
-      TestModel.table
-    end
-  end
-
   class TestTable < Ansr::Arel::BigTable
-    def name
-      'outside'
-    end
 
     def [](val)
       key = (Arel::Attributes::Attribute === val) ? val.name.to_sym : val.to_sym
@@ -54,9 +25,15 @@ describe Ansr::Blacklight do
   end
 
   before do
-    TestModel.solr = stub_solr
-    #@relation = Ansr::Blacklight::Relation.new(TestModel, TestModel.table)
-    #@relation.load
+    Object.const_set('GroupModel', Class.new(TestModel))
+    GroupModel.solr = stub_solr(sample_response)
+    GroupModel.configure do |config|
+      config[:table_class] = TestTable
+    end
+  end
+
+  after do
+    Object.send(:remove_const, :GroupModel)
   end
 
   let(:response) do
@@ -64,7 +41,7 @@ describe Ansr::Blacklight do
   end
 
   let(:group) do
-    response.grouped(TestModel).select { |x| x.key == "result_group_ssi" }.first
+    response.grouped(GroupModel).select { |x| x.key == "result_group_ssi" }.first
   end
 
   subject do
@@ -92,9 +69,9 @@ describe Ansr::Blacklight do
     end
 
     describe "#docs" do
-      it "should be a list of TestModels" do
+      it "should be a list of GroupModels" do
         subject.docs.each do |doc|
-          expect(doc).to be_a_kind_of TestModel
+          expect(doc).to be_a_kind_of GroupModel
         end
       
         expect(subject.docs.first.id).to eq 1
@@ -114,12 +91,12 @@ describe Ansr::Blacklight do
     end
 
     let(:group) do
-      response.grouped(TestModel).select { |x| x.key == "result_group_ssi" }.first
+      response.grouped(GroupModel).select { |x| x.key == "result_group_ssi" }.first
     end
 
     describe "groups" do
       it "should return an array of Groups" do
-        response.grouped(TestModel).should be_a Array
+        response.grouped(GroupModel).should be_a Array
 
         expect(group.groups).to have(2).items
         group.groups.each do |group|
@@ -130,7 +107,7 @@ describe Ansr::Blacklight do
 
         group.groups.each do |group|
           group.docs.each do |doc|
-            expect(doc).to be_a TestModel
+            expect(doc).to be_a GroupModel
           end
         end
       end

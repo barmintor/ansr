@@ -9,18 +9,21 @@ describe Ansr::Dpla::Api do
 
     it "should be configurable with a Hash" do
       config_fixture = {:api_key => :foo, :url => :bar}
-      @test.config(config_fixture)
+      @test.config{|x| x.merge!(config_fixture)}
       expect(@test.url).to eql(:bar)
     end
 
     it "should be configurable with a path to a yaml" do
-      @test.config(fixture_path('dpla.yml'))
+      open(fixture_path('dpla.yml')) do |blob|
+        config = YAML.load(blob)
+        @test.config{|x| x.merge!(config)}
+      end
       expect(@test.url).to eql('http://fake.dp.la/v0/')
     end
 
     it "should raise an error of the config doesn't have required fields" do
-      expect { Ansr::Dpla::Api.new.config({:url => :foo})}.to raise_error
-      Ansr::Dpla::Api.new.config({:url => :foo, :api_key => :foo})
+      expect { Ansr::Dpla::Api.new.config{|x| x.merge!(:url => :foo)}}.to raise_error
+      Ansr::Dpla::Api.new.config {|x| x.merge!({:url => :foo, :api_key => :foo})}
     end
 
   end
@@ -28,7 +31,7 @@ describe Ansr::Dpla::Api do
   describe '#path_for' do
     before do
       @test = Ansr::Dpla::Api.new
-      @test.config({:api_key => :testing})
+      @test.config{|x| x.merge!(:api_key => :testing)}
     end
 
 

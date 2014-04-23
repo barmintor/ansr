@@ -5,6 +5,7 @@ module Ansr::Dpla::Arel::Visitors
     def initialize(table, query_opts=nil)
       super(table)
       @query_opts = query_opts ||= Ansr::Dpla::Request.new
+      @query_opts.path = table.name
     end
 
     # determines whether multiple values should accumulate or overwrite in merges

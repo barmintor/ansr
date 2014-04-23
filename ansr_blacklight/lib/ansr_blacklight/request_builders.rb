@@ -1,8 +1,7 @@
 module Ansr::Blacklight
   ##
-  # This module contains methods that are specified by SolrHelper.solr_search_params_logic
-  # They transform user parameters into parameters that are sent as a request to Solr when
-  # RequestBuilders#solr_search_params is called.
+  # This module contains methods that transform user parameters into parameters that are sent
+  # as a request to Solr when RequestBuilders#solr_search_params is called.
   #
   module RequestBuilders
     extend ActiveSupport::Concern
@@ -46,7 +45,6 @@ module Ansr::Blacklight
         end.join(" ")
         solr_request[:q] = "{!#{local_params}}#{value}"
       else
-        puts "search_field.config -> #{search_field.config.inspect}"
         solr_request[:q] = value if value
       end
 
@@ -60,7 +58,7 @@ module Ansr::Blacklight
       # a string, for consistency? :'spellcheck.q' is a symbol. Right now
       # rspec tests for a string, and can't tell if other code may
       # insist on a string. 
-      solr_request["spellcheck.q"] = user_parameters[:q] unless solr_request["spellcheck.q"]
+      solr_request["spellcheck.q"] = solr_request[:q] unless solr_request["spellcheck.q"]
     end
 
     ##

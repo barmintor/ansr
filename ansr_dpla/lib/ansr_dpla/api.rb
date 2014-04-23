@@ -3,8 +3,8 @@ module Ansr::Dpla
   class Api
     include Ansr::Configurable
 
-    def config(yaml=nil)
-      super
+    def config &block
+      super &block
       raise "DPLA clients must be configured with an API key" unless @config[:api_key]
       @config
     end
@@ -13,7 +13,7 @@ module Ansr::Dpla
     API_PARAM_KEYS = [:api_key, :callback, :facets, :fields, :page, :page_size, :sort_by, :sort_by_pin, :sort_order]
 
     def initialize(config=nil)
-      self.config(config) if config
+      self.config{|x| x.merge!(config)} if config
     end
 
     def api_key

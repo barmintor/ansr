@@ -2,10 +2,6 @@ module Ansr
 	module Sanitization
     extend ActiveSupport::Concern
     module ClassMethods
-      def reflect_on_association(column_sym)
-        DummyReflection.new(column_sym)
-      end
-
       def expand_hash_conditions_for_sql_aggregates(conditions)
         conditions
       end
@@ -14,22 +10,12 @@ module Ansr
         condition
       end
 
+      def sanitize_sql_hash_for_conditions(attrs, default_table_name = self.table_name)
+        attrs
+      end
+
       def sanitize_sql(condition, table_name = table_name())
         sanitize_sql_for_conditions(condition, table_name)
-      end
-
-    end
-    class DummyReflection
-      def initialize(symbol)
-        @symbol = symbol
-      end
-
-      def polymorphic?
-        false
-      end
-
-      def foreign_key
-        @symbol
       end
     end
   end

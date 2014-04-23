@@ -15,6 +15,7 @@ module Ansr::Blacklight
 
     def defType!(value)
       self.defType_value= value
+      self
     end
 
     def defType_unscoping
@@ -35,6 +36,7 @@ module Ansr::Blacklight
 
     def wt!(value)
       self.wt_value= (value)
+      self
     end
 
     def wt_unscoping

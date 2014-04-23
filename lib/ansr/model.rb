@@ -1,6 +1,7 @@
 module Ansr
   module Model
-  	module Methods
+    extend ActiveSupport::Concern
+  	module ClassMethods
       def spawn
         s = build_default_scope
         s.references!(references())
@@ -27,11 +28,12 @@ module Ansr
       end
 
       def table
-        raise 'Implementing classes must provide a BigTable reader'
-      end
-
-      def table=(table)
-        raise 'Implementing classes must provide a BigTable writer'
+        type = (config[:table_class] || Ansr::Arel::BigTable)
+        if @table
+          # allow the table class to be reconfigured
+          @table = nil unless @table.class == type
+        end
+        @table ||= type.new(self)
       end
 
       def engine
@@ -46,6 +48,20 @@ module Ansr
         Ansr::Relation.new(model(), table())
 	    end
 
+      def column_types
+        TypeProxy.new(table())
+      end
+
+      class TypeProxy
+        def initialize(table)
+          @table = table
+        end
+
+        def [](name)
+          # this should delegate to the NoSqlAdapter
+          ::ActiveRecord::ConnectionAdapters::Column.new(name.to_s, nil, String)
+        end
+      end
     end
 
     require 'ansr/model/connection_handler'

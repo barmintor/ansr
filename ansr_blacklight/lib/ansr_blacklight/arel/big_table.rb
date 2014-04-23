@@ -51,7 +51,7 @@ module Ansr::Blacklight::Arel
     end
 
     def primary_key
-      @primary_key = ::Arel::Attribute.new(self, config.document_unique_id_param.to_s)
+      @primary_key ||= ::Arel::Attribute.new(self, config.document_unique_id_param.to_s)
     end
   end
 end

@@ -38,18 +38,22 @@ module Ansr
         'id'
       end
 
-      def schema_cache
-        ActiveRecord::ConnectionAdapters::SchemaCache.new(self)
+      def table_exists?(name)
+        if @table.name == name
+          return @table
+        else
+          false
+        end
       end
 
-      def table_exists?(table_name)
-        true
+      def schema_cache
+        ActiveRecord::ConnectionAdapters::SchemaCache.new(self)
       end
 
       # this is called by the BigTable impl
       # should it be retired in favor of the more domain-appropriate 'fields'? Not usually seen by clients anyway.
       def columns(table_name, *rest)
-        @table.fields.map {|s| ::ActiveRecord::ConnectionAdapters::Column.new(s.to_s, nil, nil)}
+        @table.fields.map {|s| ::ActiveRecord::ConnectionAdapters::Column.new(s.to_s, nil, String)}
       end
 
       def sanitize_limit(limit_value)
@@ -73,6 +77,7 @@ module Ansr
           end
         end
       end
+
     end
   end
 end

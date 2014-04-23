@@ -34,10 +34,5 @@ module Ansr::Blacklight::ConnectionAdapters
       Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     end
 
-    # how can we determine the names of the query handlers (and corresponding "table")?
-    def table_exists?(table_name)
-      true
-    end
-
   end
 end

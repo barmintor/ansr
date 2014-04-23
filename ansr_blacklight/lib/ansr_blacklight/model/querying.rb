@@ -17,16 +17,8 @@ module Ansr::Blacklight::Model
         table().unique_key
       end
 
-      def table
-        @big_table ||= Ansr::Arel::BigTable.new(model(), nil)
-      end
-
-      def table=(val)
-        @big_table = val
-      end
-
-      def connection_handler
-        @connection_handler ||= Ansr::Model::ConnectionHandler.new(Ansr::Blacklight::ConnectionAdapters::NoSqlAdapter)
+      def default_connection_handler
+        @default_connection_handler ||= Ansr::Model::ConnectionHandler.new(Ansr::Blacklight::ConnectionAdapters::NoSqlAdapter)
       end
 
       def references

@@ -13,21 +13,16 @@ describe Ansr::Blacklight::Relation do
     @solr
   end
 
-  class TestModel < Ansr::Blacklight::Base
-    def self.solr=(solr)
-      @solr = solr
-    end
-    def self.solr
-      @solr
-    end
-  end
-
   before do
-    TestModel.solr = stub_solr
-    @relation = Ansr::Blacklight::Relation.new(TestModel, TestModel.table)
+    Object.const_set('LoadTestModel', Class.new(TestModel))
+    LoadTestModel.solr = stub_solr
+    LoadTestModel.solr = stub_solr
+    @relation = Ansr::Blacklight::Relation.new(LoadTestModel, Ansr::Arel::BigTable.new(LoadTestModel))
     @relation.load
   end
-
+  after do
+    Object.send(:remove_const, :LoadTestModel)
+  end
   subject { @relation }
 
   let(:r) { subject }
@@ -90,7 +85,7 @@ describe Ansr::Blacklight::Relation do
   end
 
   it "should provide a model name helper" do
-    expect(r.model_name).to eq TestModel.name
+    expect(r.model_name).to eq LoadTestModel.name
   end
 
   describe "FacetItem" do

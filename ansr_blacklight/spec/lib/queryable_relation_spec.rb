@@ -1,89 +1,87 @@
 require 'spec_helper'
 
 describe Ansr::Blacklight::Relation do
-  def stub_solr
-    @solr ||= double('Solr')
-    @solr.stub(:send_and_receive).and_return('')
-    @solr
-  end
 
-  class TestModel < Ansr::Blacklight::Base
-    def self.solr=(solr)
-      @solr = solr
-    end
-    def self.solr
-      @solr
+  class ConfiguredTable < Ansr::Arel::BigTable
+
+    def [](val)
+      key = (Arel::Attributes::Attribute === val) ? val.name.to_sym : val.to_sym
+      key == :configured ? Ansr::Arel::ConfiguredField.new(self, key, {:property => 'test', :escape => 'tes"t'}) : super(val)
     end
   end
 
-  class TestTable < Ansr::Arel::BigTable
+  class OtherTable < ConfiguredTable
     def name
       'outside'
     end
 
-    def [](val)
-      key = (Arel::Attributes::Attribute === val) ? val.name.to_sym : val.to_sym
-      key == :configured ? Ansr::Arel::ConfiguredField.new(key, {:property => 'test', :escape => 'tes"t'}) : super(val)
-    end
   end
 
-  before do
-    TestModel.solr = stub_solr
-    #TestModel.blacklight_config.facet_fields[:name_facet] = :foo
-    @relation = Ansr::Blacklight::Relation.new(TestModel, TestModel.table)
-  end
+  context "a bunch of query stuff" do
 
-  after do
-    @relation = nil
-  end
+    before(:each) do
+      Object.const_set('QueryTestModel', Class.new(TestModel))
+      QueryTestModel.configure do |config|
+        config[:table_class] = ConfiguredTable
+      end
+      QueryTestModel.solr = stub_solr
 
-  subject { @relation }
+      @visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(QueryTestModel.table)
 
-  let(:r) { subject }
-  let(:visitor) {Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestModel.table)}
-  describe "a bunch of query stuff" do
-    before do
+      @relation = Ansr::Blacklight::Relation.new(QueryTestModel, QueryTestModel.table)
       ## COMMON AREL CONCEPTS ##
       # from() indicates the big table name for the relation; in BL/Solr this maps to the request path 
-      subject.from!(TestTable.new(TestModel))
+      @relation.from!(ConfiguredTable.new(QueryTestModel))
       # as() indicates an alias for the big table; in BL/Solr this maps to the :qt param
-      subject.as!('hey')
+      @relation.as!('hey')
       # constraints map directly
-      subject.where!(:configured=> "what's")
+      @relation.where!(:configured=> "what's")
 
       # as do offsets and limits
-      subject.offset!(21)
-      subject.limit!(12)
-      subject.group!("I")
+      @relation.offset!(21)
+      @relation.limit!(12)
+      @relation.group!("I")
       ## COMMON NO-SQL CONCEPTS ##
       # facets are a kind of projection with attributes (attribute support is optional)
-      subject.facet!("title_facet", limit: "vest")
+      @relation.facet!("title_facet", limit: "vest")
       # filters are a type of constraint
-      subject.filter!({"name_facet" => "Fedo"})
-      subject.facet!("name_facet", limit: 10)
-      subject.facet!(limit: 20)
-      subject.highlight!("I", 'fl' =>  "wish")
-      subject.spellcheck!("a", q: "fleece")
+      @relation.filter!({"name_facet" => "Fedo"})
+      @relation.facet!("name_facet", limit: 10)
+      @relation.facet!(limit: 20)
+      @relation.highlight!("I", 'fl' =>  "wish")
+      @relation.spellcheck!("a", q: "fleece")
       ## SOLR ECCENTRICITIES ##
       # these are present for compatibility, but not expected to be used generically
-      subject.wt!("going")
-      subject.defType!("had")
+      @relation.wt!("going")
+      @relation.defType!("had")
+    end
+
+    after(:each) do
+      @relation = nil
+      Object.send(:remove_const, :QueryTestModel)
     end
 
     describe "#from" do
-      subject {@relation.from(TestTable.new(TestModel))}
-      it "should set the path to the table name"
+
+      subject {@relation.from(OtherTable.new(QueryTestModel))}
+
+      let(:visitor) { @visitor }
+
+      it "should set the path to the table name" do
         query = visitor.accept subject.build_arel.ast
         expect(query.path).to eql('outside')
       end
 
       it "should change the table" do
-        expect(subject.table).to be_a TestTable
+        expect(subject.from_value.first).to be_a ConfiguredTable
       end
     end
 
     describe "#as" do
+
       subject {@relation.as('hey')}
+      let(:visitor) { @visitor }
+
       it "should set the :qt parameter" do
         query = visitor.accept subject.build_arel.ast
         expect(query.to_hash[:qt]).to eql 'hey'
@@ -91,36 +89,45 @@ describe Ansr::Blacklight::Relation do
     end
 
     describe "#facet" do
+
       subject { @relation.facet(limit: 20)}
+      let(:visitor) { @visitor }
+
       it "should set default facet parms when no field expr is given" do
         rel = subject.facet(limit: 20)
-        query = visitor.accept rel.
+        query = visitor.accept rel.build_arel.ast
       end
+
       it "should set facet field params" do
       end
     end
 
-    it "should accept valid parameters" do
-      config = Blacklight::Configuration.new
-      query = visitor.accept subject.build_arel.ast
-      expect(query.path).to eq('outside')
-      expect(query.to_hash).to eq({"defType" => "had",
-         "f.name_facet.facet.limit" => "10",
-         "f.title_facet.facet.limit" => "vest",
-         "facet.field" => [:title_facet,:name_facet],
-         "facet.limit" => "20",
-         "fq" => ["{!raw f=name_facet}Fedo"],
-         "group" => "I",
-         "hl" => "I",
-         "hl.fl" => "wish",
-         "q" => "{!property=test escape='tes\\\"t'}what's",
-         "qt" => "hey",
-         "rows" => "13",
-         "spellcheck" => "a",
-         "spellcheck.q" => "fleece",
-         "start" => "21",
-         "wt" => "going"
-      })
-    end
+    context "a mix of queryable relations" do
+      subject { @relation.from(OtherTable.new(TestModel)) }
+      let(:visitor) { @visitor }
+
+      it "should accept valid parameters" do
+        config = Blacklight::Configuration.new
+        query = visitor.accept subject.build_arel.ast
+        expect(query.path).to eq('outside')
+        expect(query.to_hash).to eq({"defType" => "had",
+           "f.name_facet.facet.limit" => "10",
+           "f.title_facet.facet.limit" => "vest",
+           "facet.field" => [:title_facet,:name_facet],
+           "facet.limit" => "20",
+           "fq" => ["{!raw f=name_facet}Fedo"],
+           "group" => "I",
+           "hl" => "I",
+           "hl.fl" => "wish",
+           "q" => "{!property=test escape='tes\\\"t'}what's",
+           "qt" => "hey",
+           "rows" => "13",
+           "spellcheck" => "a",
+           "spellcheck.q" => "fleece",
+           "start" => "21",
+           "wt" => "going"
+        })
+      end
+    end  
   end
 end

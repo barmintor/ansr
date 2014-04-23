@@ -6,6 +6,7 @@ module Ansr::Arel::Visitors
     end
   end
 
+  # create some thin subclasses in this module
   %W(Facet Filter From Order).each do |name|
     const_set(name, Class.new(Context))
   end

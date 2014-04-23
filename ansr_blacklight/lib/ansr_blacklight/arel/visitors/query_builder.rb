@@ -1,7 +1,5 @@
 module Ansr::Blacklight::Arel::Visitors
   class QueryBuilder < Ansr::Arel::Visitors::QueryBuilder
-    #include Blacklight::SolrHelper
-    #include Blacklight::RequestBuilders
   	include Ansr::Blacklight::RequestBuilders
     attr_reader :solr_request
     
@@ -112,9 +110,12 @@ module Ansr::Blacklight::Arel::Visitors
     end
 
     def visit_Ansr_Arel_Nodes_Facet(object, attribute)
-      name = object.expr.name
+      name = object.expr
+      name = name.name if name.respond_to? :name
+      default = false
       if name == ::Arel.star
         prefix = "facet."
+        default = true
       else
         filter_field(name.to_sym) unless default
         prefix = "f.#{name}.facet."

@@ -12,21 +12,13 @@ module Ansr::Dpla
         def api
           @api ||= begin
             a = (config[:api] || Ansr::Dpla::Api).new
-            a.config(self.config)
+            a.config{|x| x.merge!(self.config)}
             a
           end
         end
 
         def api=(api)
           @api = api
-        end
-
-        def table
-          @big_table ||= Ansr::Dpla::Arel::BigTable.new(model(), {:config => config()})
-        end
-
-        def table=(val)
-          @big_table = val
         end
 
         def connection_handler

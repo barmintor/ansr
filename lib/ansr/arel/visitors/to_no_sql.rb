@@ -32,7 +32,6 @@ module Ansr::Arel::Visitors
       builder.visit(object.limit, attribute) if object.limit
       builder.visit(object.offset, attribute) if object.offset
       # not relevant
-      #builder.visit(o.lock, attribute) if object.lock
 
       builder.query_opts
     end
