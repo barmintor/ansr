@@ -6,6 +6,14 @@ module Ansr::Blacklight::Arel::Visitors
     def initialize(table)
       super(table)
       @solr_request = Ansr::Blacklight::Solr::Request.new
+      table.configure_fields.each do |k,v|
+        unless v[:select].blank?
+          v[:select].each do |sk, sv|
+            key = "f.#{k}.#{sk}".to_sym
+            @solr_request[key] = sv
+          end
+        end
+      end
     end
 
     public
@@ -34,6 +42,11 @@ module Ansr::Blacklight::Arel::Visitors
 
     def visit_Arel_Nodes_TableAlias(object, attribute)
       solr_request[:qt] = object.name.to_s
+      opts = {qt: object.name.to_s}
+      if (cf = table[object.name]).is_a? Ansr::Arel::ConfiguredField
+        opts.merge!(cf.config.fetch(:query,{}))
+      end
+      solr_request.merge!(opts)
       visit object.relation, attribute
     end
 
@@ -46,7 +59,7 @@ module Ansr::Blacklight::Arel::Visitors
     def visit_Arel_SqlLiteral(n, attribute)
       select_val = n.to_s.split(" AS ")
       if Ansr::Arel::Visitors::Filter === attribute
-        add_facetting_to_solr(solr_request, "facet.field" => select_val[0].to_sym)
+        solr_request.append_facet_fields(select_val[0].to_sym)
       else
         field(select_val[0].to_sym)
         if select_val[1]
@@ -77,21 +90,20 @@ module Ansr::Blacklight::Arel::Visitors
     def filter_field(field_name)
       return unless field_name
       old = solr_request[:"facet.field"] ? Array(solr_request[:"facet.field"]) : []
-      field_names = (old + Array(field_name)).uniq
-      if field_names[0]
-        solr_request[:"facet.field"] = field_names[1] ? field_names : field_names[0]
-      end
+      fields = Array(field_name).delete_if {|x| old.include? x}
+      solr_request.append_facet_fields(fields)
     end
 
     def visit_Arel_Nodes_Equality(object, attribute)
       field_key = (object.left.respond_to? :expr) ? field_key_from_node(object.left.expr) : field_key_from_node(object.left)
+      opts = {}
+      opts.merge!(local_field_params(field_key))
+      opts.merge!(object.left.config.fetch(:local,{})) if object.left.respond_to? :config
       if Ansr::Arel::Visitors::Filter === attribute or Ansr::Arel::Nodes::Filter === object.left
-        add_facet_fq_to_solr(solr_request, f: {field_key => object.right}, opts: object.left.opts)
+        add_filter_fq_to_solr(solr_request, f: {field_key => object.right}, opts: opts)
       else
         # check the table for configured fields
-        field = table[object.left]
-        puts "#{table.class.name}#[#{object.left.class.name}]"
-        add_query_to_solr(field, object.right)
+        add_query_to_solr(field_key, object.right, opts)
       end
     end
 
@@ -118,11 +130,19 @@ module Ansr::Blacklight::Arel::Visitors
         default = true
       else
         filter_field(name.to_sym) unless default
+        solr_request.append_facet_fields(name.to_sym) unless default
         prefix = "f.#{name}.facet."
       end
       # there's got to be a helper for this
-      object.opts.each do |att, value|
-        solr_request["#{prefix}#{att.to_s}".to_sym] = value.to_s
+      if object.pivot
+        solr_request.append_facet_pivot with_ex_local_param(object.ex, object.pivot.join(","))
+      elsif object.query
+        solr_request.append_facet_query object.query.map { |k, x| with_ex_local_param(object.ex, x[:fq]) }
+      else
+        object.opts.each do |att, value|
+          solr_request["#{prefix}#{att.to_s}".to_sym] = value.to_s unless att == :ex
+        end
+        solr_request.append_facet_fields with_ex_local_param(object.ex, name.to_sym) unless default
       end
     end
 

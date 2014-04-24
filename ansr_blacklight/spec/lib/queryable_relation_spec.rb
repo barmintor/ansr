@@ -4,10 +4,6 @@ describe Ansr::Blacklight::Relation do
 
   class ConfiguredTable < Ansr::Arel::BigTable
 
-    def [](val)
-      key = (Arel::Attributes::Attribute === val) ? val.name.to_sym : val.to_sym
-      key == :configured ? Ansr::Arel::ConfiguredField.new(self, key, {:property => 'test', :escape => 'tes"t'}) : super(val)
-    end
   end
 
   class OtherTable < ConfiguredTable
@@ -25,7 +21,10 @@ describe Ansr::Blacklight::Relation do
         config[:table_class] = ConfiguredTable
       end
       QueryTestModel.solr = stub_solr
-
+      other_table.configure_fields do |config|
+        hash = (config[:configured] ||= {})
+        hash[:local] = {:property => 'test', :escape => 'tes"t'}
+      end
       @visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(QueryTestModel.table)
 
       ## COMMON AREL CONCEPTS ##
@@ -60,11 +59,12 @@ describe Ansr::Blacklight::Relation do
       Object.send(:remove_const, :QueryTestModel)
     end
 
+    let(:table) { QueryTestModel.table }
+    let(:other_table) { OtherTable.new(QueryTestModel) }
     describe "#from" do
 
-      subject {@relation.from(OtherTable.new(QueryTestModel))}
-
       let(:visitor) { @visitor }
+      subject {@relation.from(other_table)}
 
       it "should set the path to the table name" do
         query = visitor.accept subject.build_arel.ast
@@ -102,7 +102,7 @@ describe Ansr::Blacklight::Relation do
     end
 
     context "a mix of queryable relations" do
-      subject { @relation.from(OtherTable.new(TestModel)) }
+      subject { @relation.from(other_table) }
       let(:visitor) { @visitor }
 
       it "should accept valid parameters" do
@@ -112,6 +112,7 @@ describe Ansr::Blacklight::Relation do
         expect(query.to_hash).to eq({"defType" => "had",
            "f.name_facet.facet.limit" => "10",
            "f.title_facet.facet.limit" => "vest",
+           "facet" => true,
            "facet.field" => [:title_facet,:name_facet],
            "facet.limit" => "20",
            "fq" => ["{!raw f=name_facet}Fedo"],

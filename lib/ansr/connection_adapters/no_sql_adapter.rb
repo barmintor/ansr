@@ -3,6 +3,7 @@ require 'arel/visitors/bind_visitor'
 module Ansr
 	module ConnectionAdapters
     class NoSqlAdapter < ActiveRecord::ConnectionAdapters::AbstractAdapter
+      attr_reader :table
       def initialize(klass, connection, logger = nil, pool = nil)
         super(connection, logger, pool)
         @table = klass.table
@@ -35,15 +36,11 @@ module Ansr
 
       # called back from ::Arel::Table
       def primary_key(table_name)
-        'id'
+        'id' # table.primary_key || 'id'
       end
 
       def table_exists?(name)
-        if @table.name == name
-          return @table
-        else
-          false
-        end
+        true
       end
 
       def schema_cache

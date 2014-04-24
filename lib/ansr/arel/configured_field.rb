@@ -3,8 +3,14 @@ module Ansr::Arel
   	attr_reader :config
   	def initialize(relation, name, config={})
   		super(relation, name)
-  		@config = config
+  		@config = {local: {}, query: {}}.merge(config)
   	end
+    def query
+      @config[:query]
+    end
+    def local
+      @config[:local]
+    end
     def method_missing(method, *args)
       @config[method] = args if args.first
       @config[method]

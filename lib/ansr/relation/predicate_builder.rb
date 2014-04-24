@@ -19,7 +19,7 @@ module Ansr
           end
         else
           column = column.to_s
-        # we remove the below since big tabke fields don't really have associations
+        # we remove the below since big table fields don't really have associations
         #  if column.include?('.')
         #    table_name, column = column.split('.', 2)
         #    table = Ansr::Arel::BigTable.new(table_name, default_table.engine)

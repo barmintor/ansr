@@ -5,8 +5,8 @@ module Ansr::Arel::Visitors
       @table = table
     end
 
-    def visit(object, attribute)
-      super
+    def visit(object, attribute=nil)
+      super(object, attribute)
     end
 
     def visit_Ansr_Arel_BigTable(object, attribute)
