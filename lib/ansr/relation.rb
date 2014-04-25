@@ -1,5 +1,5 @@
 require 'yaml'
-require 'blacklight'
+require 'kaminari'
 module Ansr
   class Relation < ::ActiveRecord::Relation
     attr_reader :response
@@ -9,7 +9,7 @@ module Ansr
     
     include Sanitization::ClassMethods
     include QueryMethods
-    include Kaminari::PageScopeMethods
+    include ::Kaminari::PageScopeMethods
     alias :total_count :count
 
     def initialize(klass, table, values = {})

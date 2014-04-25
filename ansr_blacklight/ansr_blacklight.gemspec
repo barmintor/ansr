@@ -19,7 +19,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'rest-client'
   spec.add_dependency 'loggable'
   spec.add_dependency "rails",     ">= 3.2.6", "< 5"
-#  spec.add_dependency 'blacklight', '>=5.1.0'
+  spec.add_dependency "rsolr",     "~> 1.0.6"  # Library for interacting with rSolr.
+  spec.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
   spec.add_dependency 'sass-rails'
   spec.add_development_dependency("rake")
   spec.add_development_dependency("bundler", ">= 1.0.14")

@@ -4,7 +4,7 @@ describe Ansr::Blacklight::Relation do
 
   def create_response
     raw_response = eval(mock_query_response)
-    Blacklight::SolrResponse.new(raw_response, raw_response['params'])
+    Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
   end
 
   def stub_solr
@@ -133,64 +133,64 @@ describe Ansr::Blacklight::Relation do
   it 'should provide the responseHeader params' do
     raw_response = eval(mock_query_response)
     raw_response['responseHeader']['params']['test'] = :test
-    r = Blacklight::SolrResponse.new(raw_response, raw_response['params'])
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     r.params['test'].should == :test
   end
 
   it 'should provide the solr-returned params and "rows" should be 11' do
     raw_response = eval(mock_query_response)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
     r.params[:rows].to_s.should == '11'
   end
 
   it 'should provide the ruby request params if responseHeader["params"] does not exist' do
     raw_response = eval(mock_query_response)
     raw_response.delete 'responseHeader'
-    r = Blacklight::SolrResponse.new(raw_response, :rows => 999)
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, :rows => 999)
     r.params[:rows].to_s.should == '999'
   end
 
   it 'should provide spelling suggestions for regular spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck)
-    r = Blacklight::SolrResponse.new(raw_response,  {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response,  {})
     r.spelling.words.should include("dell")
     r.spelling.words.should include("ultrasharp")
   end
 
   it 'should provide spelling suggestions for extended spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck_extended)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
     r.spelling.words.should include("dell")
     r.spelling.words.should include("ultrasharp")
   end
 
   it 'should provide no spelling suggestions when extended results and suggestion frequency is the same as original query frequency' do
     raw_response = eval(mock_response_with_spellcheck_same_frequency)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
     r.spelling.words.should == []
   end
 
   it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
     raw_response = eval(mock_response_with_spellcheck_collation)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
     r.spelling.words.should include("dell")
     r.spelling.words.should include("ultrasharp")
   end
 
   it 'should provide spelling suggestion collation' do
     raw_response = eval(mock_response_with_spellcheck_collation)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
     r.spelling.collation.should == 'dell ultrasharp'
   end
 
   it "should provide MoreLikeThis suggestions" do
     raw_response = eval(mock_response_with_more_like_this)
-    r = Blacklight::SolrResponse.new(raw_response, {})
+    r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
     r.more_like(double(:id => '79930185')).should have(2).items
   end
 
   it "should be empty when the response has no results" do
-    r = Blacklight::SolrResponse.new({}, {})
+    r = Ansr::Blacklight::Solr::Response.new({}, {})
     r.stub(:total => 0)
     expect(r).to be_empty
   end

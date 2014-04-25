@@ -1,5 +1,4 @@
 require 'yaml'
-require 'blacklight'
 module Ansr::Dpla
   class Relation < ::Ansr::Relation
 
@@ -41,10 +40,10 @@ module Ansr::Dpla
 
         if v['total'] != 0
           items = v['terms'].collect do |term|
-            Blacklight::SolrResponse::Facets::FacetItem.new(:value => term['term'], :hits => term['count'])
+            Ansr::Facets::FacetItem.new(:value => term['term'], :hits => term['count'])
           end
           options = {:sort => 'asc', :offset => 0}
-          h[k] = Blacklight::SolrResponse::Facets::FacetField.new k, items, options
+          h[k] = Ansr::Facets::FacetField.new k, items, options
         end
         h
       end

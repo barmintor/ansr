@@ -106,7 +106,6 @@ describe Ansr::Blacklight::Relation do
       let(:visitor) { @visitor }
 
       it "should accept valid parameters" do
-        config = Blacklight::Configuration.new
         query = visitor.accept subject.build_arel.ast
         expect(query.path).to eq('outside')
         expect(query.to_hash).to eq({"defType" => "had",

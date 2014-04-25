@@ -65,7 +65,7 @@ describe Ansr::Dpla::Relation do
       test.load
       fkey = test.filters.keys.first
       facet = test.filters[fkey]
-      expect(facet).to be_a(Blacklight::SolrResponse::Facets::FacetField)
+      expect(facet).to be_a(Ansr::Facets::FacetField)
       facet.items
     end
     it 'should dispatch a query with no docs requested if not loaded' do
@@ -73,7 +73,7 @@ describe Ansr::Dpla::Relation do
       @mock_api.should_receive(:items).with(:q => 'kittens', :page_size=>0).once.and_return(@faceted)
       fkey = test.filters.keys.first
       facet = test.filters[fkey]
-      expect(facet).to be_a(Blacklight::SolrResponse::Facets::FacetField)
+      expect(facet).to be_a(Ansr::Facets::FacetField)
       expect(test.loaded?).to be_false
       test.filters # make sure we memoized the facet values
     end
