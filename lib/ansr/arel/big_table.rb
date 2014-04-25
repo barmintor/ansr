@@ -27,7 +27,11 @@ module Ansr
       end
 
       def primary_key
-        @primary_key ||= self.class.primary_key
+        @primary_key ||= ::Arel::Attribute.new( self, self.class.primary_key )
+      end
+
+      def primary_key=(key)
+        @primary_key = ::Arel::Attribute.new( self, key.to_s )
       end
 
       def [] name
