@@ -98,6 +98,14 @@ module Ansr
       s
     end
 
+    def grouped?
+      false
+    end
+
+    def group_by(key=self.group_values.first)
+      []
+    end
+
     private
 
     # override to prevent default selection of all fields

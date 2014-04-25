@@ -26,7 +26,7 @@ describe Ansr::Blacklight do
 
   before do
     Object.const_set('GroupModel', Class.new(TestModel))
-    GroupModel.solr = stub_solr(sample_response)
+    GroupModel.solr = stub_solr(sample_response.to_s)
     GroupModel.configure do |config|
       config[:table_class] = TestTable
     end
@@ -37,11 +37,13 @@ describe Ansr::Blacklight do
   end
 
   let(:response) do
-    create_response(sample_response)
+    rel = GroupModel.group("result_group_ssi")
+    rel.load
+    rel
   end
 
   let(:group) do
-    response.grouped(GroupModel).select { |x| x.key == "result_group_ssi" }.first
+    response.group_by.first
   end
 
   subject do

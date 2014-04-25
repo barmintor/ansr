@@ -46,5 +46,14 @@ module Ansr::Blacklight
       end
       arel
     end
+
+    def grouped?
+      loaded? ? response.grouped? : !group_values.blank?
+    end
+
+    def group_by(key=self.group_values.first)
+      loaded
+      response.grouped(model()).select { |x| x.key == key.to_s }
+    end
   end
 end
