@@ -28,7 +28,7 @@ module Ansr::Blacklight::ConnectionAdapters
     def execute(query, name='ANSR-SOLR')
       query = query.dup
       # TODO: execution context to assign :post to params[:method]
-      params = {params: query, method: :get}
+      params = {params: query, method: query.method}
       params[:data] = params.delete(:params) if params[:method] == :post
       raw_response = eval(@connection.send(@method, query.path, params))
       Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])

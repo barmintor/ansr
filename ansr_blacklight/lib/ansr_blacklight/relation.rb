@@ -53,7 +53,7 @@ module Ansr::Blacklight
 
     def group_by(key=self.group_values.first)
       loaded
-      response.grouped(model()).select { |x| x.key == key.to_s }
+      response.group(key)
     end
   end
 end

@@ -291,12 +291,15 @@ module Ansr
       end
     end
 
-    def find_by_nosql(arel, bind_values)
-      @ansr_query = model.connection.to_nosql(arel, bind_values)
-      model.connection.execute(@ansr_query)
+    def find_by_nosql(*args)
+      model.connection.execute(ansr_query(*args))
     end
 
-    def ansr_qeury
+    def ansr_query(*args)
+      if args.first
+        arel, bind_values = [args[0], args[1]]
+        @ansr_query = model.connection.to_nosql(arel, bind_values)
+      end
       @ansr_query
     end
   end

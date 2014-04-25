@@ -1,7 +1,7 @@
 module Ansr::Blacklight::Arel::Visitors
   class ToNoSql < Ansr::Arel::Visitors::ToNoSql
-    
-	  def initialize(table)
+
+    def initialize(table, http_method=:get)
       super(table)
     end
 

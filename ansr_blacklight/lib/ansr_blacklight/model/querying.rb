@@ -24,6 +24,11 @@ module Ansr::Blacklight::Model
       def references
         []
       end
+      def ansr_query(*args)
+        ansr_query = super(*args)
+        ansr_query.http_method = args[2] if args[2]
+        ansr_query
+      end
     end
   end
 end
