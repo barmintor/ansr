@@ -69,6 +69,7 @@ describe Ansr::Blacklight do
     subject { FacetModel }
 
     it "should send a post request to solr and get a response back" do
+      subject.method = :post
       rel = subject.where(:q => @all_docs_query)
       subject.solr= stub_solr(JSON.parse(@abc_resp).inspect)
       expect(rel.length).to be >= 1

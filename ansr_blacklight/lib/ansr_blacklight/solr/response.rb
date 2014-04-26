@@ -16,7 +16,7 @@ class Ansr::Blacklight::Solr::Response < HashWithIndifferentAccess
     @request_params = request_params
     extend Spelling
     extend Ansr::Facets
-    extend Response
+    extend InternalResponse
     extend MoreLikeThis
   end
 
@@ -64,15 +64,15 @@ class Ansr::Blacklight::Solr::Response < HashWithIndifferentAccess
     end
   end
 
-  def group key
-    grouped.select { |x| x.key == key }.first
+  def group key, model
+    grouped(model).select { |x| x.key == key }.first
   end
 
   def grouped?
     self.has_key? "grouped"
   end
 
-  module Response
+  module InternalResponse
     def response
       self[:response] || {}
     end

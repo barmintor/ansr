@@ -9,6 +9,7 @@ module Ansr::Blacklight::ConnectionAdapters
       super(klass, klass.solr, logger, pool)
       # the RSolr class has one query method, with the name of the selector the first parm?
       @method = :send_and_receive
+      @http_method = klass.method
       @visitor = Ansr::Blacklight::Arel::Visitors::ToNoSql.new(@table)
     end
 
@@ -28,8 +29,8 @@ module Ansr::Blacklight::ConnectionAdapters
     def execute(query, name='ANSR-SOLR')
       query = query.dup
       # TODO: execution context to assign :post to params[:method]
-      params = {params: query, method: query.method}
-      params[:data] = params.delete(:params) if params[:method] == :post
+      params = {params: query, method: @http_method}
+      params[:data] = params.delete(:params) if @http_method == :post
       raw_response = eval(@connection.send(@method, query.path, params))
       Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     end

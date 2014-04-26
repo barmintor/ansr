@@ -11,6 +11,14 @@ module Ansr
 
     self.abstract_class = true
     
+    def self.method
+      @method ||= :get
+    end
+
+    def self.method=(method)
+      @method = method
+    end
+
     def initialize doc={}, options={}
       super(filter_source_hash(doc), options)
       @source_doc = doc

@@ -42,12 +42,16 @@ describe Ansr::Blacklight do
     rel
   end
 
-  let(:group) do
-    response.group_by.first
+  let(:group_response) do
+    response.group_by
   end
 
-  subject do
-    group.groups.first
+  let(:groups) do
+    group_response.groups #.first
+  end
+
+  subject do 
+    groups.first
   end
 
   describe Ansr::Blacklight::Solr::Response::Group do
