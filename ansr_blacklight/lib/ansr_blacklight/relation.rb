@@ -3,18 +3,15 @@ module Ansr::Blacklight
     include Ansr::Blacklight::SolrProjectionMethods
   	delegate :blacklight_config, to: :model
     
-    # some compatibility aliases that should go away to properly genericize
-    alias :facets :filters
-
     delegate :docs, to: :response
     delegate :params, to: :response
 
     # overrides for query response handling
     def docs_from(response)
-      response.docs
+      grouped? ? [] : response.docs
     end
 
-    def filters_from(response)
+    def facets_from(response)
       response.facets
     end
 
@@ -45,6 +42,11 @@ module Ansr::Blacklight
         arel.projections = [prop_node]
       end
       arel
+    end
+
+    def spelling
+      loaded
+      response.spelling
     end
 
     def grouped?
