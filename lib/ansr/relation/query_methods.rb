@@ -257,7 +257,7 @@ module Ansr
         build_facets(::Arel.star,expr)
       when Array
         r = expr.inject([]) {|m,e| m.concat build_facets(e,opts)}
-      when String, Symbol, Arel::SqlLiteral
+      when String, Symbol, ::Arel::Nodes::SqlLiteral
         [Ansr::Arel::Nodes::Facet.new(::Arel::Attributes::Attribute.new(table, expr.to_s), opts)]
       when ::Arel::Attributes::Attribute
         [Ansr::Arel::Nodes::Facet.new(expr, opts)]
