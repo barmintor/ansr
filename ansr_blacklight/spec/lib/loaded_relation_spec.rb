@@ -16,7 +16,6 @@ describe Ansr::Blacklight::Relation do
   before do
     Object.const_set('LoadTestModel', Class.new(TestModel))
     LoadTestModel.solr = stub_solr
-    LoadTestModel.solr = stub_solr
     @relation = Ansr::Blacklight::Relation.new(LoadTestModel, Ansr::Arel::BigTable.new(LoadTestModel))
     @relation.load
   end

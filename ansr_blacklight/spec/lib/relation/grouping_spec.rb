@@ -24,6 +24,12 @@ describe Ansr::Blacklight do
 
   end
 
+  def stub_solr(mock_query_response)
+    @solr ||= double('Solr')
+    @solr.stub(:send_and_receive).and_return(mock_query_response)
+    @solr
+  end
+
   before do
     Object.const_set('GroupModel', Class.new(TestModel))
     GroupModel.solr = stub_solr(sample_response.to_s)

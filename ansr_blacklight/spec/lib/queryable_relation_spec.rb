@@ -97,7 +97,7 @@ describe Ansr::Blacklight::Relation do
         query = visitor.accept rel.build_arel.ast
       end
 
-      it "should set facet field params" do
+      it "should set pivot facet field params" do
       end
     end
 
