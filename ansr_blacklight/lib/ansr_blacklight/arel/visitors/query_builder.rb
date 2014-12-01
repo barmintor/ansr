@@ -1,7 +1,7 @@
 module Ansr::Blacklight::Arel::Visitors
   class QueryBuilder < Ansr::Arel::Visitors::QueryBuilder
   	include Ansr::Blacklight::RequestBuilders
-    attr_reader :solr_request
+    attr_reader :solr_request, :path
     
     def initialize(table)
       super(table)
@@ -14,6 +14,7 @@ module Ansr::Blacklight::Arel::Visitors
           end
         end
       end
+      @path = table.name || 'select'
     end
 
     public
@@ -124,7 +125,7 @@ module Ansr::Blacklight::Arel::Visitors
     def visit_Ansr_Arel_Nodes_Facet(object, attribute)
       name = object.expr
       name = name.name if name.respond_to? :name
-      default = false
+      default = object.pivot || object.query
       if name == ::Arel.star
         prefix = "facet."
         default = true
@@ -135,7 +136,7 @@ module Ansr::Blacklight::Arel::Visitors
       end
       # there's got to be a helper for this
       if object.pivot
-        solr_request.append_facet_pivot with_ex_local_param(object.ex, object.pivot.join(","))
+        solr_request.append_facet_pivot with_ex_local_param(object.ex, Array(object.pivot).join(","))
       elsif object.query
         solr_request.append_facet_query object.query.map { |k, x| with_ex_local_param(object.ex, x[:fq]) }
       else
@@ -171,7 +172,7 @@ module Ansr::Blacklight::Arel::Visitors
         if ::Arel::Nodes::Ordering === n
           c << n
         elsif n.is_a? String
-          _ns = n.split(',')
+          _ns = n.split(/,\s*/)
           _ns.each do |_n| 
             _p = _n.split(/\s+/)
             if (_p[1])
