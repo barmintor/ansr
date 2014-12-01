@@ -201,7 +201,7 @@ module Ansr
       end
     end
 
-    def all_filter_fields
+    def all_facet_fields
       FACETS
     end
 

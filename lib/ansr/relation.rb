@@ -71,7 +71,7 @@ module Ansr
     end
 
     # override to parse filters from response 
-    def filters_from(response)
+    def facets_from(response)
       {} and raise "this is a dead method!"
     end
 
@@ -80,14 +80,14 @@ module Ansr
       []
     end
 
-    def filters
+    def facets
       if loaded?
-        @filter_cache = filters_from(response)
+        @filter_cache = facets_from(response)
       else
         @filter_cache ||= begin 
           query = self.limit(0)
           query.load
-          query.filters
+          query.facets
         end
       end
     end

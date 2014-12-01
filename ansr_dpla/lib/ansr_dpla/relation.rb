@@ -34,7 +34,7 @@ module Ansr::Dpla
       @response['count']
     end
 
-    def filters_from(response)
+    def facets_from(response)
       f = {}
       (response['facets'] || {}).inject(f) do |h,(k,v)|
 
