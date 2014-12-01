@@ -4,7 +4,7 @@ module Ansr
   class Relation < ::ActiveRecord::Relation
     attr_reader :response
     attr_accessor :filters, :count, :context, :resource
-
+    ::ActiveRecord::Relation::VALID_UNSCOPING_VALUES << :facet
     DEFAULT_PAGE_SIZE = 10
     
     include Sanitization::ClassMethods
