@@ -11,8 +11,9 @@ module Ansr
     include Sanitization::ClassMethods
     include QueryMethods
     include ::Kaminari::PageScopeMethods
-    alias :total_count :count
 
+    alias :start :offset_value
+    
     def initialize(klass, table, values = {})
       raise "Cannot search nil model" if klass.nil?
       super(klass, table, values)
@@ -63,12 +64,13 @@ module Ansr
       @response.count
     end
 
-    def total_count
+    def total
       count
     end
+    alias :total_count :total
 
     def max_pages
-      (total_count.to_f / limit_value).ceil
+      (total.to_f / limit_value).ceil
     end
 
     # override to parse filters from response 

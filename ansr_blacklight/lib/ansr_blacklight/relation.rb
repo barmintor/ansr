@@ -19,7 +19,7 @@ module Ansr::Blacklight
       response.facets
     end
 
-    def count
+    def total
       response.total
     end
 
