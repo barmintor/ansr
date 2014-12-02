@@ -29,10 +29,10 @@ rel.to_a.each do |item|
   puts "#{item["id"]} \"#{item['sourceResource.title']}\""
 end
 # the filter values for the query are available on the relation after it is loaded
-rel.filters.each do |k,f|
+rel.facets.each do |k,f|
   puts "#{k} values"
   f.items.each do |item|
-    puts "filter:  \"#{item.value}\" : #{item.hits}"
+    puts "facet:  \"#{item.value}\" : #{item.hits}"
   end
 end
 # the loaded Relation has attributes describing the response set
@@ -44,7 +44,7 @@ rel.to_a.each do |item|
   puts "#{item["id"]} \"#{item['sourceResource.title']}\" \"#{item['originalRecord']}\""
 end
 
-rel.filters.each do |k,f|
+rel.facets.each do |k,f|
   puts "#{k} values"
   f.items.each do |item|
     puts "  \"#{item.value}\" : #{item.hits}"

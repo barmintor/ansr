@@ -63,19 +63,19 @@ describe Ansr::Dpla::Relation do
       test = subject.where(:q=>'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens').and_return(@faceted)
       test.load
-      fkey = test.filters.keys.first
-      facet = test.filters[fkey]
+      fkey = test.facets.keys.first
+      facet = test.facets[fkey]
       expect(facet).to be_a(Ansr::Facets::FacetField)
       facet.items
     end
     it 'should dispatch a query with no docs requested if not loaded' do
       test = subject.where(:q=>'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens', :page_size=>0).once.and_return(@faceted)
-      fkey = test.filters.keys.first
-      facet = test.filters[fkey]
+      fkey = test.facets.keys.first
+      facet = test.facets[fkey]
       expect(facet).to be_a(Ansr::Facets::FacetField)
       expect(test.loaded?).to be_false
-      test.filters # make sure we memoized the facet values
+      test.facets # make sure we memoized the facet values
     end
   end
 

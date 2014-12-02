@@ -3,7 +3,7 @@ module Ansr::Arel
   	attr_reader :config
   	def initialize(relation, name, config={})
   		super(relation, name)
-  		@config = {local: {}, query: {}}.merge(config)
+  		@config = {}.merge(config)
   	end
     def query
       @config[:query]

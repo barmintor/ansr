@@ -31,7 +31,7 @@ module Ansr::Blacklight::ConnectionAdapters
       # TODO: execution context to assign :post to params[:method]
       params = {params: query, method: @http_method}
       params[:data] = params.delete(:params) if @http_method == :post
-      raw_response = eval(@connection.send(@method, query.path || 'select', params))
+      raw_response = @connection.send(@method, query.path || 'select', params)
       Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
     end
 

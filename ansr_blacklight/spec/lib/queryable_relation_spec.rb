@@ -120,7 +120,7 @@ describe Ansr::Blacklight::Relation do
            "hl.fl" => "wish",
            "q" => "{!property=test escape='tes\\\"t'}what's",
            "qt" => "hey",
-           "rows" => "13",
+           "rows" => "12",
            "spellcheck" => "a",
            "spellcheck.q" => "fleece",
            "start" => "21",

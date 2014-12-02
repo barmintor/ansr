@@ -61,5 +61,8 @@ module Ansr
       @source_doc[key]
     end
 
+    def has_key? key
+      @source_doc.has_key? key
+    end
   end
 end

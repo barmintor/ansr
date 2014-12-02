@@ -51,7 +51,7 @@ end
 
 def stub_solr(response='')
   solr = double('Solr')
-  solr.stub(:send_and_receive).and_return(response)
+  solr.stub(:send_and_receive).and_return(eval(response))
   solr
 end
 

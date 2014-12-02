@@ -111,26 +111,30 @@ module Ansr::Blacklight
     # Convert a filter/value pair into a solr fq parameter
     def filter_value_to_fq_string(facet_key, value, facet_opts=nil)
       facet_field = table[facet_key]
-      facet_config = (Ansr::Arel::ConfiguredField === facet_field)
+      facet_config = (Ansr::Arel::ConfiguredField === facet_field) ? facet_field : nil
       facet_default = (::Arel.star == facet_key)
       local_params = local_field_params(facet_key)
       local_params.merge!(facet_opts) if facet_opts
       local_params = local_params.collect {|k,v| "#{k.to_s}=#{v.to_s}"}
+      local_params << "tag=#{facet_config.tag}" if facet_config and facet_config.tag
 
       prefix = ""
       prefix = "{!#{local_params.join(" ")}}" unless local_params.empty?
 
       fq = case
-        when facet_default
-          ""
-        when (facet_config and facet_field.date),
-             (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
+        when (facet_config and facet_config.query)
+          facet_config.query[value][:fq] if facet_config.query[value]
+        when (facet_config and facet_config.date)
+          # in solr 3.2+, this could be replaced by a !term query
+          "#{prefix}#{facet_field.name}:#{RSolr.escape(value)}"
+        when (value.is_a?(DateTime) or value.is_a?(Date) or value.is_a?(Time))
+          "#{prefix}#{facet_field.name}:#{RSolr.escape(value.to_time.utc.strftime("%Y-%m-%dT%H:%M:%SZ"))}"
+        when (value.is_a?(TrueClass) or value.is_a?(FalseClass) or value == 'true' or value == 'false'),
              (value.is_a?(Integer) or (value.to_i.to_s == value if value.respond_to? :to_i)),
              (value.is_a?(Float) or (value.to_f.to_s == value if value.respond_to? :to_f))
-             (value.is_a?(DateTime) or value.is_a?(Date) or value.is_a?(Time))
-          "#{prefix}#{facet_field.name}:#{value}"
+          "#{prefix}#{facet_field.name}:#{RSolr.escape(value.to_s)}"
         when value.is_a?(Range)
-          "#{prefix}#{facet_field.name}:[#{value.first} TO #{value.last}]"
+          "#{prefix}#{facet_field.name}:[#{RSolr.escape(value.first.to_s)} TO #{RSolr.escape(value.last.to_s)}]"
         else
           "{!raw f=#{facet_field.name}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
       end

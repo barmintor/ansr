@@ -26,7 +26,7 @@ describe Ansr::Blacklight do
 
   def stub_solr(mock_query_response)
     @solr ||= double('Solr')
-    @solr.stub(:send_and_receive).and_return(mock_query_response)
+    @solr.stub(:send_and_receive).and_return(eval(mock_query_response))
     @solr
   end
 

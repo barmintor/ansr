@@ -9,7 +9,7 @@ describe Ansr::Blacklight::Relation do
 
   def stub_solr
     @solr ||= double('Solr')
-    @solr.stub(:send_and_receive).and_return(mock_query_response)
+    @solr.stub(:send_and_receive).and_return(eval(mock_query_response))
     @solr
   end
 
@@ -28,7 +28,7 @@ describe Ansr::Blacklight::Relation do
 
   describe 'pagination' do
     it 'should have accurate pagination numbers' do
-      expect(r.limit_value).to eq 11
+      expect(r.limit_value).to eq 10
       expect(r.count).to eq 26
       expect(r.offset_value).to eq 0
     end

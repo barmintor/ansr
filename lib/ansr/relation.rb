@@ -4,7 +4,8 @@ module Ansr
   class Relation < ::ActiveRecord::Relation
     attr_reader :response
     attr_accessor :filters, :count, :context, :resource
-    ::ActiveRecord::Relation::VALID_UNSCOPING_VALUES << :facet
+    ::ActiveRecord::Relation::VALID_UNSCOPING_VALUES << :facet << :spellcheck
+    ::ActiveRecord::Relation::SINGLE_VALUE_METHODS << :spellcheck
     DEFAULT_PAGE_SIZE = 10
     
     include Sanitization::ClassMethods
@@ -82,9 +83,9 @@ module Ansr
 
     def facets
       if loaded?
-        @filter_cache = facets_from(response)
+        @facet_cache = facets_from(response)
       else
-        @filter_cache ||= begin 
+        @facet_cache ||= begin 
           query = self.limit(0)
           query.load
           query.facets
@@ -104,6 +105,14 @@ module Ansr
 
     def group_by(key=self.group_values.first)
       []
+    end
+
+    def to_nosql
+      spawn.to_nosql!
+    end
+
+    def to_nosql!
+      ansr_query(arel, bind_values)
     end
 
     private

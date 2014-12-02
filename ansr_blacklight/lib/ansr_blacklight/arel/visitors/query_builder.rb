@@ -35,6 +35,13 @@ module Ansr::Blacklight::Arel::Visitors
         filter_field(o.to_sym)
       when Ansr::Arel::Visitors::Order
         order(o)
+      when Ansr::Arel::Visitors::ProjectionTraits
+        select_val = o.to_s.split(" AS ")
+        field(select_val[0].to_sym)
+        if select_val[1]
+          query_opts.aliases ||= {}
+          query_opts.aliases[select_val[0]] = select_val[1]
+        end
       else
         raise "visited String \"#{o}\" with #{a.to_s}"
       end
@@ -54,7 +61,7 @@ module Ansr::Blacklight::Arel::Visitors
     def visit_Ansr_Arel_Nodes_ProjectionTraits(object, attribute)
       solr_request[:wt] = object.wt if object.wt
       solr_request[:defType] = object.defType if object.defType
-      visit(object.expr, attribute)
+      visit(object.expr, Ansr::Arel::Visitors::ProjectionTraits.new(attribute))
     end
 
     def visit_Arel_SqlLiteral(n, attribute)

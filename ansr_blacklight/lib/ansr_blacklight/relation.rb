@@ -1,11 +1,15 @@
 module Ansr::Blacklight
   class Relation < Ansr::Relation
     include Ansr::Blacklight::SolrProjectionMethods
+    ::ActiveRecord::Relation::VALID_UNSCOPING_VALUES << :defType << :wt
+    ::ActiveRecord::Relation::SINGLE_VALUE_METHODS << :defType << :wt
+
   	delegate :blacklight_config, to: :model
     
     delegate :docs, to: :response
     delegate :params, to: :response
-
+    delegate :facet_pivot, to: :response
+    delegate :facet_queries, to: :response
     # overrides for query response handling
     def docs_from(response)
       grouped? ? [] : response.docs
@@ -29,7 +33,7 @@ module Ansr::Blacklight
     end
 
     def limit_value
-      (super || default_limit_value) + 1
+      (super || default_limit_value)
     end
 
     def build_arel

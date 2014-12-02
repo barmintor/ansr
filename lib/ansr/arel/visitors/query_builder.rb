@@ -16,8 +16,8 @@ module Ansr::Arel::Visitors
 
     def visit_Arel_Nodes_SelectCore(object, attribute)
       visit(object.froms, From.new(attribute)) if object.froms
-      object.projections.each { |x| visit(x, attribute) }
-      object.wheres.each { |x| visit(x, attribute) }
+      object.projections.each { |x| visit(x, attribute) if x}
+      object.wheres.each { |x| visit(x, attribute)  if x}
       object.groups.each {|x| visit(x, attribute) if x}
       self
     end

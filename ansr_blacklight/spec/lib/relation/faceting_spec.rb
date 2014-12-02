@@ -18,7 +18,7 @@ describe Ansr::Blacklight do
 
     def [](val)
       key = (Arel::Attributes::Attribute === val) ? val.name.to_sym : val.to_sym
-      key == :configured ? Ansr::Arel::ConfiguredField.new(key, {:property => 'test', :escape => 'tes"t'}) : super(val)
+      key == :configured ? Ansr::Arel::ConfiguredField.new(nil, key, {:property => 'test', :escape => 'tes"t'}) : super(val)
     end
 
     def fields
@@ -163,7 +163,7 @@ describe Ansr::Blacklight do
       end
     end
 
-    describe "facet_value_to_fq_string" do
+    describe "filter_value_to_fq_string" do
       let(:table) { FacetModel.table }
       subject { Ansr::Blacklight::Arel::Visitors::QueryBuilder.new(table) }
       it "should use the raw handler for strings" do
@@ -187,11 +187,11 @@ describe Ansr::Blacklight do
       end
 
       it "should pass floats through" do
-        expect(subject.send(:filter_value_to_fq_string, "facet_name", 1.11)).to eq "facet_name:1.11"
+        expect(subject.send(:filter_value_to_fq_string, "facet_name", 1.11)).to eq "facet_name:1\\.11"
       end
 
       it "should pass floats through" do
-        expect(subject.send(:filter_value_to_fq_string, "facet_name", "1.11")).to eq "facet_name:1.11"
+        expect(subject.send(:filter_value_to_fq_string, "facet_name", "1.11")).to eq "facet_name:1\\.11"
       end
 
       it "should pass date-type fields through" do
@@ -199,7 +199,7 @@ describe Ansr::Blacklight do
           config[:facet_name] = {date: true}
         end
 
-        expect(subject.send(:filter_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012-01-01"
+        expect(subject.send(:filter_value_to_fq_string, "facet_name", "2012-01-01")).to eq "facet_name:2012\\-01\\-01"
       end
 
       it "should handle range requests" do
