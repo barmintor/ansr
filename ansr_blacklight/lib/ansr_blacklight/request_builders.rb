@@ -53,12 +53,12 @@ module Ansr::Blacklight
         local_params = search_field.config.fetch(:local,{}).merge(opts).collect do |key, val|
           key.to_s + "=" + solr_param_quote(val, :quote => "'")
         end.join(" ")
-        solr_request[:q] = local_params.empty? ? value : "{!#{local_params}}#{value}"
+        solr_request[:q] = local_params.empty? ? value : "{!#{local_params}}#{RSolr.escape(value.to_s)}"
         search_field.config.fetch(:query,{}).each do |k,v|
           solr_request[k] = v
         end
       else
-        solr_request[:q] = value if value
+        solr_request[:q] = RSolr.escape(value.to_s) if value
       end
 
       ##
