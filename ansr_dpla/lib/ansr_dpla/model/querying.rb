@@ -1,7 +1,7 @@
 require 'active_record'
 module Ansr::Dpla
   module Model
-  	module Querying
+    module Querying
     extend ActiveSupport::Concern
 
       module ClassMethods

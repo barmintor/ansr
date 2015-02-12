@@ -12,42 +12,42 @@ describe Ansr::Dpla::Relation do
 
   subject { Ansr::Dpla::Relation.new(Item, Item.table) }
   describe '#filter' do
-	  describe "do a single field, single value filter" do
+    describe "do a single field, single value filter" do
       it "with facet" do
-  	    test = subject.filter(:object=>'kittens').facet(:object)
-  	    @mock_api.should_receive(:items).with(:object => 'kittens', :facets => :object).and_return('')
-  	    test.load
+        test = subject.filter(:object=>'kittens').facet(:object)
+        @mock_api.should_receive(:items).with(:object => 'kittens', :facets => :object).and_return('')
+        test.load
       end
       it "without facet" do
         test = subject.filter(:object=>'kittens')
         @mock_api.should_receive(:items).with(:object => 'kittens').and_return('')
         test.load
       end
-	  end
-	  it "do a single field, multiple value filter" do
-	    test = subject.filter(:object=>['kittens', 'cats']).facet(:object)
-	    @mock_api.should_receive(:items).with(:object => ['kittens','cats'], :facets => :object).and_return('')
-	    test.load
-	  end
-	  it "do merge single field, multiple value filters" do
-	    test = subject.filter(:"provider.name"=>'kittens').filter(:"provider.name"=>'cats').facet(:"provider.name")
-	    @mock_api.should_receive(:items).with(hash_including(:"provider.name" => ['kittens','cats'], :facets => :"provider.name")).and_return('')
-	    test.load
-	  end
-	  it "do a multiple field, single value filter" do
-	    test = subject.filter(:object=>'kittens',:isShownAt=>'bears').facet([:object, :isShownAt])
-	    @mock_api.should_receive(:items).with(hash_including(:object => 'kittens', :isShownAt=>'bears', :facets => [:object, :isShownAt])).and_return('')
-	    test.load
-	  end
-	  it "should keep scope distinct from spawned Relations" do
-	    test = subject.filter(:"provider.name"=>'kittens').facet(:"provider.name")
-	    test.where(:q=>'cats')
-	    @mock_api.should_receive(:items).with(:"provider.name" => 'kittens', :facets => :"provider.name").and_return('')
-	    test.load
-	  end
-	  it "should raise an error if the requested field is not a facetable field" do
-	    expect {subject.facet(:foo)}.to raise_error
-	  end
+    end
+    it "do a single field, multiple value filter" do
+      test = subject.filter(:object=>['kittens', 'cats']).facet(:object)
+      @mock_api.should_receive(:items).with(:object => ['kittens','cats'], :facets => :object).and_return('')
+      test.load
+    end
+    it "do merge single field, multiple value filters" do
+      test = subject.filter(:"provider.name"=>'kittens').filter(:"provider.name"=>'cats').facet(:"provider.name")
+      @mock_api.should_receive(:items).with(hash_including(:"provider.name" => ['kittens','cats'], :facets => :"provider.name")).and_return('')
+      test.load
+    end
+    it "do a multiple field, single value filter" do
+      test = subject.filter(:object=>'kittens',:isShownAt=>'bears').facet([:object, :isShownAt])
+      @mock_api.should_receive(:items).with(hash_including(:object => 'kittens', :isShownAt=>'bears', :facets => [:object, :isShownAt])).and_return('')
+      test.load
+    end
+    it "should keep scope distinct from spawned Relations" do
+      test = subject.filter(:"provider.name"=>'kittens').facet(:"provider.name")
+      test.where(:q=>'cats')
+      @mock_api.should_receive(:items).with(:"provider.name" => 'kittens', :facets => :"provider.name").and_return('')
+      test.load
+    end
+    it "should raise an error if the requested field is not a facetable field" do
+      expect {subject.facet(:foo)}.to raise_error
+    end
     it "should facet without a filter" do
       test = subject.facet(:object)
       @mock_api.should_receive(:items).with(:facets => :object).and_return('')

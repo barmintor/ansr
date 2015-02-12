@@ -1,6 +1,6 @@
 module Ansr
   VERSION = '0.0.5'
   def self.version
-  	VERSION
+    VERSION
   end
 end

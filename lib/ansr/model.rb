@@ -1,7 +1,7 @@
 module Ansr
   module Model
     extend ActiveSupport::Concern
-  	module ClassMethods
+    module ClassMethods
       def spawn
         s = build_default_scope
         s.references!(references())
@@ -40,13 +40,13 @@ module Ansr
         model()
       end
 
-	    def model
-	      @klass
-	    end
+      def model
+        @klass
+      end
 
-	    def build_default_scope
+      def build_default_scope
         Ansr::Relation.new(model(), table())
-	    end
+      end
 
       def column_types
         TypeProxy.new(table())

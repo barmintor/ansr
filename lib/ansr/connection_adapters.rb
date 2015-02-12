@@ -1,5 +1,5 @@
 module Ansr
-	module ConnectionAdapters
+  module ConnectionAdapters
     require 'ansr/connection_adapters/no_sql_adapter'
   end
 end

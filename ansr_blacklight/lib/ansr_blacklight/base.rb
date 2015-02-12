@@ -7,7 +7,7 @@ module Ansr::Blacklight
     self.primary_key = 'id'
 
     def self.solr_search_params_logic
-    	@solr_search_params_logic || []
+      @solr_search_params_logic || []
     end
 
     def self.solr_search_params_logic=(vals)

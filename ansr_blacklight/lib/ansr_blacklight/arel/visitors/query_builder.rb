@@ -1,6 +1,6 @@
 module Ansr::Blacklight::Arel::Visitors
   class QueryBuilder < Ansr::Arel::Visitors::QueryBuilder
-  	include Ansr::Blacklight::RequestBuilders
+    include Ansr::Blacklight::RequestBuilders
     attr_reader :solr_request, :path
     
     def initialize(table)
@@ -19,7 +19,7 @@ module Ansr::Blacklight::Arel::Visitors
 
     public
     def query_opts
-    	solr_request
+      solr_request
     end
 
     # determines whether multiple values should accumulate or overwrite in merges
