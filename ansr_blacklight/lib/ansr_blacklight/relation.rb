@@ -4,7 +4,7 @@ module Ansr::Blacklight
     ::ActiveRecord::Relation::VALID_UNSCOPING_VALUES << :defType << :wt
     ::ActiveRecord::Relation::SINGLE_VALUE_METHODS << :defType << :wt
 
-  	delegate :blacklight_config, to: :model
+    delegate :blacklight_config, to: :model
     
     delegate :docs, to: :response
     delegate :params, to: :response

@@ -1,7 +1,7 @@
 require 'active_record'
 require 'arel/visitors/bind_visitor'
 module Ansr
-	module ConnectionAdapters
+  module ConnectionAdapters
     class NoSqlAdapter < ActiveRecord::ConnectionAdapters::AbstractAdapter
       attr_reader :table
       def initialize(klass, connection, logger = nil, pool = nil)

@@ -1,7 +1,7 @@
 require 'arel'
 module Ansr
   module Arel
-  	class BigTable < ::Arel::Table
+    class BigTable < ::Arel::Table
       attr_writer :primary_key
       attr_reader :fields, :facets, :sorts
 

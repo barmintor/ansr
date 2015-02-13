@@ -1,5 +1,5 @@
 module Ansr
-	module Sanitization
+  module Sanitization
     extend ActiveSupport::Concern
     module ClassMethods
       def expand_hash_conditions_for_sql_aggregates(conditions)

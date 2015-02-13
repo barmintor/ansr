@@ -1,10 +1,10 @@
 module Ansr::Arel
   class ConfiguredField < ::Arel::Attributes::Attribute
-  	attr_reader :config
-  	def initialize(relation, name, config={})
-  		super(relation, name)
-  		@config = {}.merge(config)
-  	end
+    attr_reader :config
+    def initialize(relation, name, config={})
+      super(relation, name)
+      @config = {}.merge(config)
+    end
     def query
       @config[:query]
     end
