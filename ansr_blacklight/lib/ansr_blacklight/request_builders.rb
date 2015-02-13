@@ -77,23 +77,18 @@ module Ansr::Blacklight
     ##
     # Add any existing facet limits, stored in app-level HTTP query
     # as :f, to solr as appropriate :fq query. 
-    def add_filter_fq_to_solr(solr_request, user_params)   
+    def add_filter_fq_to_solr(solr_request, query_pairs, opts={})   
 
       # convert a String value into an Array
       if solr_request[:fq].is_a? String
         solr_request[:fq] = [solr_request[:fq]]
       end
 
-      # :fq, map from :f. 
-      if ( user_params[:f])
-        f_request_params = user_params[:f] 
-        
-        f_request_params.each_pair do |facet_field, value_list|
-          opts = local_field_params(facet_field).merge(user_params.fetch(:opts,{}))
-          Array(value_list).each do |value|
-            solr_request.append_filter_query filter_value_to_fq_string(facet_field, value, user_params[:opts])
-          end              
-        end      
+      query_pairs.each_pair do |facet_field, value_list|
+        opts = local_field_params(facet_field).merge(opts)
+        Array(value_list).each do |value|
+          solr_request.append_filter_query filter_value_to_fq_string(facet_field, value, opts)
+        end
       end
     end
     

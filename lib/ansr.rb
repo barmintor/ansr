@@ -3,6 +3,7 @@ require 'active_record'
 module Ansr
   extend ActiveSupport::Autoload
   eager_autoload do
+    autoload :Configuration
     autoload :Configurable
     autoload :ConnectionAdapters
     autoload :DummyAssociations
@@ -12,6 +13,7 @@ module Ansr
     autoload :Model
     autoload :Sanitization
     autoload :Relation
+    autoload :Repository
     autoload :OpenStructWithHashAccess, 'ansr/utils'
     autoload_under 'relation' do
       autoload :Group

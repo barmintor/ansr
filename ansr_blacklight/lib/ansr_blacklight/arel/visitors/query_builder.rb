@@ -108,7 +108,7 @@ module Ansr::Blacklight::Arel::Visitors
       opts.merge!(local_field_params(field_key))
       opts.merge!(object.left.config.fetch(:local,{})) if object.left.respond_to? :config
       if Ansr::Arel::Visitors::Filter === attribute or Ansr::Arel::Nodes::Filter === object.left
-        add_filter_fq_to_solr(solr_request, f: {field_key => object.right}, opts: opts)
+        add_filter_fq_to_solr(solr_request, {field_key => object.right}, opts)
       else
         # check the table for configured fields
         add_query_to_solr(field_key, object.right, opts)
@@ -137,8 +137,6 @@ module Ansr::Blacklight::Arel::Visitors
         prefix = "facet."
         default = true
       else
-        filter_field(name.to_sym) unless default
-        solr_request.append_facet_fields(name.to_sym) unless default
         prefix = "f.#{name}.facet."
       end
       # there's got to be a helper for this

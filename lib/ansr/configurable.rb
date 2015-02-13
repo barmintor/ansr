@@ -1,7 +1,7 @@
 module Ansr
   module Configurable
     def config
-      @config ||= {}
+      @config ||= Ansr::Configuration.new
       if block_given?
         yield @config
       end

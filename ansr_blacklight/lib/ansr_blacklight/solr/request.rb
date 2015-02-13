@@ -23,7 +23,8 @@ module Ansr::Blacklight::Solr
     end
 
     def append_facet_fields(values)
-      (self['facet.field'] += Array(values)).uniq!
+      self['facet.field'] += Array(values).collect {|v| v.to_sym}
+      self['facet.field'].uniq!
       self['facet'] = true unless values.blank?
     end
 

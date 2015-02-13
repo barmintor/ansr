@@ -60,14 +60,12 @@ module Ansr::Facets
         values_and_hits.each_slice(2) do |k,v|
           items << FacetItem.new(:value => k, :hits => v)
         end
+        [:limit, :offset, :mincount].each do |opt|
+          if params[:"f.#{facet_field_name}.facet.#{opt}"] || params[:"facet.#{opt}"]
+            options[opt] = (params[:"f.#{facet_field_name}.facet.#{opt}"] || params[:"facet.#{opt}"]).to_i
+          end
+        end
         options[:sort] = (params[:"f.#{facet_field_name}.facet.sort"] || params[:'facet.sort'])
-        if params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]
-          options[:limit] = (params[:"f.#{facet_field_name}.facet.limit"] || params[:"facet.limit"]).to_i
-        end
-
-        if params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']
-          options[:offset] = (params[:"f.#{facet_field_name}.facet.offset"] || params[:'facet.offset']).to_i
-        end
         FacetField.new(facet_field_name, items, options)
       end
     end

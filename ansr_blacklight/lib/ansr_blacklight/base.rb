@@ -4,6 +4,8 @@ module Ansr::Blacklight
 
     self.abstract_class = true
 
+    self.primary_key = 'id'
+
     def self.solr_search_params_logic
     	@solr_search_params_logic || []
     end

@@ -29,6 +29,11 @@ module Ansr
       DEFAULT_PAGE_SIZE
     end
 
+    # Overrides Rails' default hashing, FIXME?
+    def values
+      @values
+    end
+
     def load
       exec_queries unless loaded?
       self

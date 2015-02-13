@@ -10,6 +10,7 @@ module Ansr::Blacklight
     delegate :params, to: :response
     delegate :facet_pivot, to: :response
     delegate :facet_queries, to: :response
+    delegate :success?, to: :response
     # overrides for query response handling
     def docs_from(response)
       grouped? ? [] : response.docs
