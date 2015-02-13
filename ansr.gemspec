@@ -17,10 +17,11 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'loggable'
   spec.add_dependency 'arel', '~> 4', '>= 4.0.2'
-  spec.add_dependency 'activerecord', '~> 4', '>= 4.0.3'
+  spec.add_dependency "rails",     ">= 3.2.6", "< 5"
+  spec.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
 
   spec.add_development_dependency("rake")
   spec.add_development_dependency("bundler", ">= 1.0.14")
-  spec.add_development_dependency("rspec", '~>2')
+  spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency("yard")
 end
