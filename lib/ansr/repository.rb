@@ -29,18 +29,13 @@ module Ansr
     # @param [Hash] solr query parameters
     def search params = {}, &block
       rel = relation params, &block
-      rel.where!(q: params[:q]) if params[:q]
       rel.load
       rel
     end
 
     protected
     def relation params = {}, &block
-      qt = (params.fetch(:qt, config.document_solr_request_handler))
-      rel = qt ? model.as(qt) : model.spawn
-      rel = self.instance_eval(block,rel) if block_given?
-      path = config.document_solr_path || config.solr_path
-      rel.from!(path) if path
+      rel = block_given? ? block.call(model.spawn, config, params) : model.spawn
       rel
     end
     def logger

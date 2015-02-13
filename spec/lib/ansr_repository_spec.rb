@@ -2,16 +2,19 @@ require 'spec_helper'
 
 describe Ansr::Repository do
 
-  let :solr_config do
-    c = double('config')
-  end
   let :model do
     model = double('Model')
     allow(model).to receive(:name).and_return('Model')
     model
   end
+  let :engine do
+    engine = double('Engine')
+    allow(engine).to receive(:engine).and_return(engine)
+  end
   let :table do
-    double('BigTable')
+    table = double('BigTable')
+    engine =
+    allow(table).to receive(:engine).and_return(engine)
   end
   subject do
     Ansr::Repository.new(model)
@@ -25,66 +28,25 @@ describe Ansr::Repository do
   end
 
   let :document do
-    {}
+    {id:'123'}
   end
 
   describe "#find" do
 
-    it "should use the document-specific solr path" do
+    it "should use the configured id field key" do
       subject.configure do |config|
-        config[:document_solr_path] = 'abc'
-        config[:solr_path] = 'xyz'
         config[:model] = model
         config[:document_unique_id_param] = :di
       end
 
       expect(model).to receive(:spawn).and_return(mock_response)
-      allow(mock_response).to receive(:from!).with('abc').and_return(mock_response)
       expect(mock_response).to receive(:where!).with(di:'123').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      expect(subject.find("123")).to be(mock_response)
+      expect(mock_response).to receive(:as).with('lol').and_return(mock_response)
+      expect(mock_response).to receive(:load).and_return([document])
+      actual = subject.find("123", as: 'lol') {|r,c,p| r = r.as(p[:as]); r}
+      expect(actual).to be(mock_response)
     end
-
-    it "should use the default solr path" do
-      subject.configure do |config|
-        config[:solr_path] = 'xyz'
-        config[:model] = model
-        config[:document_unique_id_param] = :di
-      end
-
-      expect(model).to receive(:spawn).and_return(mock_response)
-      allow(mock_response).to receive(:from!).with('xyz').and_return(mock_response)
-      expect(mock_response).to receive(:where!).with(di:'123').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      expect(subject.find("123")).to be(mock_response)
-    end
-
-    it "should use a default :qt param" do
-      subject.configure do |config|
-        config[:model] = model
-        config[:document_solr_request_handler] = 'abc'
-        config[:document_unique_id_param] = :di
-      end
-      expect(model).to receive(:as).with('abc').and_return(mock_response)
-      allow(mock_response).to receive(:from!).with('xyz').and_return(mock_response)
-      expect(mock_response).to receive(:where!).with(di:'123').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      expect(subject.find("123")).to be(mock_response)
-    end
-
-    it "should use the provided :qt param" do
-      subject.configure do |config|
-        config[:model] = model
-        config[:document_solr_request_handler] = 'abc'
-        config[:document_unique_id_param] = :di
-      end
-      expect(model).to receive(:as).with('abc').and_return(mock_response)
-      allow(mock_response).to receive(:from!).with('xyz').and_return(mock_response)
-      expect(mock_response).to receive(:where!).with(di:'123').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      expect(subject.find("123", {qt: 'abc'})).to be(mock_response)
-    end
-
+    it "should call a block on query if passed"
     pending "should preserve the class of the incoming params" do
       subject.configure do |config|
         config[:model] = model
@@ -98,47 +60,13 @@ describe Ansr::Repository do
   end
 
   describe "#search" do
-    it "should use the search-specific solr path" do
-      subject.configure do |config|
-        config[:model] = model
-        config[:solr_path] = 'xyz'
-      end
-      expect(model).to receive(:spawn).and_return(mock_response)
-      expect(mock_response).to receive(:from!).with('xyz').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      response = subject.search({})
-      expect(response).to be_a_kind_of Ansr::Relation
-    end
-
-    it "should use the default solr path" do
+    it "should call spawn and load" do
       subject.configure do |config|
         config[:model] = model
       end
       expect(model).to receive(:spawn).and_return(mock_response)
       expect(mock_response).to receive(:load)
       response = subject.search({})
-      expect(response).to be_a_kind_of Ansr::Relation
-    end
-
-    it "should use a default :qt param" do
-      subject.configure do |config|
-        config[:model] = model
-        config[:document_solr_request_handler] = 'xyz'
-      end
-      expect(model).to receive(:as).with('xyz').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      response = subject.search({})
-      expect(response).to be_a_kind_of Ansr::Relation
-    end
-
-    it "should use the provided :qt param" do
-      subject.configure do |config|
-        config[:model] = model
-        config[:document_solr_request_handler] = 'xyz'
-      end
-      expect(model).to receive(:as).with('abc').and_return(mock_response)
-      expect(mock_response).to receive(:load)
-      response = subject.search({qt: 'abc'})
       expect(response).to be_a_kind_of Ansr::Relation
     end
     
