@@ -8,7 +8,6 @@ require 'loggable'
 require 'ansr'
 require 'ansr_dpla'
 require 'adpla_test_api'
-require 'blacklight'
 require 'item'
 require 'collection'
 

@@ -8,7 +8,7 @@ class Ansr::Blacklight::Solr::Response < HashWithIndifferentAccess
   autoload :GroupResponse, 'ansr_blacklight/solr/response/group_response'
   autoload :Group, 'ansr_blacklight/solr/response/group'
 
-  include PaginationMethods
+  include Ansr::Blacklight::Solr::Response::PaginationMethods
 
   attr_reader :request_params
   def initialize(data, request_params)

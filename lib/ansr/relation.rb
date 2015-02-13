@@ -129,8 +129,6 @@ module Ansr
       unless selects.empty?
         @implicit_readonly = false
         arel.project(*selects)
-      #else
-      #  arel.project(@klass.arel_table[Arel.star])
       end
     end
 
