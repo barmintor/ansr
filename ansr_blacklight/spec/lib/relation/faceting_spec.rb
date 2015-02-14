@@ -39,14 +39,6 @@ describe Ansr::Blacklight do
     Object.send(:remove_const, :FacetModel)
   end
 
-  subject {
-    Ansr::Blacklight::Arel::Visitors::ToNoSql.new(TestTable.new(FacetModel)).query_builder
-  }
-
-  let(:blacklight_solr) { subject.solr }
-  let(:copy_of_catalog_config) { ::CatalogController.blacklight_config.deep_copy }
-  let(:blacklight_config) { copy_of_catalog_config }
-
   before(:each) do
     @all_docs_query = ''
     @no_docs_query = 'zzzzzzzzzzzz'
@@ -108,8 +100,8 @@ describe Ansr::Blacklight do
       it "should only have one value for the key 'q' regardless if a symbol or string" do        
         rel = FacetModel.where(q: "some query").where('q' => 'another value')
         solr_params = subject.accept(rel.build_arel.ast)      
-        expect(solr_params[:q]).to eq 'another value'
-        expect(solr_params['q']).to eq 'another value'
+        expect(solr_params[:q]).to eq 'another\ value'
+        expect(solr_params['q']).to eq 'another\ value'
       end
     end
 
@@ -159,7 +151,7 @@ describe Ansr::Blacklight do
             expect(solr_params[:fq]).to include("{!raw f=#{facet_field}}#{value}"  )
           end
         end
-        expect(solr_params[:q]).to eq @mult_word_query
+        expect(solr_params[:q]).to eq RSolr.escape(@mult_word_query)
       end
     end
 
@@ -222,7 +214,6 @@ describe Ansr::Blacklight do
       let(:rel) { FacetModel.build_default_scope.spawn }
       let(:blacklight_config) { copy_of_catalog_config }
       before do
-        #@subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
         table.configure_fields do |config|
           hash = (config[:subject] ||= {local: {}, query: {}})
           hash[:query][:'spellcheck.dictionary'] = 'subject'
@@ -360,7 +351,6 @@ describe Ansr::Blacklight do
       let(:rel) { FacetModel.build_default_scope.spawn }
       let(:result) { subject.accept rel.where(:custom_author_key => "query").build_arel.ast }
       before do
-        #@subject_search_params = {:commit=>"search", :search_field=>"subject", :action=>"index", :"controller"=>"catalog", :"rows"=>"10", :"q"=>"wome"}
         table.configure_fields do |config|
           hash = (config[:custom_author_key] ||= {local: {}, query: {}, select: {}})
           hash[:query][:'spellcheck.dictionary'] = 'subject'
@@ -430,7 +420,7 @@ describe Ansr::Blacklight do
 
     describe 'if facet_list_limit is defined in controller' do
       before do
-        subject.stub facet_list_limit: 1000
+        allow(subject).to receive(:facet_list_limit).and_return(1000)
       end
       pending 'uses controller method for limit' do
         solr_params = subject.solr_facet_params(@facet_field)

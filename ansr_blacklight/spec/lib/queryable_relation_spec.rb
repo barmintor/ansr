@@ -118,7 +118,7 @@ describe Ansr::Blacklight::Relation do
            "group" => "I",
            "hl" => "I",
            "hl.fl" => "wish",
-           "q" => "{!property=test escape='tes\\\"t'}what's",
+           "q" => "{!property=test escape='tes\\\"t'}what\\'s",
            "qt" => "hey",
            "rows" => "12",
            "spellcheck" => "a",
