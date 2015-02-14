@@ -327,7 +327,7 @@ describe Ansr::Blacklight do
 
       it "should add sort parameters" do
         solr_params = subject.accept(rel.build_arel.ast)      
-        expect(solr_params[:facet]).to be_true
+        expect(solr_params[:facet]).to eql(true)
 
         expect(solr_params[:'facet.field']).to include(:'test_field')
         expect(solr_params[:'f.test_field.facet.sort']).to eq 'count'

@@ -7,9 +7,9 @@ ENV["RAILS_ENV"] ||= 'test'
 require 'ansr'
 require 'rails/all'
 require 'rspec/rails'
+require 'rspec/collection_matchers'
 require 'loggable'
 require 'ansr_blacklight'
-#require 'blacklight'
 
 RSpec.configure do |config|
   # == Mock Framework
