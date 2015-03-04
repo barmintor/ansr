@@ -2,3 +2,6 @@ config/dpla.yml
 ansr_dpla/config/dpla.yml
 Gemfile.lock
 *.gem
+./tmp
+ansr_blacklight/jetty
+ansr_blacklight/tmp

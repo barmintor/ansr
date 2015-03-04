@@ -1,0 +1,5 @@
+default: &default
+  url: http://127.0.0.1:8983/solr/test
+development:
+  url: http://127.0.0.1:8983/solr/development
+test: *default

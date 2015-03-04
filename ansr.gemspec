@@ -21,7 +21,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "kaminari", "~> 0.13"  # the pagination (page 1,2,3, etc..) of our search results
 
   spec.add_development_dependency("rake")
-  spec.add_development_dependency("bundler", ">= 1.0.14")
+  spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rspec-rails", ">=3"
   spec.add_development_dependency("yard")
+  spec.add_development_dependency("jettywrapper")
 end

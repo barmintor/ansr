@@ -12,8 +12,8 @@ module Ansr::Blacklight
   require 'ansr_blacklight/model/querying'
   require 'ansr_blacklight/base'
 
-    def self.solr_file
-    "#{::Rails.root.to_s}/config/solr.yml"
+  def self.solr_file
+    ENV['SOLR_CONFIG'] || "./config/solr.yml"
   end
   
   def self.solr
@@ -33,7 +33,7 @@ module Ansr::Blacklight
 
     return @solr_yml if @solr_yml
     unless File.exists?(solr_file)
-      raise "You are missing a solr configuration file: #{solr_file}. Have you run \"rails generate blacklight:install\"?"  
+      raise "You are missing a solr configuration file: #{solr_file}."
     end
 
     begin

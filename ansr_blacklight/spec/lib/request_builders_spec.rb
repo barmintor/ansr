@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 describe Ansr::Blacklight::RequestBuilders do
@@ -12,8 +13,8 @@ describe Ansr::Blacklight::RequestBuilders do
   end
   describe "filter_value_to_fq_string" do
 
-    it "should use the raw handler for strings" do
-      expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name}my value" 
+    it "should use the raw term handler for strings" do
+      expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!term f=facet_name}my value" 
     end
 
     it "should pass booleans through" do
@@ -70,7 +71,7 @@ describe Ansr::Blacklight::RequestBuilders do
       subject.table['facet_name'] = Ansr::Arel::ConfiguredField.new(relation, 'facet_name',:date => nil, :query => nil, :tag => 'asdf')
 
       expect(subject.send(:filter_value_to_fq_string, "facet_name", true)).to eq "{!tag=asdf}facet_name:true"
-      expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name tag=asdf}my value"
+      expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!term f=facet_name tag=asdf}my value"
     end
 
     describe "#with_tag_ex" do

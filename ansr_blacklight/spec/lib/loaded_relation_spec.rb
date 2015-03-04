@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 describe Ansr::Blacklight::Relation do
@@ -59,13 +60,13 @@ describe Ansr::Blacklight::Relation do
     expect(subject.facets.size).to eql(2)
 
     field_names = subject.facets.collect{|facet|facet.name}
-    field_names.include?('cat').should == true
-    field_names.include?('manu').should == true
+    expect(field_names).to include('cat')
+    expect(field_names).to include('manu')
 
     first_facet = subject.facets.select { |x| x.name == 'cat'}.first
-    first_facet.name.should == 'cat'
+    expect(first_facet.name).to eql 'cat'
 
-    first_facet.items.size.should == 10
+    expect(first_facet.items.size).to eql 10
 
     expected = "electronics - 14, memory - 3, card - 2, connector - 2, drive - 2, graphics - 2, hard - 2, monitor - 2, search - 2, software - 2"
     received = first_facet.items.collect do |item|
@@ -93,35 +94,33 @@ describe Ansr::Blacklight::Relation do
   describe "FacetItem" do
     it "should work with a field,value tuple" do
       item = Ansr::Facets::FacetItem.new('value', 15)
-      puts item.class.name
-      item.value.should == 'value'
-      item.hits.should == 15
+      expect(item.value).to eql 'value'
+      expect(item.hits).to eql 15
     end
 
     it "should work with a field,value + hash triple" do
       item = Ansr::Facets::FacetItem.new('value', 15, :a => 1, :value => 'ignored')
-      item.value.should == 'value'
-      item.hits.should == 15
-      item.a.should == 1
+      expect(item.value).to eql 'value'
+      expect(item.hits).to eql 15
+      expect(item.a).to eql 1
     end
 
     it "should work like an openstruct" do
       item = Ansr::Facets::FacetItem.new(:value => 'value', :hits => 15)
       
-      item.hits.should == 15
-      item.value.should == 'value'
-      item.should be_a_kind_of(OpenStruct)
+      expect(item.value).to eql 'value'
+      expect(item.hits).to eql 15
+      expect(item).to be_a_kind_of(OpenStruct)
     end
 
     it "should provide a label accessor" do
       item = Ansr::Facets::FacetItem.new('value', :hits => 15)
-      item.label.should == 'value'
+      expect(item.label).to eql 'value'
     end
 
     it "should use a provided label" do
       item = Ansr::Facets::FacetItem.new('value', 15, :label => 'custom label')
-      item.label.should == 'custom label'
-
+      expect(item.label).to eql 'custom label'
     end
 
   end
@@ -129,66 +128,66 @@ describe Ansr::Blacklight::Relation do
   it 'should return the correct value when calling facet_by_field_name' do
     r = create_response
     facet = r.facet_by_field_name('cat')
-    facet.name.should == 'cat'
+    expect(facet.name).to eql 'cat'
   end
 
   it 'should provide the responseHeader params' do
     raw_response = eval(mock_query_response)
     raw_response['responseHeader']['params']['test'] = :test
     r = Ansr::Blacklight::Solr::Response.new(raw_response, raw_response['params'])
-    r.params['test'].should == :test
+    expect(r.params['test']).to eql :test
   end
 
   it 'should provide the solr-returned params and "rows" should be 11' do
     raw_response = eval(mock_query_response)
     r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
-    r.params[:rows].to_s.should == '11'
+    expect(r.params[:rows]).to eql '11'
   end
 
   it 'should provide the ruby request params if responseHeader["params"] does not exist' do
     raw_response = eval(mock_query_response)
     raw_response.delete 'responseHeader'
     r = Ansr::Blacklight::Solr::Response.new(raw_response, :rows => 999)
-    r.params[:rows].to_s.should == '999'
+    expect(r.params[:rows]).to eql 999
   end
 
   it 'should provide spelling suggestions for regular spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck)
     r = Ansr::Blacklight::Solr::Response.new(raw_response,  {})
-    r.spelling.words.should include("dell")
-    r.spelling.words.should include("ultrasharp")
+    expect(r.spelling.words).to include("dell")
+    expect(r.spelling.words).to include("ultrasharp")
   end
 
   it 'should provide spelling suggestions for extended spellcheck results' do
     raw_response = eval(mock_response_with_spellcheck_extended)
     r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
-    r.spelling.words.should include("dell")
-    r.spelling.words.should include("ultrasharp")
+    expect(r.spelling.words).to include("dell")
+    expect(r.spelling.words).to include("ultrasharp")
   end
 
   it 'should provide no spelling suggestions when extended results and suggestion frequency is the same as original query frequency' do
     raw_response = eval(mock_response_with_spellcheck_same_frequency)
     r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
-    r.spelling.words.should == []
+    expect(r.spelling.words).to eql []
   end
 
   it 'should provide spelling suggestions for a regular spellcheck results with a collation' do
     raw_response = eval(mock_response_with_spellcheck_collation)
     r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
-    r.spelling.words.should include("dell")
-    r.spelling.words.should include("ultrasharp")
+    expect(r.spelling.words).to include("dell")
+    expect(r.spelling.words).to include("ultrasharp")
   end
 
   it 'should provide spelling suggestion collation' do
     raw_response = eval(mock_response_with_spellcheck_collation)
     r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
-    r.spelling.collation.should == 'dell ultrasharp'
+    expect(r.spelling.collation).to eql 'dell ultrasharp'
   end
 
   it "should provide MoreLikeThis suggestions" do
     raw_response = eval(mock_response_with_more_like_this)
     r = Ansr::Blacklight::Solr::Response.new(raw_response, {})
-    r.more_like(double(:id => '79930185')).should have(2).items
+    expect(r.more_like(double(:id => '79930185'))).to have(2).items
   end
 
   it "should be empty when the response has no results" do

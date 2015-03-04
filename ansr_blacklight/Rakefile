@@ -1,0 +1,41 @@
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'app','models'))
+require 'rake/clean'
+require 'rubygems'
+require 'bundler'
+require 'bundler/setup'
+require 'jettywrapper'
+require 'json'
+require 'rspec/core/rake_task'
+require 'uri'
+require 'ansr_blacklight'
+Bundler::GemHelper.install_tasks
+RSpec::Core::RakeTask.new(:spec)
+
+task :default => [:ci]
+
+task :ci do
+  jetty_params = Jettywrapper.load_config('test')
+  error = Jettywrapper.wrap(jetty_params) do
+    Rake::Task["ansr:solr:fixtures"].invoke
+    Rake::Task['spec'].invoke
+  end
+  raise "test failures: #{error}" if error
+end
+
+namespace :ansr do
+  namespace :solr do
+    task :fixtures do
+      docs = [{'id' => '8675309','lyrics_tesim' =>['I found your number'],'release_dtsi'=>'1981-11-16T00:00:00Z'}]
+      begin
+        Ansr::Blacklight.solr.add(docs)
+        Ansr::Blacklight.solr.commit 
+      rescue Exception => e
+      end
+
+      if e
+        puts "Solr exception: #{e.message}\n#{e.backtrace.join("\n")}"
+      end
+    end
+  end
+end

@@ -58,7 +58,11 @@ module Ansr::Blacklight
           solr_request[k] = v
         end
       else
-        solr_request[:q] = RSolr.escape(value.to_s) if value
+        if value
+          solr_request[:q] = (field_key == :q) ? RSolr.escape(value.to_s) : "#{field_key}:#{RSolr.escape(value.to_s)}"
+        else
+          solr_request[:q] = "#{RSolr.escape(field_key.to_s)}"
+        end
       end
 
       ##
@@ -131,7 +135,7 @@ module Ansr::Blacklight
         when value.is_a?(Range)
           "#{prefix}#{facet_field.name}:[#{RSolr.escape(value.first.to_s)} TO #{RSolr.escape(value.last.to_s)}]"
         else
-          "{!raw f=#{facet_field.name}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
+          "{!term f=#{facet_field.name}#{(" " + local_params.join(" ")) unless local_params.empty?}}#{value}"
       end
 
 

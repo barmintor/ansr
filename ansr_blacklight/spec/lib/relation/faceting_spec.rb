@@ -116,7 +116,7 @@ describe Ansr::Blacklight do
         expect(solr_params["spellcheck.q"]).to be_blank
 
         @single_facet.each_value do |value|
-          expect(solr_params[:fq]).to include("{!raw f=#{@single_facet.keys[0]}}#{value}")
+          expect(solr_params[:fq]).to include("{!term f=#{@single_facet.keys[0]}}#{value}")
         end
       end
     end
@@ -131,7 +131,7 @@ describe Ansr::Blacklight do
           value_list ||= []
           value_list = [value_list] unless value_list.respond_to? :each
           value_list.each do |value|
-            expect(solr_params[:fq]).to include("{!raw f=#{facet_field}}#{value}"  )
+            expect(solr_params[:fq]).to include("{!term f=#{facet_field}}#{value}"  )
           end
         end
 
@@ -148,7 +148,7 @@ describe Ansr::Blacklight do
           value_list ||= []
           value_list = [value_list] unless value_list.respond_to? :each
           value_list.each do |value|
-            expect(solr_params[:fq]).to include("{!raw f=#{facet_field}}#{value}"  )
+            expect(solr_params[:fq]).to include("{!term f=#{facet_field}}#{value}"  )
           end
         end
         expect(solr_params[:q]).to eq RSolr.escape(@mult_word_query)
@@ -158,8 +158,8 @@ describe Ansr::Blacklight do
     describe "filter_value_to_fq_string" do
       let(:table) { FacetModel.table }
       subject { Ansr::Blacklight::Arel::Visitors::QueryBuilder.new(table) }
-      it "should use the raw handler for strings" do
-        expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name}my value" 
+      it "should use the raw term handler for strings" do
+        expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!term f=facet_name}my value" 
       end
 
       it "should pass booleans through" do
@@ -204,7 +204,7 @@ describe Ansr::Blacklight do
         end
 
         expect(subject.send(:filter_value_to_fq_string, "facet_name", true)).to eq "{!tag=asdf}facet_name:true"
-        expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!raw f=facet_name tag=asdf}my value"
+        expect(subject.send(:filter_value_to_fq_string, "facet_name", "my value")).to eq "{!term f=facet_name tag=asdf}my value"
       end
     end
 
