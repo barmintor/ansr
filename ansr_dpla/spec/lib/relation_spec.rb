@@ -136,7 +136,7 @@ describe Ansr::Dpla::Relation do
       expect(test2).to be_a(Ansr::Relation)
       @mock_api.should_receive(:items).with(:q => 'kittens').and_return('')
       test2.load
-      expect(test.order_values.empty?).to be_false
+      expect(test.order_values.empty?).to be false
     end
     # ActiveRecord::QueryMethods.VALID_UNSCOPING_VALUES =>
     # Set.new([:where, :select, :group, :order, :lock, :limit, :offset, :joins, :includes, :from, :readonly, :having])
@@ -222,9 +222,9 @@ describe Ansr::Dpla::Relation do
     it 'should be false before and true after' do
       test = subject.where(q:'kittens')
       @mock_api.stub(:items).with(:q => 'kittens').and_return('')
-      expect(test.loaded?).to be_false
+      expect(test.loaded?).to be false
       test.load
-      expect(test.loaded?).to be_true
+      expect(test.loaded?).to be true
     end
   end
 
@@ -245,8 +245,8 @@ describe Ansr::Dpla::Relation do
       test = subject.where(q:'kittens')
       @mock_api.should_receive(:items).with(:q => 'kittens').once.and_return(@empty)
       test.load
-      expect(test.loaded?).to be_true
-      expect(test.empty?).to be_true
+      expect(test.loaded?).to be true
+      expect(test.empty?).to be true
     end
 
   end

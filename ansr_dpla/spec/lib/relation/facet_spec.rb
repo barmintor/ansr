@@ -74,7 +74,7 @@ describe Ansr::Dpla::Relation do
       fkey = test.facets.keys.first
       facet = test.facets[fkey]
       expect(facet).to be_a(Ansr::Facets::FacetField)
-      expect(test.loaded?).to be_false
+      expect(test.loaded?).to be false
       test.facets # make sure we memoized the facet values
     end
   end
